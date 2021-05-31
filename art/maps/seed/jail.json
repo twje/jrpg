@@ -1,0 +1,113 @@
+{
+    "debug": true,
+    "on_wake": [
+        {
+            "id": "AddNPC",
+            "params": {
+                "definition": "prisoner",
+                "npc_id": "gregor",
+                "tile_x": 44,
+                "tile_y": 12               
+            }
+        }
+    ],
+    "actions": [
+        {
+            "break_wall_script": {
+                "id": "RunScript",
+                "params": {
+                    "func": "crumble"
+                }
+            },
+            "bone_script": {
+                "id": "RunScript",
+                "params": {
+                    "func": "bone"
+                }
+            },
+            "move_gregor": {
+                "id": "RunScript",
+                "params": {
+                    "func": "move_gregor"
+                }
+            },
+            "talk_gregor": {
+                "id": "RunScript",
+                "params": {
+                    "func": "talk_gregor"
+                }
+            },
+            "use_grate": {
+                "id": "RunScript",
+                "params": {
+                    "func": "use_grate"
+                }
+            },
+            "enter_grate": {
+                "id": "RunScript",
+                "params": {
+                    "func": "enter_grate"
+                }
+            }
+        }
+    ],
+    "trigger_types": [
+        {
+            "cracked_stone": {
+                "on_use": "break_wall_script"
+            },
+            "skeleton": {
+                "on_use": "bone_script"
+            },
+            "gregor_trigger": {
+                "on_exit": "move_gregor"
+            },
+            "gregor_talk_trigger": {
+                "on_use": "talk_gregor"
+            },
+            "grate_close": {
+                "on_use": "use_grate"
+            },
+            "grate_open": {
+                "on_enter": "enter_grate"
+            }
+        }
+    ],
+    "triggers": [        
+        {
+            "trigger": "cracked_stone",
+            "tile_x": 60,
+            "tile_y": 11
+        },
+        {
+            "trigger": "skeleton",
+            "tile_x": 73,
+            "tile_y": 11
+        },
+        {
+            "trigger": "skeleton",
+            "tile_x": 74,
+            "tile_y": 11
+        },
+        {
+            "trigger": "gregor_trigger",
+            "tile_x": 59,
+            "tile_y": 11
+        },
+        {
+            "trigger": "gregor_talk_trigger",
+            "tile_x": 50,
+            "tile_y": 13
+        },
+        {
+            "trigger": "grate_close",
+            "tile_x": 57,
+            "tile_y": 6
+        },
+        {
+            "trigger": "grate_close",
+            "tile_x": 58,
+            "tile_y": 6
+        }
+    ]
+}

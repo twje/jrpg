@@ -1,0 +1,49 @@
+{
+    "debug": true,
+    "on_wake": [       
+    ],
+    "actions": [
+        {
+            "exit_sewer_script": {
+                "id": "RunScript",
+                "params": {
+                    "func": "sewer_exit"
+                }
+            }           
+        }
+    ],
+    "trigger_types": [
+        {
+            "exit_trigger": {
+                "on_exit": "exit_sewer_script"
+            }          
+        }
+    ],
+    "triggers": [        
+        {
+            "trigger": "exit_trigger",
+            "tile_x": 52,
+            "tile_y": 15
+        },
+        {
+            "trigger": "exit_trigger",
+            "tile_x": 52,
+            "tile_y": 16
+        },
+        {
+            "trigger": "exit_trigger",
+            "tile_x": 52,
+            "tile_y": 17
+        },
+        {
+            "trigger": "exit_trigger",
+            "tile_x": 52,
+            "tile_y": 18
+        },
+        {
+            "trigger": "exit_trigger",
+            "tile_x": 52,
+            "tile_y": 20
+        }
+    ]
+}

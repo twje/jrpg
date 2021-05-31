@@ -1,0 +1,109 @@
+{    
+    "entities": {
+        "sleep": {
+            "texture": "sleeping.png",
+            "width": 32,
+            "height": 32,
+            "start_frame": 0,
+            "x": 18,
+            "y": 32,
+            "layer": 0
+        },
+        "hero": {
+            "texture": "walk_cycle.png",
+            "width": 16,
+            "height": 24,
+            "start_frame": 8,
+            "tile_x": 11,
+            "tile_y": 3,
+            "layer": 0
+        },                
+        "guard": {
+            "texture": "walk_cycle.png",
+            "width": 16,
+            "height": 24,
+            "start_frame": 89,
+            "tile_x": 0,
+            "tile_y": 0,
+            "layer": 0
+        },
+        "prisoner": {
+            "texture": "walk_cycle.png",
+            "width": 16,
+            "height": 24,
+            "start_frame": 57,
+            "tile_x": 0,
+            "tile_y": 0,
+            "layer": 0
+        }
+    },
+    "characters": {
+        "prisoner": {
+            "entity": "prisoner",
+            "anims": {
+                "anim_up": [48, 49, 51, 52],
+                "anim_right": [52, 53, 54, 55],
+                "anim_down": [56, 57, 58, 59],
+                "anim_left": [60, 61, 62, 63]
+            },
+            "facing": "down",
+            "controller":  ["npc_stand", "follow_path", "move"],
+            "state": "npc_stand"
+        },
+        "guard": {
+            "entity": "guard",
+            "anims": {
+                "anim_up": [80, 81, 82, 83],
+                "anim_right": [84, 85, 86, 87],
+                "anim_down": [88, 89, 90, 91],
+                "anim_left": [92, 93, 94, 95]
+            },
+            "facing": "up",
+            "controller":  ["npc_stand", "follow_path", "move"],
+            "state": "npc_stand"
+        },
+        "sleeper": {
+            "entity": "hero",
+            "anims": {
+                "anim_left": [12]
+            },
+            "facing": "left",
+            "controller":  ["sleep"],
+            "state": "sleep"
+        },
+        "hero": {
+            "entity": "hero",
+            "anims": {
+                "anim_up": [0, 1, 2, 3],
+                "anim_right": [4, 5, 6, 7],
+                "anim_down": [8, 9, 10, 11],
+                "anim_left": [12, 13, 14, 15]
+            },
+            "facing": "down",
+            "controller": [
+                "wait", 
+                "move"
+            ],
+            "state": "wait"
+        },        
+        "standing_npc": {
+            "entity": "hero",
+            "anims": {},
+            "facing": "down",
+            "controller":  ["npc_stand"],
+            "state": "npc_stand"
+        },
+        "strolling_npc": {
+            "entity": "hero",
+            "anims": {
+                "anim_up": [0, 1, 2, 3],
+                "anim_right": [4, 5, 6, 7],
+                "anim_down": [8, 9, 10, 11],
+                "anim_left": [12, 13, 14, 15]
+            },
+            "facing": "down",
+            "controller":  ["plan_stroll", "move"],
+            "state": "plan_stroll"
+        }
+    }
+}
