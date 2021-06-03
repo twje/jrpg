@@ -3,14 +3,17 @@
         "fonts": {
             "default": {
                 "path": "art/junction.ttf"
-            },
-            "title": {
-                "path": "art/contra_italic.ttf"
             }
         },
         "scripts": {
             "Actions.lua": {
                 "path": "code/Actions.lua"
+            },
+            "Actor.lua": {
+                "path": "code/Actor.lua"
+            },
+            "ActorSummary.lua": {
+                "path": "code/ActorSummary.lua"
             },
             "Animation.lua": {
                 "path": "code/Animation.lua"
@@ -26,6 +29,9 @@
             },
             "Dependencies.lua": {
                 "path": "code/Dependencies.lua"
+            },
+            "Dice.lua": {
+                "path": "code/Dice.lua"
             },
             "Entity.lua": {
                 "path": "code/Entity.lua"
@@ -60,6 +66,9 @@
             "Layout.lua": {
                 "path": "code/Layout.lua"
             },
+            "LevelFunction.lua": {
+                "path": "code/LevelFunction.lua"
+            },
             "Map.lua": {
                 "path": "code/Map.lua"
             },
@@ -74,6 +83,12 @@
             },
             "Panel.lua": {
                 "path": "code/Panel.lua"
+            },
+            "Party.lua": {
+                "path": "code/Party.lua"
+            },
+            "PartyMemberDefs.lua": {
+                "path": "code/PartyMemberDefs.lua"
             },
             "PlanStrollState.lua": {
                 "path": "code/PlanStrollState.lua"
@@ -90,14 +105,17 @@
             "Selection.lua": {
                 "path": "code/Selection.lua"
             },
-            "SleepState.lua": {
-                "path": "code/SleepState.lua"
+            "StatDefs.lua": {
+                "path": "code/StatDefs.lua"
             },
             "StateMachine.lua": {
                 "path": "code/StateMachine.lua"
             },
             "StateStack.lua": {
                 "path": "code/StateStack.lua"
+            },
+            "Stats.lua": {
+                "path": "code/Stats.lua"
             },
             "Storyboard.lua": {
                 "path": "code/Storyboard.lua"
@@ -129,52 +147,24 @@
             "main.lua": {
                 "path": "code/main.lua"
             },
+            "map_arena.lua": {
+                "path": "code/map_arena.lua"
+            },
             "map_jail.lua": {
                 "path": "code/map_jail.lua"
-            },
-            "map_sewer.lua": {
-                "path": "code/map_sewer.lua"
-            },
-            "map_sontos_house.lua": {
-                "path": "code/map_sontos_house.lua"
             }
         },
-        "sounds": {
-            "bell": {
-                "path": "sound/bell.wav"
-            },
-            "crumble": {
-                "path": "sound/crumble.wav"
-            },
-            "door_break": {
-                "path": "sound/door_break.wav"
-            },
-            "grate": {
-                "path": "sound/grate.wav"
-            },
-            "key_item": {
-                "path": "sound/key_item.wav"
-            },
-            "rain": {
-                "path": "sound/rain.wav"
-            },
-            "reveal": {
-                "path": "sound/reveal.wav"
-            },
-            "skeleton_destroy": {
-                "path": "sound/skeleton_destroy.wav"
-            },
-            "unlock": {
-                "path": "sound/unlock.wav"
-            },
-            "wagon": {
-                "path": "sound/wagon.wav"
-            },
-            "wind": {
-                "path": "sound/wind.wav"
-            }
-        },
+        "sounds": {},
         "textures": {
+            "combat_hero.png": {
+                "path": "art/combat_hero.png"
+            },
+            "combat_mage.png": {
+                "path": "art/combat_mage.png"
+            },
+            "combat_thief.png": {
+                "path": "art/combat_thief.png"
+            },
             "continue_caret.png": {
                 "path": "art/continue_caret.png"
             },
@@ -184,29 +174,44 @@
             "gradient_panel.png": {
                 "path": "art/gradient_panel.png"
             },
+            "hero_portrait.png": {
+                "path": "art/hero_portrait.png"
+            },
+            "hpbackground.png": {
+                "path": "art/hpbackground.png"
+            },
+            "hpforeground.png": {
+                "path": "art/hpforeground.png"
+            },
             "inventory_icons.png": {
                 "path": "art/inventory_icons.png"
+            },
+            "mage_portrait.png": {
+                "path": "art/mage_portrait.png"
+            },
+            "mpbackground.png": {
+                "path": "art/mpbackground.png"
+            },
+            "mpforeground.png": {
+                "path": "art/mpforeground.png"
             },
             "scrollbar.png": {
                 "path": "art/scrollbar.png"
             },
-            "sleeping.png": {
-                "path": "art/sleeping.png"
+            "thief_portrait.png": {
+                "path": "art/thief_portrait.png"
             },
-            "tileset_jail.png": {
-                "path": "art/tileset_jail.png"
-            },
-            "tileset_sewer.png": {
-                "path": "art/tileset_sewer.png"
-            },
-            "tileset_sontos_house.png": {
-                "path": "art/tileset_sontos_house.png"
-            },
-            "title_screen.png": {
-                "path": "art/title_screen.png"
+            "tileset_arena.png": {
+                "path": "art/tileset_arena.png"
             },
             "walk_cycle.png": {
                 "path": "art/walk_cycle.png"
+            },
+            "xpbackground.png": {
+                "path": "art/xpbackground.png"
+            },
+            "xpforeground.png": {
+                "path": "art/xpforeground.png"
             }
         }
     }

@@ -101,10 +101,6 @@ manifest =
         {
             path = "code/PlanStrollState.lua"
         },
-        ['map_sontos_house.lua'] =
-        {
-            path = "code/map_sontos_house.lua"
-        },
         ['ProgressBar.lua'] =
         {
             path = "code/ProgressBar.lua"
@@ -121,10 +117,6 @@ manifest =
         {
             path = "code/Selection.lua"
         },
-        ['SleepState.lua'] =
-        {
-            path = "code/SleepState.lua"
-        },
         ['StateMachine.lua'] =
         {
             path = "code/StateMachine.lua"
@@ -132,10 +124,6 @@ manifest =
         ['StateStack.lua'] =
         {
             path = "code/StateStack.lua"
-        },
-        ['map_sewer.lua'] =
-        {
-            path = "code/map_sewer.lua"
         },
         ['Storyboard.lua'] =
         {
@@ -177,12 +165,60 @@ manifest =
         {
             path = "code/World.lua"
         },
+        ['Stats.lua'] =
+        {
+            path = "code/Stats.lua"
+        },
+        ['StatDefs.lua'] =
+        {
+            path = "code/StatDefs.lua"
+        },
+        ['Dice.lua'] =
+        {
+            path = "code/Dice.lua"
+        },
+        ['map_arena.lua'] =
+        {
+            path = "code/map_arena.lua"
+        },
+        ['PartyMemberDefs.lua'] =
+        {
+            path = "code/PartyMemberDefs.lua"
+        },
+        ['Party.lua'] =
+        {
+            path = "code/Party.lua"
+        },
+        ['Actor.lua'] =
+        {
+            path = "code/Actor.lua"
+        },
+        ['LevelFunction.lua'] =
+        {
+            path = "code/LevelFunction.lua"
+        },
+        ['ActorSummary.lua'] =
+        {
+            path = "code/ActorSummary.lua"
+        },
     },
     textures =
     {
         ['walk_cycle.png'] =
         {
             path = "art/walk_cycle.png",
+        },
+        ['combat_hero.png'] =
+        {
+            path = "art/combat_hero.png",
+        },
+        ['combat_thief.png'] =
+        {
+            path = "art/combat_thief.png",
+        },
+        ['combat_mage.png'] =
+        {
+            path = "art/combat_mage.png",
         },
         ['cursor.png'] =
         {
@@ -204,27 +240,46 @@ manifest =
         {
             path = "art/inventory_icons.png",
         },
-        ['tileset_sontos_house.png'] =
+        ['tileset_arena.png'] =
         {
-            path = "art/tileset_sontos_house.png",
+            path = "art/tileset_arena.png",
         },
-        ['sleeping.png'] =
+        ['mage_portrait.png'] =
         {
-            path = "art/sleeping.png",
+            path = "art/mage_portrait.png",
         },
-        ['tileset_jail.png'] =
+        ['thief_portrait.png'] =
         {
-            path = "art/tileset_jail.png",
+            path = "art/thief_portrait.png",
         },
-        ['tileset_sewer.png'] =
+        ['hero_portrait.png'] =
         {
-            path = "art/tileset_sewer.png",
+            path = "art/hero_portrait.png",
         },
-        ['title_screen.png'] =
+        ['xpbackground.png'] =
         {
-            path = "art/title_screen.png",
+            path = "art/xpbackground.png",
         },
-
+        ['xpforeground.png'] =
+        {
+            path = "art/xpforeground.png",
+        },
+        ['hpbackground.png'] =
+        {
+            path = "art/hpbackground.png",
+        },
+        ['hpforeground.png'] =
+        {
+            path = "art/hpforeground.png",
+        },
+        ['mpbackground.png'] =
+        {
+            path = "art/mpbackground.png",
+        },
+        ['mpforeground.png'] =
+        {
+            path = "art/mpforeground.png",
+        },
     },
     ['fonts'] =
     {
@@ -232,56 +287,8 @@ manifest =
         {
             path = "art/junction.ttf",
         },
-        ["title"] =
-        {
-            path = "art/contra_italic.ttf",
-        }
     },
     ['sounds'] =
     {
-        ['rain'] =
-        {
-            path = "sound/rain.wav"
-        },
-        ['door_break'] =
-        {
-            path = "sound/door_break.wav"
-        },
-        ['bell'] =
-        {
-            path = "sound/bell.wav"
-        },
-        ['wind'] =
-        {
-            path = "sound/wind.wav"
-        },
-        ['wagon'] =
-        {
-            path = "sound/wagon.wav"
-        },
-        ['crumble'] =
-        {
-            path = "sound/crumble.wav"
-        },
-        ['key_item'] =
-        {
-            path = "sound/key_item.wav"
-        },
-        ['skeleton_destroy'] =
-        {
-            path = "sound/skeleton_destroy.wav"
-        },
-        ['grate'] =
-        {
-            path = "sound/grate.wav"
-        },
-        ['reveal'] =
-        {
-            path = "sound/reveal.wav"
-        },
-        ['unlock'] =
-        {
-            path = "sound/unlock.wav"
-        }
     }
 }

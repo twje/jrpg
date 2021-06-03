@@ -63,7 +63,7 @@
 </stylenode>
 </map_styles>
 </hook>
-<hook NAME="AutomaticEdgeColor" COUNTER="8" RULE="ON_BRANCH_CREATION"/>
+<hook NAME="AutomaticEdgeColor" COUNTER="9" RULE="ON_BRANCH_CREATION"/>
 <node TEXT="author" POSITION="right" ID="ID_632069904" CREATED="1617197307895" MODIFIED="1617197310009">
 <edge COLOR="#ff0000"/>
 <node TEXT="Daniel Schuller" ID="ID_1431304491" CREATED="1617197315485" MODIFIED="1617197321662"/>
@@ -330,11 +330,6 @@
 </node>
 </node>
 <node TEXT="UI" ID="ID_213690665" CREATED="1617867043616" MODIFIED="1617867210507">
-<node TEXT="elements" ID="ID_176907904" CREATED="1617867077457" MODIFIED="1617867079312">
-<node TEXT="textbox" ID="ID_1032927173" CREATED="1617867079662" MODIFIED="1617867088145"/>
-<node TEXT="progress bar" ID="ID_1070325659" CREATED="1617867088558" MODIFIED="1617867092305"/>
-<node TEXT="selection list" ID="ID_300606726" CREATED="1617867092798" MODIFIED="1617867096801"/>
-</node>
 <node TEXT="panel" ID="ID_1482907328" CREATED="1617867116126" MODIFIED="1617867118369">
 <node TEXT="menus" ID="ID_594030073" CREATED="1617867118719" MODIFIED="1617867122098"/>
 <node TEXT="conversations" ID="ID_1089406731" CREATED="1617867123070" MODIFIED="1617867127314"/>
@@ -569,6 +564,136 @@
 <node TEXT="2 character sprites" ID="ID_790503753" CREATED="1620515140533" MODIFIED="1620515150392"/>
 <node TEXT="sound effects" ID="ID_360123531" CREATED="1620515152499" MODIFIED="1620515155783"/>
 </node>
+</node>
+<node TEXT="combat" POSITION="right" ID="ID_1942954882" CREATED="1622430795611" MODIFIED="1622430798081">
+<edge COLOR="#7c007c"/>
+<node TEXT="stats" ID="ID_1268184819" CREATED="1622430798612" MODIFIED="1622430806749">
+<node TEXT="derived" ID="ID_824680054" CREATED="1622431111120" MODIFIED="1622431113405"/>
+<node TEXT="base" ID="ID_74806175" CREATED="1622431118360" MODIFIED="1622431119389">
+<node TEXT="combat" ID="ID_13877722" CREATED="1622431016055" MODIFIED="1622431019673">
+<node TEXT="HP: Health Points" ID="ID_1347409943" CREATED="1622430915297" MODIFIED="1622430920800"/>
+<node TEXT="MP: Magic Points" ID="ID_1587278586" CREATED="1622430921123" MODIFIED="1622430926844"/>
+<node TEXT="Strength" ID="ID_1635867583" CREATED="1622430927166" MODIFIED="1622430957954"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      Represents the character’s physical strength. Determines how damaging attacks are.
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node TEXT="Speed" ID="ID_709621261" CREATED="1622430932473" MODIFIED="1622430966764"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      How fast the character moves. Determines frequency of attacks and chance to dodge attacks.
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node TEXT="Intelligence" ID="ID_1763500677" CREATED="1622430933978" MODIFIED="1622430982680"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      How clever the character is. Determines power of spells and ability to resist magic attacks
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+</node>
+<node TEXT="weapon" ID="ID_842944404" CREATED="1622431024805" MODIFIED="1622431027949">
+<node TEXT="Attack type" ID="ID_1480989905" CREATED="1622431029114" MODIFIED="1622431033122">
+<node TEXT="physical" ID="ID_1792453616" CREATED="1622431050230" MODIFIED="1622431052905"/>
+<node TEXT="magical" ID="ID_320525279" CREATED="1622431053280" MODIFIED="1622431055436"/>
+<node TEXT="elemental" ID="ID_139870363" CREATED="1622431055843" MODIFIED="1622431058628"/>
+</node>
+<node TEXT="Attack power" ID="ID_1280980693" CREATED="1622431033340" MODIFIED="1622431037112"/>
+<node TEXT="Defence power" ID="ID_1762205915" CREATED="1622431037424" MODIFIED="1622431041500"/>
+<node TEXT="Attack Rate" ID="ID_1413991868" CREATED="1622431041812" MODIFIED="1622431044831"/>
+</node>
+</node>
+<node TEXT="when" ID="ID_1499268904" CREATED="1622432150589" MODIFIED="1622432152216">
+<node TEXT="simulation requires it" ID="ID_1146831481" CREATED="1622432152675" MODIFIED="1622432158054"/>
+<node TEXT="thematic" ID="ID_1869454883" CREATED="1622432158272" MODIFIED="1622432161978"/>
+<node TEXT="define by difference" ID="ID_1105304142" CREATED="1622432266998" MODIFIED="1622432275946"/>
+</node>
+<node TEXT="modifiers" ID="ID_768146976" CREATED="1622440094154" MODIFIED="1622440148992"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      A magic sword that adds +5 to the player’s strength
+    </p>
+    <p>
+      A ring that adds 5% to the maximum HP
+    </p>
+    <p>
+      A curse that reduces strength, speed and intelligence by 5
+    </p>
+    <p>
+      The character becomes enraged, doubling his strength and halving his intelligence
+    </p>
+  </body>
+</html>
+</richcontent>
+</node>
+<node TEXT="category" ID="ID_1091662245" CREATED="1622712379700" MODIFIED="1622712385460">
+<node TEXT="Character" ID="ID_1283992711" CREATED="1622712408281" MODIFIED="1622712411495">
+<node TEXT="HP" ID="ID_1354477093" CREATED="1622712386163" MODIFIED="1622712388892"/>
+<node TEXT="MP" ID="ID_1617029127" CREATED="1622712389618" MODIFIED="1622712392358"/>
+<node TEXT="Strength" ID="ID_141549302" CREATED="1622712392738" MODIFIED="1622712395207"/>
+<node TEXT="Speed" ID="ID_95371266" CREATED="1622712395506" MODIFIED="1622712397287"/>
+<node TEXT="Intelligence" ID="ID_1232238757" CREATED="1622712398499" MODIFIED="1622712405574"/>
+</node>
+<node TEXT="Item" ID="ID_1551772326" CREATED="1622712418643" MODIFIED="1622712421158">
+<node TEXT="Attack" ID="ID_893753518" CREATED="1622712421603" MODIFIED="1622712423182"/>
+<node TEXT="Defence" ID="ID_467509240" CREATED="1622712423539" MODIFIED="1622712425271"/>
+<node TEXT="Magic" ID="ID_880584494" CREATED="1622712425618" MODIFIED="1622712427206"/>
+<node TEXT="Resist" ID="ID_1312026769" CREATED="1622712427570" MODIFIED="1622712429718"/>
+</node>
+</node>
+</node>
+<node TEXT="leveling" ID="ID_325209353" CREATED="1622430807019" MODIFIED="1622430819291">
+<node TEXT="mechanic" ID="ID_1927465325" CREATED="1622445989093" MODIFIED="1622446217868"><richcontent TYPE="NOTE">
+
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      421
+    </p>
+  </body>
+</html>
+</richcontent>
+<node TEXT="achievement" ID="ID_71309680" CREATED="1622446002803" MODIFIED="1622446018094"/>
+<node TEXT="drip-feed complex mechanics" ID="ID_1592468890" CREATED="1622446115429" MODIFIED="1622446125269"/>
+<node TEXT="control content flow" ID="ID_949900723" CREATED="1622446206602" MODIFIED="1622446239385"/>
+</node>
+<node TEXT="formula" ID="ID_1176888934" CREATED="1622446246748" MODIFIED="1622446248609"/>
+</node>
+<node TEXT="equipment" ID="ID_332370807" CREATED="1622430819821" MODIFIED="1622430823451"/>
+<node TEXT="UI" ID="ID_1629882620" CREATED="1622430823834" MODIFIED="1622430825539"/>
+<node TEXT="combat simulation" ID="ID_1520000395" CREATED="1622430827434" MODIFIED="1622430833455"/>
 </node>
 </node>
 </map>

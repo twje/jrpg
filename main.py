@@ -1,4 +1,4 @@
-# 381 - Intrigue Cutscene
+# 438 - combat/party-1
 from functools import partial
 from core.graphics import formatter
 from pipeline.util import convert_lua_to_json
@@ -12,7 +12,6 @@ from state_stack.world import TitleScreenState
 import binding
 import factory
 from graphics.UI import Icons
-import storyboard
 from world import World
 from map_db import MapDB
 import utils
@@ -20,6 +19,8 @@ import utils
 # TEST
 from storyboard import Storyboard
 from storyboard import events
+
+# combat imports
 
 
 class BlockState:
@@ -57,130 +58,23 @@ class JRPG(Application):
         self.stack = self.context.data["stack"]
         self.world = self.context.data["world"]
 
-        intro = [
-            events.scene({
-                "map": "sontos_house",
-                "focus_x": 14,
-                "focus_y": 19,
-                "hide_hero": True
-            }),
-            events.black_screen(),
-            events.wait(1),
-            events.run_action(
-                "AddNPC",
-                {
-                    "map": "sontos_house",
-                    "definition": "sleeper",
-                    "npc_id": "sleeper",
-                    "tile_x": 14,
-                    "tile_y": 19,
-                },
-                {
-                    "map": events.get_map_ref
-                }
-            ),
-            events.play("rain"),
-            events.no_block(
-                events.fade_sound("rain", 1, 0, 10)
-            ),
-            events.caption(
-                "place",
-                "title",
-                "Village of Sontos",
-                partial(formatter.in_place_positon, 0.5, 0.3)
-            ),
-            events.caption(
-                "time",
-                "subtitle",
-                "MIDNIGHT",
-                partial(formatter.in_place_positon, 0.5, 0.5)
-            ),
-            events.wait(2),
-            events.no_block(
-                events.fade_out_caption("place", 3)
-            ),
-            events.fade_out_caption("time", 3),
-            events.kill_state("place"),
-            events.kill_state("time"),
-            events.fade_out_screen(),
-            events.wait(2),
-            events.fade_in_screen(),
-            events.run_action(
-                "AddNPC",
-                {
-                    "map": "sontos_house",
-                    "definition": "guard",
-                    "npc_id": "guard1",
-                    "tile_x": 19,
-                    "tile_y": 22,
-                },
-                {
-                    "map": events.get_map_ref
-                }
-            ),
-            events.wait(1),
-            events.play("door_break"),
-            events.no_block(events.fade_out_screen()),
-            events.move_npc("guard1", "sontos_house", [
-                "up", "up", "up",
-                "left", "left", "left"
-            ]),
-            events.wait(1),
-            events.say("sontos_house", "guard1", "Found you!", 2),
-            events.wait(1),
-            events.say("sontos_house", "guard1", "You're coming with me.", 2),
-            events.fade_in_screen(),
+        # TEST
+        from state_stack.world import ExploreState
+        from core import Camera
+        from core import Context
 
-            # kidnap
-            events.no_block(events.play("bell")),
-            events.wait(2.5),
-            events.no_block(events.play("bell")),
-            events.fade_sound("bell", 1, 0, 0.2),
-            events.play('wagon'),
-            events.no_block(events.fade_sound("wagon", 0, 1, 2)),
-            events.play("wind"),
-            events.no_block(events.fade_sound("wind", 0, 1, 2)),
-            events.wait(3),
-            events.caption(
-                "time_passes",
-                "title",
-                "Two days later...",
-                partial(formatter.in_place_positon, 0.5, 0.3)
+        map_db = Context.instance().data["maps"]        
+        state = ExploreState(
+            self.stack,
+            Camera.create_camera_from_surface(
+                Context.instance().info.surface
             ),
-            events.wait(1),
-            events.fade_out_caption("time_passes", 3),
-            events.kill_state("time_passes"),
-            events.no_block(events.fade_sound("wind", 1, 0, 1)),
-            events.no_block(events.fade_sound("wagon", 1, 0, 1)),
-            events.wait(2),
-            events.caption(
-                "place",
-                "title",
-                "Unknown Dungeon",
-                partial(formatter.in_place_positon, 0.5, 0.3)
-            ),
-            events.wait(2),
-            events.fade_out_caption("place", 3),
-            events.kill_state("place"),
-            events.replace_scene(
-                "sontos_house",
-                {
-                    "map": "jail",
-                    "seed": "jail",
-                    "focus_x": 56,
-                    "focus_y": 11,
-                    "hide_hero": False,
-                }
-            ),
-            events.fade_out_screen(),
-            events.wait(0.5),
-            events.say("jail", "hero", "Where am I?", 3),
-            events.wait(3),
-            events.hand_off("jail")
-        ]
-        self.storyboard = Storyboard(self.stack, intro)
-        titleState = TitleScreenState(self.stack, self.storyboard)
-        self.stack.push(titleState)
+            map_db.new_map("arena"),
+            30,
+            18,
+            0,
+        )
+        self.stack.push(state)
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath

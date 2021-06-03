@@ -6,15 +6,14 @@ from state_stack.menu import InGameMenuState
 
 
 class ExploreState:
-    def __init__(self, stack, camera, map_id, tile_x, tile_y, layer):
+    def __init__(self, stack, camera, map, tile_x, tile_y, layer):
         context = Context.instance()
-        maps = context.data["maps"]
         self.input_manager = context.input_manager
         self.stack = stack
         self.camera = camera
 
         # hero
-        self.map = maps.new_map(map_id)
+        self.map = map
         self.hero = Character.create_from_id("hero", self.map)
         self.hero.entity.set_tile_pos(tile_x, tile_y, layer, self.map)
         self.go_to_tile(tile_x, tile_y)

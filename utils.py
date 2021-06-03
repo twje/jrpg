@@ -1,6 +1,13 @@
 import copy
+import math
 from pathlib import Path
 from core import Context
+
+
+def next_level(level):
+    exponent = 1.5
+    base_xp = 1000
+    return math.floor(base_xp * math.pow(level, exponent))
 
 
 def strip_filepath(filepath):

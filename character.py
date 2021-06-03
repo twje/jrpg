@@ -36,11 +36,6 @@ class Character:
     def reset_map(self, map):
         self.map_ref.map = map
 
-    # def reset_map(self, map):
-    #     # bug, maps are captured in closure, switch maps
-    #     self.controller = self.create_controller(self.character_def, map)
-    #     self.controller.change(self.default_state)
-
     def get_faced_tile_coords(self):
         x_inc = 0
         y_inc = 0

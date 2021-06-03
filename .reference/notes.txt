@@ -1,0 +1,6 @@
+# 398 - Fix Up - ignored
+- additions to exploration
+  - Adding new operations for making the cutscenes easier to script
+  - Fades and transitions for the menu states and in-game menu
+  - Better direction for the cutscenes
+  - More sound effects

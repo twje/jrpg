@@ -11,6 +11,9 @@
         },
         "sewer": {
             "data": "art/maps/data/sewer.json"
+        },
+        "arena": {
+            "data": "art/maps/data/arena.json"
         }
     },
     "seeds": {

@@ -15,7 +15,7 @@ def debug_storyboard_event(event):
     def event_object(func):
         @functools.wraps(func)
         def debug_wrapper(*args, **kwargs):
-            print(event.__name__)
+            #print(event.__name__)
             return func(*args, **kwargs)
         return debug_wrapper
     return event_object
