@@ -1,4 +1,4 @@
-# 438 - combat/party-1
+# 438, 449, 454 - Displaying the Party in the In-Game Menu
 from functools import partial
 from core.graphics import formatter
 from pipeline.util import convert_lua_to_json
@@ -19,8 +19,9 @@ import utils
 # TEST
 from storyboard import Storyboard
 from storyboard import events
-
-# combat imports
+from model import PartyModel
+from combat import ActorSummary
+from combat import Actor
 
 
 class BlockState:
@@ -63,7 +64,7 @@ class JRPG(Application):
         from core import Camera
         from core import Context
 
-        map_db = Context.instance().data["maps"]        
+        map_db = Context.instance().data["maps"]
         state = ExploreState(
             self.stack,
             Camera.create_camera_from_surface(
@@ -75,6 +76,12 @@ class JRPG(Application):
             0,
         )
         self.stack.push(state)
+
+        # TEST
+        model = PartyModel()
+        self.world.party.add(Actor(model["hero"]))
+        self.world.party.add(Actor(model["thief"]))
+        self.world.party.add(Actor(model["mage"]))        
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath
@@ -128,7 +135,7 @@ class JRPG(Application):
         self.world.update(dt)
 
     def draw_hook(self, renderer):
-        self.stack.render(renderer)
+        self.stack.render(renderer)        
 
     def zoom_in(self):
         self.world_camera.increment_zoom(-self.zoom_speed)

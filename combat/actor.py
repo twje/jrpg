@@ -1,5 +1,11 @@
+"""
+monsters as well as party members
+"""
+
 import math
 from .stats import Stat
+from core.graphics import Sprite
+import utils
 
 
 def next_level(level):
@@ -9,13 +15,20 @@ def next_level(level):
 
 
 class Actor:
-    def __init__(self, actor_def):
-        self.actor_def = actor_def
-        self.stats = Stat(actor_def["stats"])
-        self.stat_growth = actor_def["stat_growth"]
+    def __init__(self, party_model):
+        self.party_model = party_model
+        self.name = party_model["name"]
+        self.id = party_model["id"]
+        self.stats = Stat(party_model["stats"])
+        self.stat_growth = party_model["stat_growth"]
         self.xp = 0
         self.level = 1
         self.next_level_xp = next_level(self.level)
+
+        if "portrait" in self.party_model:
+            self.portrait = Sprite.load_from_filesystem(
+                utils.lookup_texture_filepath(self.party_model["portrait"])
+            )
 
     def ready_to_level_up(self):
         return self.xp >= self.next_level_xp

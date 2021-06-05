@@ -1,0 +1,77 @@
+{
+    "hero": {
+        "id": "hero",
+        "stats": {
+            "hp_now": 300,
+            "hp_max": 300,
+            "mp_now": 300,
+            "mp_max": 300,
+            "str": 10,
+            "spd": 10,
+            "int": 10
+        },
+        "stat_growth": {
+            "hp_max": { "dice": "4d50+100" },
+            "mp_max": { "dice": "2d50+100" },
+            "str": "fast",
+            "spd": "fast",
+            "int": "med"
+        },
+        "portrait": "hero_portrait.png",
+        "name": "Seven",
+        "actions": [
+            "attack",
+            "item"
+        ]
+    },
+    "thief": {
+        "id": "thief",
+        "stats": {
+            "hp_now": 280,
+            "hp_max": 280,
+            "mp_now": 150,
+            "mp_max": 150,
+            "str": 10,
+            "spd": 15,
+            "int": 15
+        },
+        "stat_growth": {
+            "hp_max": { "dice": "3d40+100" },
+            "mp_max": { "dice": "4d50+100" },
+            "str": "med",
+            "spd": "med",
+            "int": "fast"
+        },
+        "portrait": "thief_portrait.png",
+        "name": "Jude",
+        "actions": [
+            "attack",
+            "item"
+        ]
+    },
+    "mage": {
+        "id": "mage",
+        "stats": {
+            "hp_now": 200,
+            "hp_max": 200,
+            "mp_now": 250,
+            "mp_max": 250,
+            "str": 8,
+            "spd": 10,
+            "int": 20
+        },
+        "stat_growth": {
+            "hp_max": { "dice": "3d40+100" },
+            "mp_max": { "dice": "4d50+100" },
+            "str": "med",
+            "spd": "med",
+            "int": "fast"
+        },
+        "portrait": "mage_portrait.png",
+        "name": "Ermis",
+        "actions": [
+            "attack",
+            "item"
+        ]
+    }
+}

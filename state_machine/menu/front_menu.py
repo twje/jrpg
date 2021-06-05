@@ -4,6 +4,7 @@ from graphics.menu import Layout
 from graphics.UI import Selection
 from core.graphics import SpriteFont
 from core.graphics import formatter
+from combat import ActorSummary
 import pygame
 
 
@@ -41,9 +42,27 @@ class FrontMenuState:
         ]
         self.top_bar_text = "Current Map Name"
 
+        self.party_menu = Selection({
+            "spacing_y": 90,
+            "data": self.create_party_summaries(),
+            "columns": 1,
+            "rows": 3,
+            "on_selection": self.on_party_member_chosen,
+            "render_item": self.render_party_summary
+        })
+        self.party_menu.hide_cursor()
+
     def on_menu_click(self, index, item):
         if item == "Items":
             self.state_machine.change("items")
+
+    def create_party_summaries(self):
+        party_membership = self.world.party.members.values()
+        return [ActorSummary(actor, {"show_xp": True})
+                for actor in party_membership]
+
+    def on_party_member_chosen(self, index, item):
+        pass
 
     def enter(self, data):
         pass
@@ -55,6 +74,9 @@ class FrontMenuState:
         pass
 
     def handle_input(self, event):
+        # test
+        self.party_menu.handle_input(event)
+
         self.selection.handle_input(event)
         if event.type == pygame.KEYDOWN:
             if event.key in (pygame.K_ESCAPE, pygame.K_BACKSPACE):
@@ -65,6 +87,7 @@ class FrontMenuState:
         self.render_menu(renderer)
         self.render_top(renderer)
         self.render_gold(renderer)
+        self.render_party_menu(renderer)
 
     def render_panals(self, renderer):
         for panel in self.panels:
@@ -105,6 +128,18 @@ class FrontMenuState:
                 )
             )
             renderer.draw(text)
+
+    def render_party_menu(self, renderer):
+        party_layout = self.layout.layout("party")
+        self.party_menu.set_position(
+            party_layout.x,
+            party_layout.y - 5
+        )
+        self.party_menu.render(renderer)
+
+    def render_party_summary(self, renderer, font, scale, x, y, item):
+        item.set_position(x, y + 35)
+        item.render(renderer)
 
     def create_sprite_font(self, text, x, y):
         sprite_font = SpriteFont(text)

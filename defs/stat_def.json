@@ -1,0 +1,5 @@
+{
+    "fast": { "dice": "3d2" },
+    "med": { "dice": "1d3" },
+    "slow": { "dice": "1d2" }
+}

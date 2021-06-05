@@ -2,6 +2,7 @@ import math
 from item_db import items_db
 from core import Context
 from core.graphics import SpriteFont
+from combat import Party
 
 
 class Item:
@@ -19,6 +20,7 @@ class World:
         # items related to quests
         self.key_items = []
         self.icons = Context.instance().data["icons"]
+        self.party = Party()
 
     # --------------
     # Public Methods
