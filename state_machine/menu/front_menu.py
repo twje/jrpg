@@ -41,6 +41,8 @@ class FrontMenuState:
             self.layout.create_panel("menu"),
         ]
         self.top_bar_text = "Current Map Name"
+        self.prev_top_bar_text = self.top_bar_text
+        self.in_party_menu = False
 
         self.party_menu = Selection({
             "spacing_y": 90,
@@ -55,14 +57,27 @@ class FrontMenuState:
     def on_menu_click(self, index, item):
         if item == "Items":
             self.state_machine.change("items")
+            return
+        elif item == "Status":
+            self.focus_party_menu()
 
     def create_party_summaries(self):
         party_membership = self.world.party.members.values()
         return [ActorSummary(actor, {"show_xp": True})
                 for actor in party_membership]
 
-    def on_party_member_chosen(self, index, item):
-        pass
+    def on_party_member_chosen(self, index, actor_summary):
+        # stage mapping
+        menu_option_to_state_id = {
+            "Status": "status"
+        }
+        menu_option = self.selection.get_item()
+
+        # switch state
+        state_id = menu_option_to_state_id[menu_option]
+        self.state_machine.change(state_id, {
+            "actor": actor_summary.actor
+        })
 
     def enter(self, data):
         pass
@@ -74,13 +89,32 @@ class FrontMenuState:
         pass
 
     def handle_input(self, event):
-        # test
-        self.party_menu.handle_input(event)
-
-        self.selection.handle_input(event)
-        if event.type == pygame.KEYDOWN:
-            if event.key in (pygame.K_ESCAPE, pygame.K_BACKSPACE):
+        if self.in_party_menu:
+            self.party_menu.handle_input(event)
+            if self.is_user_input(event):
+                self.unfocus_party_menu()
+        else:
+            self.selection.handle_input(event)
+            if self.is_user_input(event):
                 self.stack.pop()
+
+    def unfocus_party_menu(self):
+        self.selection.show_cursor()
+        self.party_menu.hide_cursor()
+        self.top_bar_text = self.prev_top_bar_text
+        self.in_party_menu = False
+
+    def focus_party_menu(self):
+        self.in_party_menu = True
+        self.selection.hide_cursor()
+        self.party_menu.show_cursor()
+        self.prev_top_bar_text = self.top_bar_text
+        self.top_bar_text = "Choose a party member"
+
+    def is_user_input(self, event):
+        if event.type == pygame.KEYDOWN:
+            return event.key in (pygame.K_ESCAPE, pygame.K_BACKSPACE)
+        return False
 
     def render(self, renderer):
         self.render_panals(renderer)
@@ -133,12 +167,12 @@ class FrontMenuState:
         party_layout = self.layout.layout("party")
         self.party_menu.set_position(
             party_layout.x,
-            party_layout.y - 5
+            party_layout.y + 30
         )
         self.party_menu.render(renderer)
 
     def render_party_summary(self, renderer, font, scale, x, y, item):
-        item.set_position(x, y + 35)
+        item.set_position(x, y)
         item.render(renderer)
 
     def create_sprite_font(self, text, x, y):

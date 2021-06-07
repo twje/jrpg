@@ -1,4 +1,4 @@
-# 438, 449, 454 - Displaying the Party in the In-Game Menu
+# 460 - Displaying the Party in the In-Game Menu
 from functools import partial
 from core.graphics import formatter
 from pipeline.util import convert_lua_to_json
@@ -81,7 +81,7 @@ class JRPG(Application):
         model = PartyModel()
         self.world.party.add(Actor(model["hero"]))
         self.world.party.add(Actor(model["thief"]))
-        self.world.party.add(Actor(model["mage"]))        
+        self.world.party.add(Actor(model["mage"]))
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath
@@ -135,7 +135,7 @@ class JRPG(Application):
         self.world.update(dt)
 
     def draw_hook(self, renderer):
-        self.stack.render(renderer)        
+        self.stack.render(renderer)
 
     def zoom_in(self):
         self.world_camera.increment_zoom(-self.zoom_speed)

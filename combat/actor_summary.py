@@ -53,6 +53,10 @@ class ActorSummary:
                 ),
             })
 
+    @property
+    def height(self):
+        return self.po
+
     def set_position(self, x, y):
         self.x = x
         self.y = y

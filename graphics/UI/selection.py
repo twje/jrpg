@@ -119,9 +119,12 @@ class Selection:
     def get_index(self):
         return self.focus_x + self.focus_y * self.columns
 
-    def get_item(self, index):
+    def get_item(self, index=None):
         try:
-            item = self.data[index]
+            if index is None:
+                item = self.data[self.get_index()]
+            else:
+                item = self.data[index]
         except IndexError:
             item = None
         return item
@@ -141,13 +144,18 @@ class Selection:
         for i, j, x, y, item_index in self.iterate_items():
             # render cursor
             if self.is_cursor_on_item(i, j):
-                self.cursor.set_position(x, y)
+                self.cursor.set_position(x, y + self.cursor_offset())
                 renderer.draw(self.cursor)
 
             # render item
             item = self.get_item(item_index)
             self.render_item(renderer, self.font, self.scale, x +
                              self.cursor.width, y, item)
+
+    def cursor_offset(self):
+        row_height = self.spacing_y * self.scale
+        cursor_height = self.cursor.height
+        return row_height/2 - cursor_height
 
     def iterate_items(self):
         display_start = self.display_start
