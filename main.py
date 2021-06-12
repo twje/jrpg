@@ -1,6 +1,4 @@
-# 460 - Displaying the Party in the In-Game Menu
-from functools import partial
-from core.graphics import formatter
+# 471 - Displaying the Party in the In-Game Menu
 from pipeline.util import convert_lua_to_json
 
 from core import dirs
@@ -8,7 +6,7 @@ from core import Application
 
 from core.system.input import InputProcessor
 from state_stack import StateStack
-from state_stack.world import TitleScreenState
+
 import binding
 import factory
 from graphics.UI import Icons
@@ -17,10 +15,7 @@ from map_db import MapDB
 import utils
 
 # TEST
-from storyboard import Storyboard
-from storyboard import events
 from model import PartyModel
-from combat import ActorSummary
 from combat import Actor
 
 
@@ -70,7 +65,7 @@ class JRPG(Application):
             Camera.create_camera_from_surface(
                 Context.instance().info.surface
             ),
-            map_db.new_map("arena"),
+            map_db.new_map("arena", "arena"),
             30,
             18,
             0,

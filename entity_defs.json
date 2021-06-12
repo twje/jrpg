@@ -17,7 +17,25 @@
             "tile_x": 11,
             "tile_y": 3,
             "layer": 0
-        },                
+        },  
+        "thief": {
+            "texture": "walk_cycle.png",
+            "width": 16,
+            "height": 24,
+            "start_frame": 40,
+            "tile_x": 11,
+            "tile_y": 3,
+            "layer": 0
+        },
+        "mage": {
+            "texture": "walk_cycle.png",
+            "width": 16,
+            "height": 24,
+            "start_frame": 24,
+            "tile_x": 11,
+            "tile_y": 3,
+            "layer": 0
+        },
         "guard": {
             "texture": "walk_cycle.png",
             "width": 16,
@@ -72,6 +90,7 @@
             "state": "sleep"
         },
         "hero": {
+            "actor_id": "hero",
             "entity": "hero",
             "anims": {
                 "anim_up": [0, 1, 2, 3],
@@ -85,7 +104,37 @@
                 "move"
             ],
             "state": "wait"
-        },        
+        },  
+        "thief": {
+            "actor_id": "thief",
+            "entity": "thief",
+            "anims": {
+                "anim_up": [32, 33, 34, 35],
+                "anim_right": [36, 37, 38, 39],
+                "anim_down": [40, 41, 42, 43],
+                "anim_left": [44, 45, 46, 47]
+            },
+            "facing": "down",
+            "controller": [
+                "npc_stand"
+            ],
+            "state": "npc_stand"
+        },            
+        "mage": {
+            "actor_id": "mage",
+            "entity": "mage",
+            "anims": {
+                "anim_up": [16, 17, 18, 19],
+                "anim_right": [20, 21, 22, 23],
+                "anim_down": [24, 25, 26, 27],
+                "anim_left": [28, 29, 30, 31]
+            },
+            "facing": "down",
+            "controller": [
+                "npc_stand"
+            ],
+            "state": "npc_stand"
+        },
         "standing_npc": {
             "entity": "hero",
             "anims": {},

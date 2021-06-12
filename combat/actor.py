@@ -73,7 +73,7 @@ class Actor:
             "acces1": party_model.get("acces1"),
             "acces2": party_model.get("acces2"),
         }
-        self.active_equip_slots = party_model.get("equip_slots", [0, 1, 2, 3])
+        self.active_equip_slots = party_model.get("equip_slots", [0, 1, 2])
 
         if "portrait" in self.party_model:
             self.portrait = Sprite.load_from_filesystem(

@@ -1,0 +1,26 @@
+{
+    "debug": true,
+    "on_wake": [
+        {
+            "id": "AddNPC",
+            "params": {
+                "definition": "mage",
+                "npc_id": "mage",
+                "tile_x": 21,
+                "tile_y": 14               
+            }
+        },
+        {
+            "id": "AddNPC",
+            "params": {
+                "definition": "thief",
+                "npc_id": "thief",
+                "tile_x": 35,
+                "tile_y": 14               
+            }
+        }
+    ],
+    "actions": [],
+    "trigger_types": [],
+    "triggers": []
+}
