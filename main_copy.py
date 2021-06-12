@@ -20,10 +20,6 @@ import utils
 from storyboard import Storyboard
 from storyboard import events
 
-# combat imports
-from stats import Stat
-from stats import StatID
-
 
 class BlockState:
     def __init__(self, stack):

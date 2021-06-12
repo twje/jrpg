@@ -16,8 +16,7 @@ class StatModifier:
         self.add = modifier.get("add", {})
         self.mult = modifier.get("mult", {})
 
-    def get_add(self, stat_id):
-        print(stat_id)
+    def get_add(self, stat_id):        
         return self.add.get(stat_id, 0)
 
     def get_mult(self, stat_id):

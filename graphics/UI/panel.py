@@ -80,3 +80,19 @@ class Panel:
             size
         )
         return cls(texture_atlas, size)
+
+
+class EnvelopePanel:
+    def __init__(self, subject, texture_filepath, size, padding):
+        self.subject = subject
+        self.panel = Panel.load_from_texture(texture_filepath, size)
+        self.padding = padding
+
+    def render(self, renderer):
+        self.panel.position(
+            self.subject.x - self.padding,
+            self.subject.y - self.padding,
+            self.subject.x + self.subject.width + self.padding,
+            self.subject.y + self.subject.height + self.padding
+        )
+        self.panel.render(renderer)

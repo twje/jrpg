@@ -1,6 +1,6 @@
-import utils
-from graphics.UI import Selection
 from graphics.UI import Textbox
+from graphics.UI import Selection
+import utils
 
 
 class StateStack:
@@ -49,6 +49,7 @@ class StateStack:
     def push_fitted(self, x, y, text_font, text, wrap=None,
                     title_font=None, title=None, avatar=None,
                     choices=None, on_finish=None):
+
         from core.graphics import Sprite
         from core.graphics import SpriteFont
 
@@ -111,6 +112,7 @@ class StateStack:
     def push_fixed(self, x, y, width, height, text_font, text,
                    title_font=None, title=None, avatar=None,
                    choices=None, on_finish=None):
+
         from core.graphics import Sprite
         from core.graphics import SpriteFont
 

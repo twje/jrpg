@@ -6,6 +6,8 @@ from core.graphics import formatter
 from combat import Actor
 from combat import ActorSummary
 from graphics.UI import Selection
+from graphics.UI import EnvelopePanel
+import utils
 
 
 @register_state("status")
@@ -51,9 +53,15 @@ class StatusMenuState:
             "columns": 1,
             "rows": len(self.actor.actions),
             "spacing_y": 18,
-            "render_item": self.render_action
+            "render_item": self.render_action_item
         })
         self.actions.hide_cursor()
+        self.actions_panel = EnvelopePanel(
+            self.actions,
+            utils.lookup_texture_filepath("gradient_panel.png"),
+            3,
+            10
+        )
 
     def exit(self):
         pass
@@ -70,6 +78,9 @@ class StatusMenuState:
         self.render_actor_summary(renderer)
         self.render_xp(renderer)
         self.render_eqipment_menu(renderer)
+        self.render_actor_stats(renderer)
+        self.render_item_stats(renderer)
+        self.render_action(renderer)
 
     def render_panels(self, renderer):
         for panel in self.panels:
@@ -101,10 +112,55 @@ class StatusMenuState:
 
     def render_eqipment_menu(self, renderer):
         layout = self.layout.layout("bottom")
-        self.equip_menu.set_position(layout.x + 200, layout.y + 100)
+        self.equip_menu.set_position(layout.x + 350, layout.y + 180)
         self.equip_menu.render(renderer)
 
-    def render_action(self, renderer, font, scale, x, y, item):
+    def render_actor_stats(self, renderer):
+        layout = self.layout.layout("bottom")
+        stats = self.actor.stats
+        for index, stat in enumerate(Actor.ACTOR_STATS):
+            label = Actor.ACTOR_STAT_LABELS[index]
+            value = stats.get(stat)
+
+            text = SpriteFont(f"{label}: {value}")
+            text.set_position(
+                80,
+                formatter.vert_stack(
+                    index,
+                    100,
+                    5,
+                    layout,
+                    text
+                )
+            )
+            renderer.draw(text)
+
+    def render_item_stats(self, renderer):
+        layout = self.layout.layout("bottom")
+        stats = self.actor.stats
+        for index, stat in enumerate(Actor.ITEM_STATS):
+            label = Actor.ITEM_STAT_LABELS[index]
+            value = stats.get(stat)
+
+            text = SpriteFont(f"{label}: {value}")
+            text.set_position(
+                80,
+                formatter.vert_stack(
+                    index,
+                    190,
+                    5,
+                    layout,
+                    text
+                )
+            )
+            renderer.draw(text)
+
+    def render_action(self, renderer):
+        self.actions.set_position(450, 180)
+        self.actions_panel.render(renderer)
+        self.actions.render(renderer)
+
+    def render_action_item(self, renderer, font, scale, x, y, item):
         label = Actor.ACTION_LABELS[item]
         sprite = SpriteFont(label)
         sprite.set_position(x, y)
