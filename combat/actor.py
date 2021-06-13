@@ -3,6 +3,7 @@ monsters as well as party members
 """
 
 import math
+from core import Context
 from core.graphics import SpriteFont
 from item_db import items_db
 from .stats import Stat
@@ -58,6 +59,8 @@ class Actor:
     }
 
     def __init__(self, party_model):
+        self.context = Context.instance()
+        self.world = self.context.data["world"]
         self.party_model = party_model
         self.name = party_model["name"]
         self.id = party_model["id"]
@@ -79,6 +82,9 @@ class Actor:
             self.portrait = Sprite.load_from_filesystem(
                 utils.lookup_texture_filepath(self.party_model["portrait"])
             )
+
+    def equip(self, slot, item):
+        raise NotImplementedError
 
     def ready_to_level_up(self):
         return self.xp >= self.next_level_xp

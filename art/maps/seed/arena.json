@@ -7,7 +7,7 @@
                 "definition": "mage",
                 "npc_id": "mage",
                 "tile_x": 21,
-                "tile_y": 14               
+                "tile_y": 14
             }
         },
         {
@@ -16,11 +16,37 @@
                 "definition": "thief",
                 "npc_id": "thief",
                 "tile_x": 35,
-                "tile_y": 14               
+                "tile_y": 14
             }
         }
     ],
-    "actions": [],
-    "trigger_types": [],
-    "triggers": []
+    "actions": [
+        {
+            "talk_recruit": {
+                "id": "RunScript",
+                "params": {
+                    "func": "talk_recruit"
+                }
+            }
+        }
+    ],
+    "trigger_types": [
+        {
+            "recruit": {
+                "on_use": "talk_recruit"
+            }
+        }
+    ],
+    "triggers": [
+        {
+            "trigger": "recruit",
+            "tile_x": 21,
+            "tile_y": 14
+        },
+        {
+            "trigger": "recruit",
+            "tile_x": 35,
+            "tile_y": 14
+        }
+    ]
 }

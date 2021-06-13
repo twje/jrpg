@@ -18,6 +18,7 @@ class Character:
         self.id = None
         self.map_ref = MapRef(map)
         self.entity = type(self).create_entity(character_def)
+        self.actor_id = character_def["actor_id"]
         self.facing = character_def["facing"]
         self.anim = Anim(
             character_def["anims"].get("anim_up"),

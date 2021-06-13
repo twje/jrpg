@@ -202,6 +202,27 @@ class TiledMap:
     def add_npc(self, npc):
         self.npcs.append(npc)
 
+    def get_npc(self, tile_x, tile_y, layer):
+        for npc in self.npcs:
+            if (npc.entity.tile_x == tile_x
+                and npc.entity.tile_y == tile_y
+                    and npc.entity.layer == layer):
+
+                return npc
+
+    def remove_npc(self, tile_x, tile_y, layer):
+        for index, npc in enumerate(self.npcs):
+            if (npc.entity.tile_x == tile_x
+                and npc.entity.tile_y == tile_y
+                    and npc.entity.layer == layer):
+
+                self.remove_entity(npc.entity)
+                del self.npcs[index]
+                del self.npc_by_id[npc.id]
+
+                return True
+        return False
+
     def render_layer(self, renderer, layer, hero):
         tile_left, tile_top = self.point_to_tile(
             self.renderer.view.left,
