@@ -8,6 +8,7 @@ from combat import ActorSummary
 from graphics.UI import Selection
 from graphics.UI import EnvelopePanel
 import utils
+import pygame
 
 
 @register_state("status")
@@ -70,7 +71,13 @@ class StatusMenuState:
         pass
 
     def handle_input(self, event):
-        pass
+        if self.is_user_input(event):
+            self.state_machine.change("frontmenu")
+
+    def is_user_input(self, event):
+        if event.type == pygame.KEYDOWN:
+            return event.key in (pygame.K_ESCAPE, pygame.K_BACKSPACE)
+        return False
 
     def render(self, renderer):
         self.render_panels(renderer)

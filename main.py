@@ -73,10 +73,8 @@ class JRPG(Application):
         self.stack.push(state)
 
         # TEST
-        #model = PartyModel()
-        #self.world.party.add(Actor(model["hero"]))
-        #self.world.party.add(Actor(model["thief"]))
-        #self.world.party.add(Actor(model["mage"]))
+        model = PartyModel()
+        self.world.party.add(Actor(model["hero"]))
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath
