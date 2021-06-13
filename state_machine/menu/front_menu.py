@@ -172,6 +172,8 @@ class FrontMenuState:
         self.party_menu.render(renderer)
 
     def render_party_summary(self, renderer, font, scale, x, y, item):
+        if item is None:
+            return
         item.set_position(x, y)
         item.render(renderer)
 
