@@ -117,6 +117,9 @@
             "Stats.lua": {
                 "path": "code/Stats.lua"
             },
+            "StatusMenuState.lua": {
+                "path": "code/StatusMenuState.lua"
+            },
             "Storyboard.lua": {
                 "path": "code/Storyboard.lua"
             },

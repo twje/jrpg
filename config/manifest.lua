@@ -201,6 +201,10 @@ manifest =
         {
             path = "code/ActorSummary.lua"
         },
+        ['StatusMenuState.lua'] =
+        {
+            path = "code/StatusMenuState.lua"
+        },
     },
     textures =
     {

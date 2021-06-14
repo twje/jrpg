@@ -1,5 +1,5 @@
 
-name = "Dungeons - Storyboard Intro"
+name = "Equipment"
 width = 740
 height = 400
 manifest = "manifest.lua"

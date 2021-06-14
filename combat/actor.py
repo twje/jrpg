@@ -84,7 +84,28 @@ class Actor:
             )
 
     def equip(self, slot, item):
-        raise NotImplementedError
+        self.remove_current_item_from_equip_slot(slot)
+        self.add_item_to_slot(slot, item)
+
+    def unequip(self, slot):
+        self.equip(slot, None)
+
+    def remove_current_item_from_equip_slot(self, slot):
+        item = self.equipment[slot]
+        self.equipment[slot] = None
+        if item is not None:
+            self.return_item_to_inventory(slot, item)
+
+    def return_item_to_inventory(self, slot, item):
+        self.stats.remove_modifier(slot)
+        self.world.add_item(item)
+
+    def add_item_to_slot(self, slot, item):
+        if item is None:
+            return
+        self.world.remove_item(item.id)
+        self.equipment[slot] = item.id
+        self.stats.add_modifier(slot, items_db[item.id]["stats"])
 
     def ready_to_level_up(self):
         return self.xp >= self.next_level_xp

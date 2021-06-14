@@ -1,43 +1,127 @@
 [
     {
         "name": "",
+        "type": "",
+        "icon": null,
+        "restriction": null,
         "description": "",
         "special": "",
-        "stats": {
-            "strength": 0,
-            "speed": 0,
-            "intelligence": 0,
-            "attack": 0,
-            "defence": 0,
-            "magic": 0,
-            "resist": 0
-        }
+        "stats": {},
+        "use": null,
+        "use_restriction": null
     },
     {
-        "name": "Mysterious Torque",
-        "type": "accessory",
-        "description": "A golden torque that glitters.",        
-        "stats": {
-            "strength": 10,
-            "speed": 10
-        }
-    },
-    {
-        "name": "Heal Postion",
-        "type": "useable",
-        "description": "Heals a little HP"
-    },
-    {
-        "name": "Bronze Sword",
+        "name": "Bone Blade",
         "type": "weapon",
-        "description": "A short sword with dull blade.",
+        "icon": "sword",
+        "restriction": ["hero"],
+        "description": "A wicked sword made from bone.",        
         "stats": {
-            "attack": 10
+            "add": {
+                "attack": 5
+            }
         }
     },
     {
-        "name": "Old bone",
-        "type": "key",
-        "description": "A calcified human femur."
+        "name": "Ring of Titan",
+        "type": "accessory",        
+        "description": "Grants the strength of the Titan.",        
+        "stats": {
+            "add": {
+                "strength": 5
+            }
+        }
+    },
+    {
+        "name": "World Tree Branch",
+        "type": "weapon",
+        "icon": "stave",
+        "restriction": ["mage"],
+        "description": "A hard wood branch.",        
+        "stats": {
+            "add": {
+                "attack": 2,
+                "magic": 5
+            }
+        }
+    },
+    {
+        "name": "Dragon's Cloak",
+        "type": "armor",
+        "icon": "robe",
+        "restriction": ["mage"],
+        "description": "A cloak of dragon scales.",        
+        "stats": {
+            "add": {
+                "defense": 3,
+                "resist": 10
+            }
+        }
+    },
+    {
+        "name": "Singer's Stone",
+        "type": "accessory",                
+        "description": "The stone's song resists magical attacks.",        
+        "stats": {
+            "add": {                
+                "resist": 10
+            }
+        }
+    },
+    {
+        "name": "Black Dagger",
+        "type": "weapon",      
+        "icon": "dagger",      
+        "restriction": ["thief"],    
+        "description": "A dagger made out of an unknown material.",        
+        "stats": {
+            "add": {                
+                "attack": 10
+            }
+        }
+    },
+    {
+        "name": "Footpad Leathers",
+        "type": "armor",      
+        "icon": "leather",      
+        "restriction": ["thief"],    
+        "description": "Light armor for silent movement.",        
+        "stats": {
+            "add": {                
+                "defense": 10
+            }
+        }
+    },
+    {
+        "name": "Swift Boots",
+        "type": "accessory",                         
+        "description": "Increases speed by 25%",        
+        "stats": {
+            "mult": {                
+                "speed": 0.25
+            }
+        }
+    },
+    {
+        "name": "Heal Potion",
+        "type": "useable",                         
+        "description": "Heal a small amount of HP.",        
+        "use": {
+            "action": "small_hp_restore",
+            "target": "any",
+            "target_default": "friendly_wounded",
+            "hint": "Choose target to heal."
+        }
+    },
+    {
+        "name": "Life Salve",
+        "type": "useable",                         
+        "description": "Restore a character from the brink of death.",        
+        "use": {
+            "action": "revive",
+            "target": "any",
+            "target_default": "friendly_dead",
+            "hint": "Choose target to revive."
+        }
     }
 ]

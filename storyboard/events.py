@@ -15,7 +15,7 @@ def debug_storyboard_event(event):
     def event_object(func):
         @functools.wraps(func)
         def debug_wrapper(*args, **kwargs):
-            #print(event.__name__)
+            # print(event.__name__)
             return func(*args, **kwargs)
         return debug_wrapper
     return event_object
@@ -328,12 +328,12 @@ def say(map_id, npc_id, text, time):
     return create
 
 
-def run_action(action_id, action_params, parm_ops):
+def run_action(action_id, action_params, parm_ops={}):
     @debug_storyboard_event(run_action)
     def create(storyboard):
         # format params
         params, location = utils.extract_from_dict(
-            action_params, ["tile_x", "tile_y"], {"layer": 0}
+            action_params, [], {"tile_x": None, "tile_y": None, "layer": 0}
         )
 
         # pre-process params

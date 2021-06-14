@@ -11,12 +11,18 @@ class Icons:
             18
         )
         self.icon_defs = {
-            "useable": 0,
-            "accessory": 1,
-            "weapon": 2,
-            "armor": 3,
-            "uparrow": 4,
-            "downarrow": 5,
+            "useable":  0,
+            "accessory":  1,
+            "weapon":  2,
+            "sword":  3,
+            "dagger":  4,
+            "stave":  5,
+            "armor":  6,
+            "plate":  7,
+            "leather":  8,
+            "robe":  9,
+            "uparrow":  10,
+            "downarrow": 11
         }
         self.sprites = {}
 

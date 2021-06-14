@@ -1,4 +1,4 @@
-# 471 - Displaying the Party in the In-Game Menu
+# 490 - Comparing Equipment
 from pipeline.util import convert_lua_to_json
 
 from core import dirs
@@ -9,7 +9,6 @@ from state_stack import StateStack
 
 import binding
 import factory
-from graphics.UI import Icons
 from world import World
 from map_db import MapDB
 import utils
@@ -17,6 +16,7 @@ import utils
 # TEST
 from model import PartyModel
 from combat import Actor
+from item_db import items_db
 
 
 class BlockState:
@@ -74,7 +74,13 @@ class JRPG(Application):
 
         # TEST
         model = PartyModel()
-        self.world.party.add(Actor(model["hero"]))
+        hero = Actor(model["hero"])
+
+        bone_blade = items_db[0]
+        self.world.add_item(bone_blade["id"])
+        hero.equip("weapon", self.world.items[0])
+
+        self.world.party.add(hero)
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath
@@ -88,11 +94,6 @@ class JRPG(Application):
         self.manifest = self.store_in_context(
             "manifest",
             factory.load_manifest()
-        )
-
-        self.store_in_context(
-            "icons",
-            Icons()
         )
 
         self.store_in_context(

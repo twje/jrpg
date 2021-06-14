@@ -3,23 +3,44 @@ from . import register
 from model import PartyModel
 from core.context import Context
 from core.graphics import Font
-from combat import Actor
 
 
 @register("talk_recruit")
 def talk_recruit(map, trigger, entity, layer, x, y):
+    from storyboard.storyboard import Storyboard
+    from storyboard import events
+
     context = Context.instance()
     info = context.info
     stack = context.data["stack"]
-    world = context.data["world"]
     npc = map.get_npc(x, y, layer)
     actor_def = PartyModel()[npc.actor_id]
 
     def on_recruit(index, item):
         if item == "Recruit":
-            world.party.add(Actor(actor_def))
-            map.remove_npc(x, y, layer)
+            fadeout = [
+                events.fade_out_char("handin", npc.id),
+                events.run_action(
+                    "RemoveNPC",
+                    {
+                        "map": "handin",
+                        "npc_id": npc.id
+                    },
+                    {
+                        "map": events.get_map_ref
+                    }
+                ),
+                events.run_action(
+                    "AddPartyMember",
+                    {
+                        "actor_id": npc.id
+                    }
+                ),
+                events.hand_off("handin")
+            ]
             map.remove_trigger(x, y, layer)
+            storboard = Storyboard(stack, fadeout, True)
+            stack.push(storboard)
 
     stack.push_fitted(
         info.screen_width/2,

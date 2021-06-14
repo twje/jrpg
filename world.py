@@ -3,7 +3,7 @@ from item_db import items_db
 from core import Context
 from core.graphics import SpriteFont
 from combat import Party
-
+from graphics.UI import Icons
 
 class Item:
     def __init__(self, idz, count):
@@ -19,8 +19,8 @@ class World:
         self.items = []
         # items related to quests
         self.key_items = []
-        self.icons = Context.instance().data["icons"]
         self.party = Party()
+        self.icons = Icons()
 
     # --------------
     # Public Methods
@@ -44,7 +44,7 @@ class World:
     def add_item(self, item_id, count=1):
         assert not self.is_item_key(item_id)
 
-        for item in self.items.items():
+        for item in self.items:
             if item.id == item_id:
                 item.count += count
                 return
@@ -54,7 +54,7 @@ class World:
     def remove_item(self, item_id, amount=1):
         assert not self.is_item_key(item_id)
 
-        for item in self.items.items():
+        for item in self.items:
             if item.id == item_id:
                 item.count -= amount
                 if item.count == 0:
