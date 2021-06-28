@@ -16,7 +16,7 @@ class InGameMenuState:
                 "frontmenu",
                 "items",
                 "magic",
-                "equip",
+                "equipment",
                 "status"
             ]
         })

@@ -58,7 +58,7 @@ class FrontMenuState:
         if item == "Items":
             self.state_machine.change("items")
             return
-        elif item == "Status":
+        elif item in ("Equipment", "Status"):
             self.focus_party_menu()
 
     def create_party_summaries(self):
@@ -69,7 +69,8 @@ class FrontMenuState:
     def on_party_member_chosen(self, index, actor_summary):
         # stage mapping
         menu_option_to_state_id = {
-            "Status": "status"
+            "Status": "status",
+            "Equipment": "equipment"
         }
         menu_option = self.selection.get_item()
 

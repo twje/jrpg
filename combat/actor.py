@@ -77,11 +77,58 @@ class Actor:
             "acces2": party_model.get("acces2"),
         }
         self.active_equip_slots = party_model.get("equip_slots", [0, 1, 2])
+        self.slot_types = [
+            "weapon",
+            "armor",
+            "accessory",
+            "accessory"
+        ]
 
         if "portrait" in self.party_model:
             self.portrait = Sprite.load_from_filesystem(
                 utils.lookup_texture_filepath(self.party_model["portrait"])
             )
+
+    @staticmethod
+    def create_stat_name_list():
+        return Actor.ACTOR_STATS + Actor.ITEM_STATS + ['hp_max', 'mp_max']
+
+    @staticmethod
+    def create_stat_label_list():
+        return Actor.ACTOR_STAT_LABELS + Actor.ITEM_STAT_LABELS + ['HP', 'MP']
+
+
+    def predict_stats(self, slot, item):
+        stats_id = self.create_stat_name_list()        
+        if item is None:
+            return {stat: 0 for stat in stats_id }
+
+        # compute current stats
+        current = {}
+        for stat_id in stats_id:
+            current[stat_id] = self.stats.get(stat_id)
+
+        # replace item
+        prev_item_id = self.equipment[slot]
+        self.stats.remove_modifier(slot)
+        self.stats.add_modifier(slot, item["stats"])
+
+        # get values for modified stats
+        modified = {}
+        for stat_id in stats_id:
+            modified[stat_id] = self.stats.get(stat_id)
+
+        # get difference
+        diff = {}
+        for stat_id in stats_id:
+            diff[stat_id] = modified[stat_id] - current[stat_id]
+
+        # undo replace item
+        self.stats.remove_modifier(slot)
+        if prev_item_id is not None:
+            self.stats.add_modifier(slot, items_db[prev_item_id]["stats"])
+        
+        return diff
 
     def equip(self, slot, item):
         self.remove_current_item_from_equip_slot(slot)
@@ -154,3 +201,7 @@ class Actor:
         text_sprite = SpriteFont(text)
         text_sprite.set_position(x + lable_sprite.width + 5, y)
         renderer.draw(text_sprite)
+
+    def can_use(self, item):
+        # fix
+        return True
