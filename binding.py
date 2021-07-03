@@ -1,6 +1,7 @@
 from core.system.input import Binding
 from core.system.input import KeyDownAction
 from core.system.input import KeyPressedAction
+from core.system.input import DelayedKeyDownAction
 import pygame
 
 
@@ -17,6 +18,10 @@ def init(input_manager):
     create_binding(input_manager, "move_up", KeyDownAction(pygame.K_UP))
     create_binding(input_manager, "move_down", KeyDownAction(pygame.K_DOWN))
     create_binding(input_manager, "on_use", KeyPressedAction(pygame.K_SPACE))
+
+    # UI navigation
+    create_binding(input_manager, "nav_move_up", DelayedKeyDownAction(pygame.K_UP))
+    create_binding(input_manager, "nav_move_down", DelayedKeyDownAction(pygame.K_DOWN))    
 
     # zoom camera
     create_binding(input_manager, "zoom_in", KeyDownAction(pygame.K_1))

@@ -43,9 +43,12 @@ class BlockState:
 
 
 class JRPG(Application):
-    def load(self):
-        binding.init(self.context.input_manager)
+    def load(self):  
+        # input
+        self.input_manager = self.context.input_manager      
+        binding.init(self.input_manager)        
         self.input_processor = self.bind_input()
+
         self.init_managers()
         self.init_globals()
 
@@ -124,14 +127,15 @@ class JRPG(Application):
 
         return input_processor
 
-    def handle_event(self, event):
-        self.stack.handle_input(event)
+    def handle_event(self, event):        
+        self.input_manager.update(event)
+        self.stack.handle_input(event)        
 
-    def update_hook(self, dt):
+    def update_hook(self, dt):                
         self.input_processor.process()
         self.stack.update(dt)
-        self.world.update(dt)
-
+        self.world.update(dt)             
+        
     def draw_hook(self, renderer):
         self.stack.render(renderer)
 

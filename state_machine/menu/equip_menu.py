@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from . import register_state
 from core.system.input import InputProcessor
 from combat.actor import Actor
@@ -14,6 +15,12 @@ from graphics.UI import Selection
 from item_db import items_db
 import utils
 import pygame
+
+
+@dataclass
+class EventAdapter:
+    type: int
+    key: int
 
 
 @register_state("equipment")
@@ -35,8 +42,9 @@ class EquipmentMenuState:
             self.input_manager,
             self.input_namespace
         )
-        self.input_processor.bind_callback("move_up", self.move_cursor_up)
-        self.input_processor.bind_callback("move_down", self.move_cursor_down)
+        self.input_processor.bind_callback("nav_move_up", self.move_cursor_up)
+        self.input_processor.bind_callback("nav_move_down", self.move_cursor_down)
+        self.input_processor.bind_callback("on_use", self.select_option)        
 
         # layout 1
         self.layout = Layout()
@@ -123,8 +131,9 @@ class EquipmentMenuState:
             })
             self.filter_menus.append(menu)
 
-    def enter(self, data):
+    def enter(self, data):        
         self.input_manager.add_label(self.input_namespace)
+        self.input_manager.clear()
         self.actor = data["actor"]
         self.actor_summary = ActorSummary(self.actor, {"show_xp": False})
         self.equipment = self.actor.equipment
@@ -146,16 +155,38 @@ class EquipmentMenuState:
     def exit(self):
         self.input_manager.remove_label(self.input_namespace)
 
-    def update(self, dt):
+    def update(self, dt):        
         if not self.input_processor.is_active():
             return
         self.input_processor.process()
+        self.update_scrollbar()                
+
+    def update_input(self, event):
+        if self.in_list:
+            self.handle_filter_list_input(event)
+        else:
+            self.handle_slot_menu_input(event)
 
     def move_cursor_up(self):
-        print('up')
+        event = EventAdapter(pygame.KEYDOWN, pygame.K_UP)
+        if self.in_list:
+            self.handle_filter_list_input(event)
+        else:
+            self.handle_slot_menu_input(event)
 
     def move_cursor_down(self):
-        print('down')
+        event = EventAdapter(pygame.KEYDOWN, pygame.K_DOWN)
+        if self.in_list:
+            self.handle_filter_list_input(event)
+        else:
+            self.handle_slot_menu_input(event)
+
+    def select_option(self):        
+        event = EventAdapter(pygame.KEYDOWN, pygame.K_SPACE)
+        if self.in_list:
+            self.handle_filter_list_input(event)
+        else:
+            self.handle_slot_menu_input(event)
 
     def get_selected_slot(self):
         index = self.slot_menu.get_index()
@@ -189,20 +220,15 @@ class EquipmentMenuState:
         self.menu_index = self.slot_menu.get_index()
         self.filter_menus[self.menu_index].show_cursor()
 
-    def handle_input(self, event):        
-        if self.in_list:
-            self.handle_filter_list_input(event)
-        else:
-            self.handle_slot_menu_input(event)
+    def handle_input(self, event):
+        if not self.in_list:
             self.handle_menu_exit(event)
-
-        self.update_scrollbar()
+        elif self.is_exit_menu_event(event):
+            self.focus_slot_menu()
 
     def handle_filter_list_input(self, event):
         menu = self.filter_menus[self.menu_index]
-        menu.handle_input(event)
-        if self.is_exit_menu_event(event):
-            self.focus_slot_menu()
+        menu.handle_input(event)        
 
     def handle_slot_menu_input(self, event):
         prev_equip_index = self.slot_menu.get_index()
@@ -322,11 +348,11 @@ class EquipmentMenuState:
         # render arrows
         if diff > 0:
             self.better_sprite.set_position(
-                formatter.right_justify(80, layout, self.better_sprite),                
+                formatter.right_justify(80, layout, self.better_sprite),
                 y
             )
             renderer.draw(self.better_sprite)
-            text.set_color((0, 255, 0))            
+            text.set_color((0, 255, 0))
         elif diff < 0:
             text.set_color((255, 0, 0))
         else:

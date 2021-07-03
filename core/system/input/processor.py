@@ -8,7 +8,7 @@ class InputProcessor:
         binding = self.manager.get_binding(name)
         self.manifest.append((binding, callback))
 
-    def process(self):
+    def process(self):        
         for binding, callback in self.manifest:
             if binding.is_satisfied():
                 callback()
