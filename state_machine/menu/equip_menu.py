@@ -1,4 +1,5 @@
 from . import register_state
+from core.system.input import InputProcessor
 from combat.actor import Actor
 from core import Context
 from combat import ActorSummary
@@ -19,12 +20,23 @@ import pygame
 class EquipmentMenuState:
     def __init__(self, parent):
         # state
+        context = Context.instance()
         self.parent = parent
         self.stack = parent.stack
         self.state_machine = parent.state_machine
-        self.world = Context.instance().data["world"]
+        self.world = context.data["world"]
         self.font = Font(style=FontStyle.default())
         self.in_list = False
+
+        # input
+        self.input_namespace = "equip_menu_nav"
+        self.input_manager = context.input_manager
+        self.input_processor = InputProcessor(
+            self.input_manager,
+            self.input_namespace
+        )
+        self.input_processor.bind_callback("move_up", self.move_cursor_up)
+        self.input_processor.bind_callback("move_down", self.move_cursor_down)
 
         # layout 1
         self.layout = Layout()
@@ -92,6 +104,7 @@ class EquipmentMenuState:
         for entry in self.world.items:
             item = items_db[entry.id]
             for filter in filter_list:
+                # come back
                 if item["type"] == filter["type"] and self.actor.can_use(item):
                     filter["list"].append(entry)
 
@@ -111,6 +124,7 @@ class EquipmentMenuState:
             self.filter_menus.append(menu)
 
     def enter(self, data):
+        self.input_manager.add_label(self.input_namespace)
         self.actor = data["actor"]
         self.actor_summary = ActorSummary(self.actor, {"show_xp": False})
         self.equipment = self.actor.equipment
@@ -130,10 +144,18 @@ class EquipmentMenuState:
         })
 
     def exit(self):
-        pass
+        self.input_manager.remove_label(self.input_namespace)
 
     def update(self, dt):
-        pass
+        if not self.input_processor.is_active():
+            return
+        self.input_processor.process()
+
+    def move_cursor_up(self):
+        print('up')
+
+    def move_cursor_down(self):
+        print('down')
 
     def get_selected_slot(self):
         index = self.slot_menu.get_index()
@@ -143,7 +165,7 @@ class EquipmentMenuState:
         if self.in_list:
             menu = self.filter_menus[self.menu_index]
             item = menu.selected_item()
-            return item.id
+            return None if item is None else item.id
         else:
             slot = self.get_selected_slot()
             return self.actor.equipment[slot]
@@ -157,18 +179,45 @@ class EquipmentMenuState:
         return self.actor.predict_stats(slot, item)
 
     def on_do_equip(self, index, item):
-        pass
+        self.actor.equip(self.get_selected_slot(), item)
+        self.refresh_filtered_menu()
+        self.focus_slot_menu()
 
     def on_select_menu(self, index, item):
-        pass
+        self.in_list = True
+        self.slot_menu.hide_cursor()
+        self.menu_index = self.slot_menu.get_index()
+        self.filter_menus[self.menu_index].show_cursor()
 
-    def on_do_equip(self, index, item):
-        pass
+    def handle_input(self, event):        
+        if self.in_list:
+            self.handle_filter_list_input(event)
+        else:
+            self.handle_slot_menu_input(event)
+            self.handle_menu_exit(event)
 
-    def handle_input(self, event):
+        self.update_scrollbar()
+
+    def handle_filter_list_input(self, event):
+        menu = self.filter_menus[self.menu_index]
+        menu.handle_input(event)
+        if self.is_exit_menu_event(event):
+            self.focus_slot_menu()
+
+    def handle_slot_menu_input(self, event):
+        prev_equip_index = self.slot_menu.get_index()
+        self.slot_menu.handle_input(event)
+        if prev_equip_index != self.slot_menu.get_index():
+            self.on_equip_menu_changed()
+
+    def handle_menu_exit(self, event):
         if self.is_exit_menu_event(event):
             self.state_machine.change("frontmenu")
 
+    def update_scrollbar(self):
+        menu = self.filter_menus[self.menu_index]
+        self.scrollbar.set_normal(menu.percentage_scrolled())
+
     def is_exit_menu_event(self, event):
         if event.type == pygame.KEYDOWN:
             return event.key in (
@@ -184,6 +233,17 @@ class EquipmentMenuState:
                 pygame.K_BACKSPACE
             )
         return False
+
+    def focus_slot_menu(self):
+        self.in_list = False
+        self.slot_menu.show_cursor()
+        self.menu_index = self.slot_menu.get_index()
+        self.filter_menus[self.menu_index].hide_cursor()
+
+    def on_equip_menu_changed(self):
+        # equip menu only changes, when list isn't in focus
+        self.menu_index = self.slot_menu.get_index()
+        self.filter_menus[self.menu_index].hide_cursor()
 
     def render(self, renderer):
         self.render_panels(renderer)
@@ -193,8 +253,7 @@ class EquipmentMenuState:
         self.render_inventoru_menu(renderer)
         self.render_scrollbar(renderer)
         self.render_character_stats(renderer)
-
-        # self.render_icons(renderer)
+        self.render_description(renderer)
 
     def render_panels(self, renderer):
         for panel in self.panels:
@@ -236,7 +295,7 @@ class EquipmentMenuState:
         self.scrollbar.render(renderer)
 
     def render_character_stats(self, renderer):
-        font = Font(FontStyle.small())        
+        font = Font(FontStyle.small())
         diffs = self.stat_difference()
 
         stat_list = self.actor.create_stat_name_list()
@@ -254,17 +313,39 @@ class EquipmentMenuState:
             )
 
     def draw_stat(self, renderer, font, x, y, label, stat, diff):
+        layout = self.layout.layout("stats")
         current = self.actor.stats.get(stat)
         changed = current + diff
-        text = SpriteFont(self.stage_label(label, changed), font)        
+        text = SpriteFont(self.stage_label(label, changed), font)
         text.set_position(x, y)
-        renderer.draw(text)
 
         # render arrows
         if diff > 0:
-            pass
+            self.better_sprite.set_position(
+                formatter.right_justify(80, layout, self.better_sprite),                
+                y
+            )
+            renderer.draw(self.better_sprite)
+            text.set_color((0, 255, 0))            
         elif diff < 0:
-            pass
+            text.set_color((255, 0, 0))
+        else:
+            text.set_color((255, 255, 255))
+
+        renderer.draw(text)
 
     def stage_label(self, label, value):
         return "{}: {:>3}".format(label, value)
+
+    def render_description(self, renderer):
+        item_id = self.get_selected_item()
+        if item_id is None:
+            return
+        layout = self.layout.layout("desc")
+        item = items_db[item_id]
+        text = SpriteFont(item["description"], Font())
+        text.set_position(
+            formatter.center_x(layout, text),
+            formatter.center_y(layout, text),
+        )
+        renderer.draw(text)

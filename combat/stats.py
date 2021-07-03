@@ -37,8 +37,8 @@ class Stat:
     def add_modifier(self, modifier_id, modifier):
         self.modifiers[modifier_id] = StatModifier(modifier)
 
-    def remove_modifier(self, modifier_id):
-        del self.modifiers[modifier_id]
+    def remove_modifier(self, modifier_id):        
+        self.modifiers.pop(modifier_id, None)
 
     def get(self, stat_id):
         total = self.get_base(stat_id)

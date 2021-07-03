@@ -148,6 +148,10 @@ class SpriteFont(BaseSprite):
     def set_alpha(self, alpha):
         self.rasterize(alpha)
 
+    def set_color(self, color):
+        self.font.style.color = color
+        self.rasterize()
+
     def rasterize(self, alpha=1):
         style = self.font.style
         surface = pygame.Surface(self.rasterize_bounds(), pygame.SRCALPHA)

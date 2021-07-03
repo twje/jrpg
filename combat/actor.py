@@ -203,5 +203,11 @@ class Actor:
         renderer.draw(text_sprite)
 
     def can_use(self, item):
-        # fix
-        return True
+        if "restriction" not in item:
+            return True
+
+        for actor_id in item["restriction"]:
+            if actor_id == self.id:
+                return True
+        
+        return False
