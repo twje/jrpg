@@ -305,7 +305,7 @@ class EquipmentMenuState:
 
     def render_slot_menu(self, renderer):
         title_height = self.layout.layout("title").height
-        equip_x = self.layout.mid_x("top")
+        equip_x = self.layout.mid_x("top") - 30
         equip_y = self.layout.top("top") + title_height
         self.slot_menu.set_position(equip_x, equip_y)
         self.slot_menu.render(renderer)

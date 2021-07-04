@@ -178,7 +178,7 @@ class ItemMenuState:
             items_def = items_db[item.id]
             text = SpriteFont(items_def["description"], font=self.font)
             text.set_position(
-                formatter.left_justify(5, self.layout.layout("mid"), text),
+                formatter.center_x(self.layout.layout("mid"), text),
                 formatter.center_y(self.layout.layout("mid"), text),
             )
             renderer.draw(text)

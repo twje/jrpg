@@ -120,7 +120,7 @@ class StatusMenuState:
 
     def render_eqipment_menu(self, renderer):
         layout = self.layout.layout("bottom")
-        self.equip_menu.set_position(layout.x + 350, layout.y + 180)
+        self.equip_menu.set_position(layout.x + 295, layout.y + 105)
         self.equip_menu.render(renderer)
 
     def render_actor_stats(self, renderer):
@@ -171,7 +171,7 @@ class StatusMenuState:
                 renderer.draw(entry)
 
     def render_action(self, renderer):
-        self.actions.set_position(450, 180)
+        self.actions.set_position(400, 270)
         self.actions_panel.render(renderer)
         self.actions.render(renderer)
 
