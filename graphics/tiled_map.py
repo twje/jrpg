@@ -10,6 +10,7 @@ from core.graphics.texture_atlas import TextureAtlas
 from core import Context
 from trigger import Trigger
 from actions import action_registry
+from json_modifier import process_json
 import utils
 
 
@@ -21,7 +22,9 @@ def load_tiled_map_from_filesystem(map_filepath, map_seed_filepath=None):
     # seed map with entities
     if map_seed_filepath is not None:
         with open(map_seed_filepath) as fp:
-            map_def.update(json.load(fp))
+            data = json.load(fp)
+            process_json(data, data)
+            map_def.update(data)
 
     return TiledMap(map_def)
 
@@ -100,6 +103,10 @@ class TiledMap:
         trigger = self.trigger_types[trigger_type]
         triggers[self.coord_to_index(x, y)] = trigger
 
+    def add_full_trigger(self, trigger, x, y, layer):
+        triggers = self.triggers[layer]        
+        triggers[self.coord_to_index(x, y)] = trigger
+
     def on_wake(self):
         for action_def in self.map_def.get("on_wake", []):
             action = action_registry[action_def["id"]]
@@ -107,7 +114,7 @@ class TiledMap:
 
             # remove common params - check for defaults
             params, location = utils.extract_from_dict(
-                params, ["tile_x", "tile_y"], {"layer": 0}
+                params, [], {"layer": 0, "tile_x": None, "tile_y": None}
             )
             action(self, **params)(None, None, **location)
 

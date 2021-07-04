@@ -1,5 +1,22 @@
 {
     "debug": true,
+    "loot": {
+        "hero": [
+            {"id": 0},
+            {"id": 1},
+            {"id": 2}
+        ],
+        "mage": [
+            {"id": 4},
+            {"id": 5},
+            {"id": 6}
+        ],
+        "thief": [
+            {"id": 7},
+            {"id": 8},
+            {"id": 9}
+        ]
+    },
     "on_wake": [
         {
             "id": "AddNPC",
@@ -17,6 +34,33 @@
                 "npc_id": "thief",
                 "tile_x": 35,
                 "tile_y": 14
+            }
+        },
+        {
+            "id": "AddChest",
+            "params": {
+                "entity_id": "chest",
+                "loot": { "ref": "loot.hero" },
+                "chest_x": 27,
+                "chest_y": 14                
+            }
+        },
+        {
+            "id": "AddChest",
+            "params": {
+                "entity_id": "chest",
+                "loot": { "ref": "loot.mage" },
+                "chest_x": 20,
+                "chest_y": 14                
+            }
+        },
+        {
+            "id": "AddChest",
+            "params": {
+                "entity_id": "chest",
+                "loot": { "ref": "loot.thief" },
+                "chest_x": 34,
+                "chest_y": 14                
             }
         }
     ],

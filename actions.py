@@ -2,7 +2,11 @@ from scripts import script_registry
 from character import Character
 from model import PartyModel
 from core.context import Context
+from core.graphics import Font
+from item_db import items_db
 from combat import Actor
+from entity import Entity
+from trigger import Trigger
 import utils
 
 action_registry = {}
@@ -73,4 +77,50 @@ def add_party_member(actor_id):
         world = context.data["world"]
         actor_def = PartyModel()[actor_id]
         world.party.add(Actor(actor_def))
+    return action
+
+
+@register_action("AddChest")
+def add_chest(map, entity_id, loot, chest_x, chest_y, chest_layer=0):
+    def action(trigger, entity, layer, tile_x, tile_y):
+        context = Context.instance()        
+        entity_defs = context.data["entity_definitions"]        
+        entity_def = entity_defs.get_entity_def(entity_id)
+        chest = Entity(entity_def)
+        chest.set_tile_pos(chest_x, chest_y, chest_layer, map)
+
+        def on_open_chest(*args):    
+            stack = context.data["stack"]
+            world = context.data["world"]
+            info = context.info
+            if loot is None:                    
+                stack.push_fitted(
+                    info.screen_width/2,
+                    info.screen_height/2,
+                    Font(),
+                    "The chest is empty!",
+                    wrap=400,
+                )
+            else:
+                world.add_loot(loot)
+                for item in loot:
+                    count = item.get("count", 1)
+                    name = items_db[item["id"]]["name"]
+                    message = f"Got {name}"
+                    if count > 1:
+                        message += f" x{count}"
+                    stack.push_fitted(
+                        info.screen_width/2,
+                        info.screen_height/2,
+                        Font(),
+                        message,
+                        wrap=400,
+                    )
+
+            map.remove_trigger(chest.tile_x, chest.tile_y, chest.layer)
+            chest.set_frame(entity_def["open_frame"])
+
+        trigger = Trigger({ "on_use": on_open_chest })
+        map.add_full_trigger(trigger, chest.tile_x, chest.tile_y, chest.layer)
+
     return action

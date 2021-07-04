@@ -205,6 +205,10 @@ manifest =
         {
             path = "code/StatusMenuState.lua"
         },
+        ['EquipMenuState.lua'] =
+        {
+            path = "code/EquipMenuState.lua"
+        },
     },
     textures =
     {
@@ -283,6 +287,10 @@ manifest =
         ['mpforeground.png'] =
         {
             path = "art/mpforeground.png",
+        },
+        ['chest.png'] =
+        {
+            path = "art/chest.png",
         },
     },
     ['fonts'] =

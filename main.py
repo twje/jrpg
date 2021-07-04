@@ -1,4 +1,4 @@
-# 498 - The Equipment Menu State Constructor
+# 528 - Combat Flow
 from pipeline.util import convert_lua_to_json
 
 from core import dirs
@@ -88,6 +88,15 @@ class JRPG(Application):
 
         #diff = hero.predict_stats("weapon", world_staff)
         #print(diff)
+
+        # from actions import add_chest        
+        # loot = [
+        #     {"id": 1, "count": 1},
+        #     {"id": 2, "count": 1},
+        #     {"id": 3, "count": 1}            
+        # ]
+        # addChestAction = add_chest(state.map, "chest", loot, 27, 14, 0)
+        # addChestAction(None, None, None, None, None)
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath

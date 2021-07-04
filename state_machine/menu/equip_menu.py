@@ -43,8 +43,9 @@ class EquipmentMenuState:
             self.input_namespace
         )
         self.input_processor.bind_callback("nav_move_up", self.move_cursor_up)
-        self.input_processor.bind_callback("nav_move_down", self.move_cursor_down)
-        self.input_processor.bind_callback("on_use", self.select_option)        
+        self.input_processor.bind_callback(
+            "nav_move_down", self.move_cursor_down)
+        self.input_processor.bind_callback("on_use", self.select_option)
 
         # layout 1
         self.layout = Layout()
@@ -131,7 +132,7 @@ class EquipmentMenuState:
             })
             self.filter_menus.append(menu)
 
-    def enter(self, data):        
+    def enter(self, data):
         self.input_manager.add_label(self.input_namespace)
         self.input_manager.clear()
         self.actor = data["actor"]
@@ -155,11 +156,11 @@ class EquipmentMenuState:
     def exit(self):
         self.input_manager.remove_label(self.input_namespace)
 
-    def update(self, dt):        
+    def update(self, dt):
         if not self.input_processor.is_active():
             return
         self.input_processor.process()
-        self.update_scrollbar()                
+        self.update_scrollbar()
 
     def update_input(self, event):
         if self.in_list:
@@ -181,7 +182,7 @@ class EquipmentMenuState:
         else:
             self.handle_slot_menu_input(event)
 
-    def select_option(self):        
+    def select_option(self):
         event = EventAdapter(pygame.KEYDOWN, pygame.K_SPACE)
         if self.in_list:
             self.handle_filter_list_input(event)
@@ -228,7 +229,7 @@ class EquipmentMenuState:
 
     def handle_filter_list_input(self, event):
         menu = self.filter_menus[self.menu_index]
-        menu.handle_input(event)        
+        menu.handle_input(event)
 
     def handle_slot_menu_input(self, event):
         prev_equip_index = self.slot_menu.get_index()
@@ -342,18 +343,24 @@ class EquipmentMenuState:
         layout = self.layout.layout("stats")
         current = self.actor.stats.get(stat)
         changed = current + diff
-        label = SpriteFont(f"{label}:", font)
-        value = SpriteFont(str(changed), font)        
-        entries = [label, value]
-        
+
+        entries = [
+            SpriteFont(f"{label}:", font),
+            SpriteFont(str(current), font),
+        ]
+
         if diff > 0:            
-            for entry in entries:
-                entry.set_color((0, 255, 0))
-            entries.append(self.better_sprite)
+            entries.extend(self.add_stat_arrow(
+                SpriteFont(str(changed), font),
+                self.better_sprite,
+                (0, 255, 0),
+            ))
         elif diff < 0:
-            for entry in entries:
-                entry.set_color((255, 0, 0))
-            entries.append(self.worse_sprite)
+            entries.extend(self.add_stat_arrow(
+                SpriteFont(str(changed), font),
+                self.worse_sprite,
+                (0, 255, 0),
+            ))     
         else:
             for entry in entries:
                 entry.set_color((255, 255, 255))
@@ -362,11 +369,15 @@ class EquipmentMenuState:
             entry.y = y
             formatter.in_place_multi_hort(
                 start=layout.x,
-                margin=5, 
-                seperators=[100, 50, 0],
+                margin=5,
+                seperators=[100, 70, 20, 0],
                 drawables=entries
             )
-            renderer.draw(entry)    
+            renderer.draw(entry)
+
+    def add_stat_arrow(self, stat, arrow, color):
+        stat.set_color(color)        
+        return [stat, arrow]
 
     def render_description(self, renderer):
         item_id = self.get_selected_item()

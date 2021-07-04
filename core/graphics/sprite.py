@@ -15,6 +15,9 @@ class BaseSprite(IRenderable):
         self.hotspot_x = 0
         self.hotspot_y = 0
 
+    def set_color(self, color):
+        self.texture.set_color(color)
+
     def set_alpha(self, alpha):
         self.texture.set_alpha(int(255 * alpha))
 

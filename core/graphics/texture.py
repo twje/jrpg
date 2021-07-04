@@ -33,6 +33,14 @@ class Texture:
     def original_height(self):
         return self.original_image.get_size()[1]
 
+    def set_color(self, color):
+        # doesn't work??
+        self.original_image.fill((0, 0, 0, 255), None, pygame.BLEND_RGBA_MULT)
+        self.original_image.fill(color, None, pygame.BLEND_RGBA_ADD)
+        if self.original_image != self.image:
+            self.image.fill((0, 0, 0, 255), None, pygame.BLEND_RGBA_MULT)
+            self.image.fill(color, None, pygame.BLEND_RGBA_ADD)
+
     def set_alpha(self, alpha):        
         self.original_image.set_alpha(alpha)
         if self.original_image != self.image:

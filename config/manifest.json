@@ -39,6 +39,9 @@
             "EntityDefs.lua": {
                 "path": "code/EntityDefs.lua"
             },
+            "EquipMenuState.lua": {
+                "path": "code/EquipMenuState.lua"
+            },
             "ExploreState.lua": {
                 "path": "code/ExploreState.lua"
             },
@@ -159,6 +162,9 @@
         },
         "sounds": {},
         "textures": {
+            "chest.png": {
+                "path": "art/chest.png"
+            },
             "combat_hero.png": {
                 "path": "art/combat_hero.png"
             },

@@ -77,6 +77,10 @@ class World:
                 self.key_items.remove(item)
         assert(False)  # never reach
 
+    def add_loot(self, loot):
+        for item in loot:
+            self.add_item(item["id"], item.get("count", 1))
+
     # ----------------
     # Callback Methods
     # ----------------
@@ -128,17 +132,17 @@ class World:
             font,
             scale,
             text,
-            text_offset,
+            x + text_offset,
             y
         )
-        self.render_count(renderer, font, count, text_offset, y)
+        self.render_count(renderer, font, count, x + text_offset, y)
 
     def render_icon(self, renderer, icon, scale, x, y):
         text_offset = 0
         if icon:
             icon.scale_by_ratio(scale, scale)
             icon.set_position(x, y)
-            text_offset = x + icon.width + 5
+            text_offset += icon.width + 5
             renderer.draw(icon)
 
         return text_offset
@@ -148,9 +152,9 @@ class World:
         sprite.set_position(x, y)
         sprite.scale_by_ratio(scale, scale)
         renderer.draw(sprite)
-        return x + sprite.width + 5
+        return x + sprite.width
 
-    def render_count(self, renderer, font, count, x, y):        
+    def render_count(self, renderer, font, count, x, y):
         sprite = SpriteFont(f"x{count}", font=font)
         sprite.set_position(x, y)
         renderer.draw(sprite)
