@@ -8,6 +8,7 @@ from core.graphics import SpriteFont
 from item_db import items_db
 from .stats import Stat
 from core.graphics import Sprite
+from core.graphics import formatter
 import utils
 
 
@@ -187,9 +188,8 @@ class Actor:
     def render_equipment(self, renderer, font, scale, x, y, index):
         x = x
         label = self.EQUIP_SLOT_LABELS[index]
-        lable_sprite = SpriteFont(label)
-        lable_sprite.set_position(x, y)
-        renderer.draw(lable_sprite)
+        lable_sprite = SpriteFont(label)        
+        entries = [lable_sprite]        
 
         slot_id = self.EQUIP_SLOT_ID[index]
         text = "none"
@@ -199,8 +199,16 @@ class Actor:
             text = item["name"]
 
         text_sprite = SpriteFont(text)
-        text_sprite.set_position(x + lable_sprite.width + 5, y)
-        renderer.draw(text_sprite)
+        entries.append(text_sprite)
+        for entry in entries:
+            entry.y = y
+            formatter.in_place_multi_hort(
+                start=x,
+                margin=5, 
+                seperators=[120, 0],
+                drawables=entries
+            )
+            renderer.draw(entry)            
 
     def can_use(self, item):
         if "restriction" not in item:

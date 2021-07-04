@@ -1,3 +1,4 @@
+from core.graphics.sprite_font import Font, FontStyle
 from . import register_state
 from core import Context
 from graphics.menu import Layout
@@ -128,19 +129,23 @@ class StatusMenuState:
         for index, stat in enumerate(Actor.ACTOR_STATS):
             label = Actor.ACTOR_STAT_LABELS[index]
             value = stats.get(stat)
-
-            text = SpriteFont(f"{label}: {value}")
-            text.set_position(
-                80,
-                formatter.vert_stack(
+            entries = [SpriteFont(f"{label}:"), SpriteFont(str(value))]
+            for entry in entries:
+                entry.y =  formatter.vert_stack(
                     index,
                     100,
                     5,
                     layout,
-                    text
+                    entry
                 )
-            )
-            renderer.draw(text)
+                formatter.in_place_multi_hort(
+                    start=80,
+                    margin=0, 
+                    seperators=[140, 0],
+                    drawables=entries
+                )
+                renderer.draw(entry)
+
 
     def render_item_stats(self, renderer):
         layout = self.layout.layout("bottom")
@@ -148,19 +153,22 @@ class StatusMenuState:
         for index, stat in enumerate(Actor.ITEM_STATS):
             label = Actor.ITEM_STAT_LABELS[index]
             value = stats.get(stat)
-
-            text = SpriteFont(f"{label}: {value}")
-            text.set_position(
-                80,
-                formatter.vert_stack(
+            entries = [SpriteFont(f"{label}:"), SpriteFont(str(value))]
+            for entry in entries:
+                entry.y =  formatter.vert_stack(
                     index,
                     190,
                     5,
                     layout,
-                    text
+                    entry
                 )
-            )
-            renderer.draw(text)
+                formatter.in_place_multi_hort(
+                    start=80,
+                    margin=0, 
+                    seperators=[140, 0],
+                    drawables=entries
+                )
+                renderer.draw(entry)
 
     def render_action(self, renderer):
         self.actions.set_position(450, 180)

@@ -51,6 +51,14 @@ class FontStyle:
         return font
 
     @classmethod
+    def extra_small(cls):
+        return cls(
+            font_loader=TTFFont(),
+            size=12,
+            antialias=True,            
+        )
+
+    @classmethod
     def small(cls):
         return cls(
             font_loader=TTFFont(),

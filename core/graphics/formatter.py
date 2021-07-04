@@ -87,3 +87,12 @@ def in_place_positon(ratio_x, ratio_y, drawable_0, drawable_1):
     y = place_ratio_y(ratio_y, drawable_0, drawable_1)
     drawable_1.x = x
     drawable_1.y = y
+
+
+def in_place_multi_hort(start, margin, seperators, drawables):
+    start = start + margin
+    
+    running_offset = 0
+    for item, seperator in zip(drawables, seperators):
+        item.x = start + running_offset
+        running_offset += max(seperator, item.width)

@@ -51,7 +51,7 @@ class ActorSummary:
                 "foreground": Sprite.load_from_filesystem(
                     utils.lookup_texture_filepath("xpforeground.png")
                 ),
-            })
+            })            
 
     @property
     def height(self):

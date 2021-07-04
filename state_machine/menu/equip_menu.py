@@ -305,8 +305,8 @@ class EquipmentMenuState:
 
     def render_slot_menu(self, renderer):
         title_height = self.layout.layout("title").height
-        equip_x = self.layout.mid_x("top") + 20
-        equip_y = self.layout.top("top") + title_height + 10
+        equip_x = self.layout.mid_x("top")
+        equip_y = self.layout.top("top") + title_height
         self.slot_menu.set_position(equip_x, equip_y)
         self.slot_menu.render(renderer)
 
@@ -342,26 +342,31 @@ class EquipmentMenuState:
         layout = self.layout.layout("stats")
         current = self.actor.stats.get(stat)
         changed = current + diff
-        text = SpriteFont(self.stage_label(label, changed), font)
-        text.set_position(x, y)
-
-        # render arrows
-        if diff > 0:
-            self.better_sprite.set_position(
-                formatter.right_justify(80, layout, self.better_sprite),
-                y
-            )
-            renderer.draw(self.better_sprite)
-            text.set_color((0, 255, 0))
+        label = SpriteFont(f"{label}:", font)
+        value = SpriteFont(str(changed), font)        
+        entries = [label, value]
+        
+        if diff > 0:            
+            for entry in entries:
+                entry.set_color((0, 255, 0))
+            entries.append(self.better_sprite)
         elif diff < 0:
-            text.set_color((255, 0, 0))
+            for entry in entries:
+                entry.set_color((255, 0, 0))
+            entries.append(self.worse_sprite)
         else:
-            text.set_color((255, 255, 255))
+            for entry in entries:
+                entry.set_color((255, 255, 255))
 
-        renderer.draw(text)
-
-    def stage_label(self, label, value):
-        return "{}: {:>3}".format(label, value)
+        for entry in entries:
+            entry.y = y
+            formatter.in_place_multi_hort(
+                start=layout.x,
+                margin=5, 
+                seperators=[100, 50, 0],
+                drawables=entries
+            )
+            renderer.draw(entry)    
 
     def render_description(self, renderer):
         item_id = self.get_selected_item()

@@ -13,6 +13,10 @@ class ProgressBar:
     # ---
     # API
     # ---
+    def scale(self, value):
+        self.foreground.scale_by_ratio(value, 1)
+        self.background.scale_by_ratio(value, 1)
+
     def set_value(self, value, maximum=None):
         if maximum:
             self.maximum = maximum
