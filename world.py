@@ -92,7 +92,8 @@ class World:
                 x,
                 y,
                 items_def["name"],
-                self.lookup_icon(items_def)
+                self.lookup_icon(items_def),
+                item.count,
             )
 
     def render_key_item(self, renderer, font, scale, x, y, item):
@@ -107,13 +108,14 @@ class World:
                 x,
                 y,
                 items_def["name"],
-                self.lookup_icon(items_def)
+                self.lookup_icon(items_def),
+                item.count,
             )
 
     # --------------
     # Helper Methods
     # --------------
-    def render_item_slot(self, renderer, font, scale, x, y, text, icon):
+    def render_item_slot(self, renderer, font, scale, x, y, text, icon, count):
         text_offset = self.render_icon(
             renderer,
             icon,
@@ -121,30 +123,37 @@ class World:
             x,
             y
         )
-        self.render_text(
+        text_offset = self.render_text(
             renderer,
             font,
             scale,
             text,
-            x + text_offset,
+            text_offset,
             y
         )
-
-    def render_text(self, renderer, font, scale, text, x, y):
-        sprite = SpriteFont(text, font=font)
-        sprite.set_position(x, y)
-        sprite.scale_by_ratio(scale, scale)
-        renderer.draw(sprite)
+        self.render_count(renderer, font, count, text_offset, y)
 
     def render_icon(self, renderer, icon, scale, x, y):
         text_offset = 0
         if icon:
             icon.scale_by_ratio(scale, scale)
             icon.set_position(x, y)
-            text_offset += icon.width + 5
+            text_offset = x + icon.width + 5
             renderer.draw(icon)
 
         return text_offset
+
+    def render_text(self, renderer, font, scale, text, x, y):
+        sprite = SpriteFont(text, font=font)
+        sprite.set_position(x, y)
+        sprite.scale_by_ratio(scale, scale)
+        renderer.draw(sprite)
+        return x + sprite.width + 5
+
+    def render_count(self, renderer, font, count, x, y):        
+        sprite = SpriteFont(f"x{count}", font=font)
+        sprite.set_position(x, y)
+        renderer.draw(sprite)
 
     def lookup_icon(self, items_def):
         return self.icons.try_get(items_def["type"])
