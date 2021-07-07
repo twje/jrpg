@@ -1,8 +1,8 @@
 from .dice import Dice
 from .stats import StatID
-from .actor import Actor
+#from .actor import Actor
 
-
+"""
 stats = {
     StatID.HP_NOW: 300,
     StatID.HP_MAX: 300,
@@ -74,3 +74,35 @@ def apply_xp(actor, xp):
 
 hero = Actor(hero_def)
 apply_xp(hero, 10001)
+"""
+
+from combat.combat_scene import CombatScene
+
+from dataclasses import dataclass
+
+@dataclass
+class TestActor:
+    name: str
+    speed: int
+    attack: int
+    HP: int
+    _is_player: bool
+
+    def is_player(self):
+        return self._is_player
+
+    def is_koed(self):
+        return self.HP <= 0
+
+    def ko(self):
+        self.HP = 0
+    
+print("--start--")
+
+party = [TestActor("hero", 3, 2, 5, True)]
+enemies = [TestActor("goblin", 2, 2, 5, False)]
+scene = CombatScene(party, enemies)
+
+turns = 36
+for _ in range(turns):
+    scene.update()

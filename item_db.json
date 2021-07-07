@@ -23,6 +23,19 @@
         }
     },
     {
+        "name": "Bone Armor",
+        "type": "armor",
+        "icon": "plate",
+        "restriction": ["hero"],
+        "description": "Armor made from plates of blackened bone.",        
+        "stats": {
+            "add": {
+                "defense": 5,
+                "resist": 1
+            }
+        }
+    },
+    {
         "name": "Ring of Titan",
         "type": "accessory",        
         "description": "Grants the strength of the Titan.",        

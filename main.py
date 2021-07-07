@@ -1,4 +1,6 @@
-# 528 - Combat Flow
+# 548 - Getting Ready for Combat
+# item_db - str v.s. strnegth fix
+# item layout
 from pipeline.util import convert_lua_to_json
 
 from core import dirs
