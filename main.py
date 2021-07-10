@@ -93,7 +93,7 @@ class JRPG(Application):
             "actors": {
                 "party": self.world.party.to_list(),
                 "enemy": [
-                    Actor(model["hero"])
+                    Actor(enemy_defs["goblin"])
                 ]
             }
         }

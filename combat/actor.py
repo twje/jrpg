@@ -66,7 +66,7 @@ class Actor:
         self.name = party_model["name"]
         self.id = party_model["id"]
         self.stats = Stat(party_model["stats"])
-        self.stat_growth = party_model["stat_growth"]
+        self.stat_growth = party_model.get("stat_growth")
         self.actions = party_model["actions"]
         self.xp = 0
         self.level = 1

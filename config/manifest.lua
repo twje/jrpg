@@ -213,6 +213,30 @@ manifest =
         {
             path = "code/CombatState.lua"
         },
+        ['EnemyDefs.lua'] =
+        {
+            path = "code/EnemyDefs.lua"
+        },
+        ['CSRunAnim.lua'] =
+        {
+            path = "code/combat_states/CSRunAnim.lua"
+        },
+        ['CSHurt.lua'] =
+        {
+            path = "code/combat_states/CSHurt.lua"
+        },
+        ['CSMove.lua'] =
+        {
+            path = "code/combat_states/CSMove.lua"
+        },
+        ['CSStandby.lua'] =
+        {
+            path = "code/combat_states/CSStandby.lua"
+        },
+        ['Animation.lua'] =
+        {
+            path = "code/Animation.lua"
+        },
     },
     textures =
     {
@@ -231,6 +255,10 @@ manifest =
         ['combat_mage.png'] =
         {
             path = "art/combat_mage.png",
+        },
+        ['goblin.png'] =
+        {
+            path = "art/goblin.png",
         },
         ['cursor.png'] =
         {

@@ -18,6 +18,18 @@
             "Animation.lua": {
                 "path": "code/Animation.lua"
             },
+            "CSHurt.lua": {
+                "path": "code/combat_states/CSHurt.lua"
+            },
+            "CSMove.lua": {
+                "path": "code/combat_states/CSMove.lua"
+            },
+            "CSRunAnim.lua": {
+                "path": "code/combat_states/CSRunAnim.lua"
+            },
+            "CSStandby.lua": {
+                "path": "code/combat_states/CSStandby.lua"
+            },
             "CaptionState.lua": {
                 "path": "code/CaptionState.lua"
             },
@@ -35,6 +47,9 @@
             },
             "Dice.lua": {
                 "path": "code/Dice.lua"
+            },
+            "EnemyDefs.lua": {
+                "path": "code/EnemyDefs.lua"
             },
             "Entity.lua": {
                 "path": "code/Entity.lua"
@@ -185,6 +200,9 @@
             },
             "cursor.png": {
                 "path": "art/cursor.png"
+            },
+            "goblin.png": {
+                "path": "art/goblin.png"
             },
             "gradient_panel.png": {
                 "path": "art/gradient_panel.png"

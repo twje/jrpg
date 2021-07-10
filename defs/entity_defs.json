@@ -191,7 +191,7 @@
         "goblin": {
             "entity": "goblin",
             "controller":  ["npc_stand"],
-            "state": "cs_standby"
+            "state": "npc_stand"
         }
     }
 }

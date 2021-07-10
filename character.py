@@ -18,14 +18,16 @@ class Character:
         self.id = None
         self.map_ref = MapRef(map)
         self.entity = type(self).create_entity(character_def)
-        self.actor_id = character_def["actor_id"]
-        self.facing = character_def["facing"]
-        self.anim = Anim(
-            character_def["anims"].get("anim_up"),
-            character_def["anims"].get("anim_right"),
-            character_def["anims"].get("anim_down"),
-            character_def["anims"].get("anim_left")
-        )
+        self.actor_id = character_def.get("actor_id")
+        self.facing = character_def.get("facing")
+        self.anim = Anim([], [], [], [])
+        if "anims" in character_def:
+            self.anim = Anim(
+                character_def["anims"].get("anim_up"),
+                character_def["anims"].get("anim_right"),
+                character_def["anims"].get("anim_down"),
+                character_def["anims"].get("anim_left")
+            )
         self.path = None
         self.path_index = -1
         self.talk_index = 0
