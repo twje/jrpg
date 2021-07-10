@@ -9,9 +9,13 @@ def load_manifest():
 
 
 def load_entity_definition():
-    with open("entity_defs.json", "r") as fp:
+    with open("defs/entity_defs.json", "r") as fp:
         return EntityDefs(json.load(fp))
 
+
+def load_enemy_definition():
+    with open("defs/enemy_defs.json", "r") as fp:
+        return json.load(fp)
 
 def load_application_settings():
     with open("config/settings.json", "r") as fp:

@@ -1,6 +1,7 @@
 # 548 - Getting Ready for Combat
 # item_db - str v.s. strnegth fix
 # item layout
+# move defs to def directory
 from pipeline.util import convert_lua_to_json
 
 from core import dirs
@@ -78,6 +79,9 @@ class JRPG(Application):
 
         from state_stack.combat import CombatState
 
+        enemy_defs = self.context.data["enemy_definitions"]
+        
+
         # TEST
         model = PartyModel()      
         self.world.party.add(Actor(model["hero"]))
@@ -88,7 +92,9 @@ class JRPG(Application):
             "background": "arena_background.png",
             "actors": {
                 "party": self.world.party.to_list(),
-                "enemy": []
+                "enemy": [
+                    Actor(model["hero"])
+                ]
             }
         }
 
@@ -102,6 +108,11 @@ class JRPG(Application):
         self.store_in_context(
             "entity_definitions",
             factory.load_entity_definition()
+        )
+
+        self.store_in_context(
+            "enemy_definitions",
+            factory.load_enemy_definition()
         )
 
         self.manifest = self.store_in_context(

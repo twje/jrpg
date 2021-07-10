@@ -1,7 +1,7 @@
 import json
 
 
-with open("item_db.json", "r") as fp:
+with open("defs/item_db.json", "r") as fp:
     data = json.load(fp)
     empty_item = data[0]
     items_db = data[1:]

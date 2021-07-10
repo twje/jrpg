@@ -11,6 +11,8 @@
                 "spd": 8,
                 "int": 8
             }
-        }
+        },
+        "name": "Arena Goblin",
+        "actions": ["attack"]
     }
 }
