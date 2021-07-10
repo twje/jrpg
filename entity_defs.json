@@ -60,11 +60,29 @@
             "tile_x": 0,
             "tile_y": 0,
             "layer": 0
+        },
+        "combat_hero": {
+            "texture": "combat_hero.png",
+            "width": 64,
+            "height": 64,
+            "start_frame": 36
+        },
+        "combat_thief": {
+            "texture": "combat_thief.png",
+            "width": 64,
+            "height": 64,
+            "start_frame": 36
+        },
+        "combat_mage": {
+            "texture": "combat_mage.png",
+            "width": 64,
+            "height": 64,
+            "start_frame": 36
         }
     },
     "characters": {
         "prisoner": {
-            "entity": "prisoner",
+            "entity": "prisoner",            
             "anims": {
                 "anim_up": [48, 49, 51, 52],
                 "anim_right": [52, 53, 54, 55],
@@ -99,6 +117,7 @@
         "hero": {
             "actor_id": "hero",
             "entity": "hero",
+            "combat_entity": "combat_hero",
             "anims": {
                 "anim_up": [0, 1, 2, 3],
                 "anim_right": [4, 5, 6, 7],
@@ -115,6 +134,7 @@
         "thief": {
             "actor_id": "thief",
             "entity": "thief",
+            "combat_entity": "combat_thief",
             "anims": {
                 "anim_up": [32, 33, 34, 35],
                 "anim_right": [36, 37, 38, 39],
@@ -130,6 +150,7 @@
         "mage": {
             "actor_id": "mage",
             "entity": "mage",
+            "combat_entity": "combat_mage",
             "anims": {
                 "anim_up": [16, 17, 18, 19],
                 "anim_right": [20, 21, 22, 23],

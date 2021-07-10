@@ -106,3 +106,4 @@ scene = CombatScene(party, enemies)
 turns = 36
 for _ in range(turns):
     scene.update()
+

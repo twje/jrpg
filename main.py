@@ -74,31 +74,26 @@ class JRPG(Application):
             30,
             18,
             0,
-        )
-        self.stack.push(state)
+        )                
+
+        from state_stack.combat import CombatState
 
         # TEST
-        model = PartyModel()
-        hero = Actor(model["hero"])
+        model = PartyModel()      
+        self.world.party.add(Actor(model["hero"]))
+        self.world.party.add(Actor(model["mage"]))
+        self.world.party.add(Actor(model["thief"]))
 
-        bone_blade = items_db[0]
-        world_staff = items_db[3]
+        combat_def = {
+            "background": "arena_background.png",
+            "actors": {
+                "party": self.world.party.to_list(),
+                "enemy": []
+            }
+        }
 
-        self.world.add_item(bone_blade["id"])
-        #hero.equip("weapon", self.world.items[0])
-        self.world.party.add(hero)
-
-        #diff = hero.predict_stats("weapon", world_staff)
-        #print(diff)
-
-        # from actions import add_chest        
-        # loot = [
-        #     {"id": 1, "count": 1},
-        #     {"id": 2, "count": 1},
-        #     {"id": 3, "count": 1}            
-        # ]
-        # addChestAction = add_chest(state.map, "chest", loot, 27, 14, 0)
-        # addChestAction(None, None, None, None, None)
+        self.stack.push(state)
+        self.stack.push(CombatState(self.stack, combat_def))
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath

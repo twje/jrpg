@@ -27,6 +27,9 @@
             "Character.lua": {
                 "path": "code/Character.lua"
             },
+            "CombatState.lua": {
+                "path": "code/CombatState.lua"
+            },
             "Dependencies.lua": {
                 "path": "code/Dependencies.lua"
             },
@@ -162,6 +165,9 @@
         },
         "sounds": {},
         "textures": {
+            "arena_background.png": {
+                "path": "art/arena_background.png"
+            },
             "chest.png": {
                 "path": "art/chest.png"
             },

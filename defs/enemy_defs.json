@@ -1,0 +1,16 @@
+{
+    "goblin": {
+        "id": "goblin",
+        "stats": {
+            "stats": {
+                "hp_now": 87,
+                "hp_max": 87,
+                "mp_now": 0,
+                "mp_max": 0,
+                "str": 8,
+                "spd": 8,
+                "int": 8
+            }
+        }
+    }
+}

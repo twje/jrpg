@@ -209,6 +209,10 @@ manifest =
         {
             path = "code/EquipMenuState.lua"
         },
+        ['CombatState.lua'] =
+        {
+            path = "code/CombatState.lua"
+        },
     },
     textures =
     {
@@ -287,6 +291,10 @@ manifest =
         ['mpforeground.png'] =
         {
             path = "art/mpforeground.png",
+        },
+        ['arena_background.png'] =
+        {
+            path = "art/arena_background.png",
         },
         ['chest.png'] =
         {

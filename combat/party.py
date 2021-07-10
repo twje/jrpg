@@ -15,3 +15,6 @@ class Party:
 
     def remove(self, actor):
         del self.members[actor.id]
+
+    def to_list(self):
+        return list(self.members.values())
