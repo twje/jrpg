@@ -1,6 +1,8 @@
-from combat.ce_attack import CEAttack
+from combat.event.ce_attack import CEAttack
+from . import register_state
 
 
+@register_state("ce_turn")
 class CETurn:
     def __init__(self, scene, owner):
         self.scene = scene

@@ -142,7 +142,11 @@
             "facing": "down",
             "controller": [
                 "wait", 
-                "move"
+                "move",
+                "cs_run_anim",
+                "cs_hurt",
+                "cs_move",
+                "cs_standby"
             ],
             "state": "wait"
         },  
@@ -167,7 +171,11 @@
             },
             "facing": "down",
             "controller": [
-                "npc_stand"
+                "npc_stand",
+                "cs_run_anim",
+                "cs_hurt",
+                "cs_move",
+                "cs_standby"
             ],
             "state": "npc_stand"
         },            
@@ -192,7 +200,11 @@
             },
             "facing": "down",
             "controller": [
-                "npc_stand"
+                "npc_stand",
+                "cs_run_anim",
+                "cs_hurt",
+                "cs_move",
+                "cs_standby"
             ],
             "state": "npc_stand"
         },
@@ -217,7 +229,11 @@
         },
         "goblin": {
             "entity": "goblin",
-            "controller":  ["npc_stand"],
+            "controller":  [
+                "cs_run_anim",
+                "cs_hurt",
+                "cs_standby"
+            ],
             "state": "npc_stand"
         }
     }

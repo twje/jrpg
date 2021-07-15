@@ -1,3 +1,7 @@
+from . import register_state
+
+
+@register_state("ce_attack")
 class CEAttack:
     def __init__(self, scene, owner, target):
         self.scene = scene
