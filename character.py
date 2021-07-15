@@ -4,8 +4,6 @@ from entity import Entity
 from state_machine import StateMachine
 from state_machine import state_registry
 
-Anim = namedtuple("Anim", "up right down left")
-
 
 # switch out maps for storyboard replace_scene
 class MapRef:
@@ -20,14 +18,7 @@ class Character:
         self.entity = type(self).create_entity(character_def)
         self.actor_id = character_def.get("actor_id")
         self.facing = character_def.get("facing")
-        self.anim = Anim([], [], [], [])
-        if "anims" in character_def:
-            self.anim = Anim(
-                character_def["anims"].get("anim_up"),
-                character_def["anims"].get("anim_right"),
-                character_def["anims"].get("anim_down"),
-                character_def["anims"].get("anim_left")
-            )
+        self.anims = character_def.get("anims", {})
         self.path = None
         self.path_index = -1
         self.talk_index = 0
@@ -79,6 +70,12 @@ class Character:
 
     def reset_default_state(self):
         self.default_state = self.prv_default_state
+
+    def get_combat_anim(self, id):
+        if id in self.anims:
+            return self.anims[id]
+        else:
+            return self.entity.start_frame
 
     @classmethod
     def create_from_id(cls, chracter_id, map):

@@ -23,16 +23,16 @@ class MoveState:
 
         # update animation
         if x == -1:
-            frames = self.character.anim.left
+            frames = self.character.anims["left"]
             self.character.facing = "left"
         elif x == 1:
-            frames = self.character.anim.right
+            frames = self.character.anims["right"]
             self.character.facing = "right"
         elif y == -1:
-            frames = self.character.anim.up
+            frames = self.character.anims["up"]
             self.character.facing = "up"
         elif y == 1:
-            frames = self.character.anim.down
+            frames = self.character.anims["down"]
             self.character.facing = "down"
 
         self.anim.set_frames(frames)

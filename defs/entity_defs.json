@@ -90,10 +90,10 @@
         "prisoner": {
             "entity": "prisoner",            
             "anims": {
-                "anim_up": [48, 49, 51, 52],
-                "anim_right": [52, 53, 54, 55],
-                "anim_down": [56, 57, 58, 59],
-                "anim_left": [60, 61, 62, 63]
+                "up": [48, 49, 51, 52],
+                "right": [52, 53, 54, 55],
+                "down": [56, 57, 58, 59],
+                "left": [60, 61, 62, 63]               
             },
             "facing": "down",
             "controller":  ["npc_stand", "follow_path", "move"],
@@ -102,10 +102,10 @@
         "guard": {
             "entity": "guard",
             "anims": {
-                "anim_up": [80, 81, 82, 83],
-                "anim_right": [84, 85, 86, 87],
-                "anim_down": [88, 89, 90, 91],
-                "anim_left": [92, 93, 94, 95]
+                "up": [80, 81, 82, 83],
+                "right": [84, 85, 86, 87],
+                "down": [88, 89, 90, 91],
+                "left": [92, 93, 94, 95]
             },
             "facing": "up",
             "controller":  ["npc_stand", "follow_path", "move"],
@@ -114,7 +114,7 @@
         "sleeper": {
             "entity": "hero",
             "anims": {
-                "anim_left": [12]
+                "left": [12]
             },
             "facing": "left",
             "controller":  ["sleep"],
@@ -125,10 +125,19 @@
             "entity": "hero",
             "combat_entity": "combat_hero",
             "anims": {
-                "anim_up": [0, 1, 2, 3],
-                "anim_right": [4, 5, 6, 7],
-                "anim_down": [8, 9, 10, 11],
-                "anim_left": [12, 13, 14, 15]
+                "up": [0, 1, 2, 3],
+                "right": [4, 5, 6, 7],
+                "down": [8, 9, 10, 11],
+                "left": [12, 13, 14, 15],
+                "prone": [18, 19],
+                "attack": [4, 3, 2, 1, 0],
+                "use": [45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56],
+                "hurt": [20, 21, 22, 23],
+                "standby": [35, 36, 37, 38],
+                "advance": [35, 36, 37, 38],
+                "retreat": [60, 61, 62, 63],
+                "death": [25, 26, 27, 28],
+                "vectory": [5, 6, 7, 8]
             },
             "facing": "down",
             "controller": [
@@ -142,10 +151,19 @@
             "entity": "thief",
             "combat_entity": "combat_thief",
             "anims": {
-                "anim_up": [32, 33, 34, 35],
-                "anim_right": [36, 37, 38, 39],
-                "anim_down": [40, 41, 42, 43],
-                "anim_left": [44, 45, 46, 47]
+                "up": [32, 33, 34, 35],
+                "right": [36, 37, 38, 39],
+                "down": [40, 41, 42, 43],
+                "left": [44, 45, 46, 47],
+                "prone": [8, 9],
+                "attack": [0, 1, 2, 3, 4, 5, 6, 7],
+                "use": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+                "hurt": [20, 21, 22, 23, 24, 32, 33],
+                "standby": [35, 36, 37, 38],
+                "advance": [35, 36, 37, 38],
+                "retreat": [60, 61, 62, 63],
+                "death": [25, 26, 27, 28, 29, 30, 31],
+                "vectory": [55, 56, 57, 58, 59, 39]
             },
             "facing": "down",
             "controller": [
@@ -158,10 +176,19 @@
             "entity": "mage",
             "combat_entity": "combat_mage",
             "anims": {
-                "anim_up": [16, 17, 18, 19],
-                "anim_right": [20, 21, 22, 23],
-                "anim_down": [24, 25, 26, 27],
-                "anim_left": [28, 29, 30, 31]
+                "up": [16, 17, 18, 19],
+                "right": [20, 21, 22, 23],
+                "down": [24, 25, 26, 27],
+                "left": [28, 29, 30, 31],
+                "prone": [50, 51],
+                "attack": [0, 1, 2, 3, 4, 5, 6],
+                "use": [40, 41, 42, 43, 44, 45, 46, 47],
+                "hurt": [7, 8, 9, 20, 21, 23],
+                "standby": [35, 36, 37, 38],
+                "advance": [35, 36, 37, 38],
+                "retreat": [60, 61, 62, 63],
+                "death": [25, 26, 27, 28, 29, 30, 31, 32, 33],
+                "vectory": [55, 56, 57, 58, 59, 52, 53, 54, 48, 49, 39, 34]
             },
             "facing": "down",
             "controller": [
@@ -179,10 +206,10 @@
         "strolling_npc": {
             "entity": "hero",
             "anims": {
-                "anim_up": [0, 1, 2, 3],
-                "anim_right": [4, 5, 6, 7],
-                "anim_down": [8, 9, 10, 11],
-                "anim_left": [12, 13, 14, 15]
+                "up": [0, 1, 2, 3],
+                "right": [4, 5, 6, 7],
+                "down": [8, 9, 10, 11],
+                "left": [12, 13, 14, 15]
             },
             "facing": "down",
             "controller":  ["plan_stroll", "move"],
