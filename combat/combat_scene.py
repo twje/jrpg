@@ -1,6 +1,6 @@
 
 from combat.event_queue import EventQueue
-from combat.ce_turn import CETurn
+from state_machine.combat.event.ce_turn import CETurn
 
 
 class CombatScene:

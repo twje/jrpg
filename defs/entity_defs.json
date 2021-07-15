@@ -234,7 +234,7 @@
                 "cs_hurt",
                 "cs_standby"
             ],
-            "state": "npc_stand"
+            "state": "cs_standby"
         }
     }
 }

@@ -1,4 +1,4 @@
-from combat.event.ce_attack import CEAttack
+from state_machine.combat.event.ce_attack import CEAttack
 from . import register_state
 
 
