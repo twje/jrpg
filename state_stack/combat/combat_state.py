@@ -5,9 +5,11 @@ from state_stack import StateStack
 from core.graphics import Sprite
 from core import Context
 from character import Character
+from dependency import Injector
+from dependency import Payload
 
 
-class CombatState:
+class CombatState(Injector):
     # 0 - 1, each number is a percentage of with, hegiht offset from center of the screen
     LAYOUT = {
         "party": [
@@ -62,6 +64,9 @@ class CombatState:
     }
 
     def __init__(self, stack, combat_def):
+        super().__init__()
+        Character.register_as_dependency_injector(self)
+
         self.game_stack = stack
         self.combat_def = combat_def
         self.stack = StateStack()
@@ -88,6 +93,10 @@ class CombatState:
         self.create_combat_characters("party")
         self.create_combat_characters("enemy")
 
+    def get_dependency(self, identifier):
+        if identifier == "combat_scene":
+            return Payload(self)
+
     def init_ui(self):        
         self.background.scale_by_size(self.info.screen_width, self.info.screen_height)
 
@@ -102,7 +111,7 @@ class CombatState:
             if "combat_entity" in char_def:
                 char_def["entity"] = char_def["combat_entity"]
 
-            character = Character(char_def, self)
+            character = Character(char_def, None)
             character_list.append(character)
             
             self.actor_char_map[actor] = character            

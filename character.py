@@ -1,20 +1,17 @@
 from collections import namedtuple
 from core import Context
+import dependency
 from entity import Entity
 from state_machine import StateMachine
 from state_machine import state_registry
+from state_machine import state_dependencies
+from dependency import Subject
 
 
-# switch out maps for storyboard replace_scene
-class MapRef:
-    def __init__(self, map):
-        self.map = map
-
-
-class Character:
+class Character(Subject):
     def __init__(self, character_def, map):
+        super().__init__()
         self.id = None
-        self.map_ref = MapRef(map)
         self.entity = type(self).create_entity(character_def)
         self.actor_id = character_def.get("actor_id")
         self.facing = character_def.get("facing")
@@ -26,9 +23,6 @@ class Character:
         self.default_state = character_def["state"]
         self.prv_default_state = self.default_state
         self.controller.change(self.default_state)
-
-    def reset_map(self, map):
-        self.map_ref.map = map
 
     def get_faced_tile_coords(self):
         x_inc = 0
@@ -95,11 +89,13 @@ class Character:
     def create_controller(self, character_def):
         controller = StateMachine()
         controller.set_states({
-            key: self.state_factory(state_registry[key]) for
+            key: self.state_factory(key) for
             key in character_def["controller"]
         })
 
         return controller
 
-    def state_factory(self, state):
-        return lambda: state(self, self.map_ref.map)
+    def state_factory(self, key):
+        state = state_registry[key]
+        dependency = self.get_dependency(state_dependencies[key])
+        return lambda: state(self, *dependency.args, **dependency.kwargs)

@@ -2,6 +2,8 @@ import importlib
 import sys
 import os
 
+dependency_id = "combat_scene"
+
 state_registry = {}
 __all__ = [state_registry]
 

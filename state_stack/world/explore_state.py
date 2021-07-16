@@ -4,9 +4,8 @@ from core import Context
 from character import Character
 from state_stack.menu import InGameMenuState
 
-
 class ExploreState:
-    def __init__(self, stack, camera, map, tile_x, tile_y, layer):
+    def __init__(self, stack, camera, map, tile_x, tile_y, layer):                  
         context = Context.instance()
         self.input_manager = context.input_manager
         self.stack = stack
@@ -23,8 +22,9 @@ class ExploreState:
         self.follow_cam = True
         self.follow_char = self.hero
         self.manual_cam_x = 0
-        self.manual_cam_y = 0
+        self.manual_cam_y = 0                
 
+    # state machine methods
     def enter(self):
         pass
 

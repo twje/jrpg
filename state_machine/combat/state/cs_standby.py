@@ -4,7 +4,7 @@ from . import register_state
 
 @register_state('cs_standby')
 class CSStandby:
-    def __init__(self, character, context):
+    def __init__(self, character, context):        
         self.character = character
         self.combat_scene = context
         self.entity = self.character.entity

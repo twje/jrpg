@@ -3,11 +3,12 @@ from combat.event_queue import EventQueue
 from state_machine.combat.event.ce_turn import CETurn
 
 
+
 class CombatScene:
-    def __init__(self, party, enemies):
+    def __init__(self, party, enemies):        
         self.party_actors = party
         self.enemy_actors = enemies
-        self.event_queue = EventQueue()
+        self.event_queue = EventQueue()    
 
     def add_turns(self, actor_list):
         for actor in actor_list:

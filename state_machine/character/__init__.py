@@ -1,6 +1,9 @@
+import dependency
 import importlib
 import sys
 import os
+
+dependency_id = "map"
 
 state_registry = {}
 __all__ = [state_registry]

@@ -12,6 +12,9 @@ from trigger import Trigger
 from actions import action_registry
 from json_modifier import process_json
 import utils
+from dependency import Injector
+from character import Character
+from dependency import Payload
 
 
 def load_tiled_map_from_filesystem(map_filepath, map_seed_filepath=None):
@@ -29,10 +32,12 @@ def load_tiled_map_from_filesystem(map_filepath, map_seed_filepath=None):
     return TiledMap(map_def)
 
 
-class TiledMap:
+class TiledMap(Injector):
     def __init__(self, map_def):
-        self.map_def = map_def
+        super().__init__()
+        Character.register_as_dependency_injector(self)
 
+        self.map_def = map_def
         self.context = Context.instance()
         self.renderer = self.context.renderer
 
@@ -73,6 +78,10 @@ class TiledMap:
         self.npc_by_id = {}
 
         self.on_wake()
+
+    def get_dependency(self, identifier):
+        if identifier == "map":
+            return Payload(self)
 
     def write_tile(self, x, y, layer, tile, detail=0, is_collision=False):
         layer = layer * 3
