@@ -33,6 +33,9 @@ class StateStack:
     def is_on_top(self, state):
         return self.top() == state
 
+    def __len__(self):
+        return len(self.states)
+
     def remove_top(self):
         self.states = self.states[:-1]
 

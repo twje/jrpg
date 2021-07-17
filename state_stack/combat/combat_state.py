@@ -14,6 +14,8 @@ from graphics.UI import Selection
 from graphics.menu import Layout
 from dependency import Injector
 from dependency import Payload
+from combat.event_queue import EventQueue
+from combat.event import CETurn
 import utils
 import colors
 
@@ -296,6 +298,7 @@ class CombatState(Injector):
         self.game_stack = stack
         self.combat_def = combat_def
         self.stack = StateStack()
+        self.event_queue = EventQueue()
         self.context = Context.instance()
         self.entity_defs = self.context.data["entity_definitions"]
         self.info = self.context.info
@@ -369,7 +372,45 @@ class CombatState(Injector):
         for character in self.characters["enemy"]:
             character.controller.update(dt)
 
+        if len(self.stack) > 0:
+            self.stack.update(dt)
+        else:
+            self.event_queue.update()
+
+            self.add_turns(self.actors["party"])
+            self.add_turns(self.actors["enemy"])
+
+            if self.party_wins():
+                self.event_queue.clear()
+            elif self.enemy_wins():
+                self.event_queue.clear()
+
         return False
+
+    def add_turns(self, actor_list):
+        for actor in actor_list:
+            alive = actor.stats.get("hp_now") > 0
+
+            if alive and not self.event_queue.actor_has_event(actor):
+                event = CETurn(self, actor)
+                tp = event.time_points(self.event_queue)
+                self.event_queue.add(event, tp)
+
+    def party_wins(self):
+        return not self.has_live_actors(self.actors["enemy"])
+
+    def enemy_wins(self):
+        return not self.has_live_actors(self.actors["party"])
+
+    def has_live_actors(self, actors):
+        for actor in actors:
+            print(actor.stats.get("hp_now"))
+            if actor.stats.get("hp_now") > 0:
+                return True
+        return False
+
+    def is_party_member(self, actor):
+        return actor in self.actors["party"]
 
     def render(self, renderer):
         renderer.begin()

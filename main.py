@@ -1,4 +1,4 @@
-# 574 - Combat states
+# 585 - Combat Actions (action-1-solution)
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory

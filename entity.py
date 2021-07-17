@@ -20,6 +20,9 @@ class Entity:
         self.x = entity_def.get("x", 0)
         self.y = entity_def.get("y", 0)
 
+    def get_selected_position():
+        raise NotImplemented("stub")
+
     def set_frame(self, frame):
         self.sprite.update_texture(frame)
 
