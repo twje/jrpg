@@ -48,13 +48,19 @@ class Selection:
             max_entry_width = 0
             for item in self.data:
                 if self.calc_item_width:
-                    width = self.calc_item_width(item)
+                    width = self.calc_item_width(self.font, item)
                 else:
                     width = self.font.width(str(item))
                 max_entry_width = max(width, max_entry_width)
             return max_entry_width + self.cursor.width
         else:
             return self.spacing_x * self.columns
+
+    def cursor_width(self):
+        return self.cursor.width
+
+    def align_hort(self, x):
+        self.x = x - self.cursor.width
 
     def calc_height(self):
         return self.display_rows * self.spacing_y
