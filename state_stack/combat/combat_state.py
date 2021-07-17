@@ -97,13 +97,15 @@ class CombatState(Injector):
         if identifier == "combat_scene":
             return Payload(self)
 
-    def init_ui(self):        
-        self.background.scale_by_size(self.info.screen_width, self.info.screen_height)
+    def init_ui(self):
+        self.background.scale_by_size(
+            self.info.screen_width, self.info.screen_height)
 
     def create_combat_characters(self, side):
         actor_list = self.actors[side]
         character_list = self.characters[side]
         layout = self.LAYOUT[side][len(actor_list) - 1]
+
         for index, actor in enumerate(actor_list):
             char_def = copy.copy(self.entity_defs.get_character_def(actor.id))
 
@@ -113,13 +115,19 @@ class CombatState(Injector):
 
             character = Character(char_def, None)
             character_list.append(character)
-            
-            self.actor_char_map[actor] = character            
+
+            self.actor_char_map[actor] = character
             position = layout[index]
 
             x = position[0] * self.info.screen_width
             y = position[1] * self.info.screen_height
             character.entity.sprite.set_position(x, y)
+            
+            # children position
+            character.entity.x = x
+            character.entity.y = y
+
+            character.controller.change("cs_standby")
 
     def enter(self):
         pass
@@ -131,6 +139,12 @@ class CombatState(Injector):
         pass
 
     def update(self, dt):
+        for character in self.characters["party"]:
+            character.controller.update(dt)
+
+        for character in self.characters["enemy"]:
+            character.controller.update(dt)
+
         return False
 
     def render(self, renderer):

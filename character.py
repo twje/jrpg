@@ -69,7 +69,7 @@ class Character(Subject):
         if id in self.anims:
             return self.anims[id]
         else:
-            return self.entity.start_frame
+            return [self.entity.start_frame]
 
     @classmethod
     def create_from_id(cls, chracter_id, map):
