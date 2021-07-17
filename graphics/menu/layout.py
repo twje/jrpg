@@ -41,7 +41,7 @@ class Layout:
         )
         return panel
 
-    def debug_remder(self, renderer):
+    def debug_render(self, renderer):
         for name in self.panels:
             panel = self.create_panel(name)
             panel.render(renderer)

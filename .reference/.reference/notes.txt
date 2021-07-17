@@ -1,0 +1,7 @@
+- investigate 'follow_path' in entity_defs.json
+- move art/maps into defs
+- rename defs to data
+- move state_machine/combat/event into combat
+- move state_machine/combat/state/* into state_machine/combat
+- fix stat bugs
+- fix character layout in combat state
