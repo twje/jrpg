@@ -15,11 +15,12 @@ from graphics.menu import Layout
 from dependency import Injector
 from dependency import Payload
 import utils
+import colors
 
 ActorBar = namedtuple("ActorBar", "HP, MP")
 
 
-class CombatStateHUD:
+class CombatStateUI:
     X_COL_SPAN = 200
 
     def __init__(self, state):
@@ -150,7 +151,7 @@ class CombatStateHUD:
     def render(self, renderer):
         self.render_background(renderer)
         self.render_party(renderer)
-        self.render_enemy(renderer)        
+        self.render_enemy(renderer)
         self.render_panels(renderer)
         self.render_panel_titles(renderer)
         self.render_selection_boxes(renderer)
@@ -207,6 +208,7 @@ class CombatStateHUD:
         x += self.X_COL_SPAN
 
         mp_sprite = SpriteFont(f"{stats.get('mp_now')}", font=font)
+        mp_sprite.set_color(colors.WHITE)
         mp_sprite.set_position(x, y)
         renderer.draw(mp_sprite)
         bars.MP.set_position(x + bar_offset * .55, y)
@@ -216,11 +218,21 @@ class CombatStateHUD:
     def render_hp(self, renderer, font, x, y, hp_now, hp_max):
         percent = hp_now/hp_max
 
-        # change color
+        hp_color = colors.WHITE
+        if percent < 0.2:
+            hp_color = (255, 0, 0)
+        elif percent < 0.45:
+            hp_color = (255, 255, 0)
 
-        sprite = SpriteFont(f"{hp_now}/{hp_max}", font=font)
-        sprite.set_position(x, y)
-        renderer.draw(sprite)
+        hp_now_sprite = SpriteFont(f"{hp_now}", font=font)
+        hp_max_sprite = SpriteFont(f"/{hp_max}", font=font)
+
+        hp_now_sprite.set_color(hp_color)
+        hp_now_sprite.set_position(x, y)
+        hp_max_sprite.set_position(x + hp_now_sprite.width, y)
+
+        renderer.draw(hp_now_sprite)
+        renderer.draw(hp_max_sprite)
 
 
 class CombatState(Injector):
@@ -297,10 +309,10 @@ class CombatState(Injector):
         }
         self.select_actor = None
         self.actor_char_map = {}
-        
+
         self.create_combat_characters("party")
         self.create_combat_characters("enemy")
-        self.combat_hud = CombatStateHUD(self)
+        self.combat_ui = CombatStateUI(self)
 
     def get_dependency(self, identifier):
         if identifier == "combat_scene":
@@ -327,19 +339,19 @@ class CombatState(Injector):
             # children position
             character.entity.x = x
             character.entity.y = y
-
             character.controller.change("cs_standby")
 
             character_list.append(character)
 
     def actor_to_charcter(self, actor):
         char_def = copy.copy(self.entity_defs.get_character_def(actor.id))
-
-        # override with combat entity
-        if "combat_entity" in char_def:
-            char_def["entity"] = char_def["combat_entity"]
-
+        char_def["entity"] = self.get_entity_combat_def(char_def)
         return Character(char_def, None)
+
+    def get_entity_combat_def(self, char_def):
+        if "combat_entity" in char_def:
+            return char_def["combat_entity"]
+        return char_def["entity"]
 
     def enter(self):
         pass
@@ -361,5 +373,5 @@ class CombatState(Injector):
 
     def render(self, renderer):
         renderer.begin()
-        self.combat_hud.render(renderer)
+        self.combat_ui.render(renderer)
         renderer.end()
