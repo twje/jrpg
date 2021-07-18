@@ -4,8 +4,8 @@ from .progress_bar import ProgressBar
 from .scroll_bar import ScrollBar
 from .selection import Selection
 from .textbox import Textbox
-from .textbox import textbox_factory_fitted
-from .textbox import textbox_factory_fixed
+from .textbox import create_fitted_textbox
+from .textbox import create_fixed_textbox
 from .icons import Icons
 
 __all__ = [
@@ -15,7 +15,7 @@ __all__ = [
     ScrollBar,
     Selection,
     Textbox,
-    textbox_factory_fitted,
-    textbox_factory_fixed,
+    create_fitted_textbox,
+    create_fixed_textbox,
     Icons
 ]

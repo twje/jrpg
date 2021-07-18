@@ -1,6 +1,7 @@
 from graphics.UI import Icons
 from core.graphics import Sprite
 from graphics.UI import Selection
+from graphics.UI import create_fitted_textbox
 from utils import lookup_texture_filepath
 
 
@@ -18,7 +19,7 @@ class CombatStateChoice:
         )
         self.marker_pos = self.character.entity.get_selected_position()
         self.time = 0
-        
+
         self.selection = Selection({
             "data": self.actor.actions,
             "columns": 1,

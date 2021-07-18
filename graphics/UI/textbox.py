@@ -5,7 +5,6 @@ from core import tween
 from core.graphics import SpriteFont
 from graphics.UI import Panel
 from graphics.UI import Selection
-from core.graphics import Sprite
 import utils
 
 
@@ -165,9 +164,11 @@ class Textbox:
 # ---------
 # Factories
 # ---------
-def textbox_factory_fitted(x, y, text_font, text, wrap=None,
-                           title_font=None, title=None, avatar=None,
-                           choices=None, on_finish=None, stack=None):
+def create_fitted_textbox(
+        stack, x, y, text_font, text, wrap=None,
+        title_font=None, title=None, avatar=None,
+        choices=None, on_finish=None):
+
     from core.graphics import Sprite
     from core.graphics import SpriteFont
 
@@ -201,7 +202,7 @@ def textbox_factory_fitted(x, y, text_font, text, wrap=None,
     if choices:
         selection_menu = Selection({
             "data": choices["options"],
-            "on_selection": choices.get("on_selection"),
+            "on_selection": choices["on_selection"],
         })
         column_width[1].append(selection_menu.width + padding)
         height += padding + selection_menu.height
@@ -213,7 +214,8 @@ def textbox_factory_fitted(x, y, text_font, text, wrap=None,
         height = max(height, sprite.height + padding * 4)
 
     width = max(column_width[0]) + max(column_width[1])
-    return textbox_factory_fixed(
+    return create_fixed_textbox(
+        stack,
         x - width/2,
         y - height/2,
         width,
@@ -224,14 +226,16 @@ def textbox_factory_fitted(x, y, text_font, text, wrap=None,
         title,
         avatar,
         choices,
-        on_finish,
-        stack
+        on_finish
     )
 
 
-def textbox_factory_fixed(x, y, width, height, text_font, text,
-                          title_font=None, title=None, avatar=None,
-                          choices=None, on_finish=None, stack=None):
+def create_fixed_textbox(
+        stack, x, y, width, height, text_font, text,
+        title_font=None, title=None, avatar=None,
+        choices=None, on_finish=None):
+
+    from core.graphics import Sprite
     from core.graphics import SpriteFont
 
     size = 3
@@ -272,7 +276,7 @@ def textbox_factory_fixed(x, y, width, height, text_font, text,
     if choices:
         selection_menu = Selection({
             "data": choices["options"],
-            "on_selection": choices.get("on_selection"),
+            "on_selection": choices["on_selection"],
         })
         bounds_bottom += padding
 
