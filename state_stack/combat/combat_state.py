@@ -16,6 +16,7 @@ from dependency import Injector
 from dependency import Payload
 from combat.event_queue import EventQueue
 from combat.event import CETurn
+from combat.combat_choice_state import CombatStateChoice
 import utils
 import colors
 
@@ -357,7 +358,7 @@ class CombatState(Injector):
         return char_def["entity"]
 
     def enter(self):
-        pass
+        self.stack.push(CombatStateChoice(self, self.actors["party"][0]))
 
     def exit(self):
         pass
@@ -415,4 +416,6 @@ class CombatState(Injector):
     def render(self, renderer):
         renderer.begin()
         self.combat_ui.render(renderer)
+        self.stack.render(renderer)
+        self.event_queue.render(0, 0, renderer)
         renderer.end()

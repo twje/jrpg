@@ -10,23 +10,21 @@ class CombatStateChoice:
         self.combat_state = context
         self.actor = actor
         self.character = context.actor_char_map[actor]
-        self.Icons = Icons()
+        self.icons = Icons()
         self.up_arrow = self.icons.try_get("uparrow")
         self.down_arrow = self.icons.try_get("downarrow")
         self.marker = Sprite.load_from_filesystem(
-            lookup_texture_filepath(
-                self.state.combat_def["continue_caret.png"]
-            )
+            lookup_texture_filepath("continue_caret.png")
         )
         self.marker_pos = self.character.entity.get_selected_position()
         self.time = 0
+        
         self.selection = Selection({
             "data": self.actor.actions,
             "columns": 1,
             "display_rows": 3,
             "spacing_x": 0,
-            "spacing_y": 19,
-            "rows": len(self.state.actors["party"]),
+            "spacing_y": 19,            
             "on_selection": self.on_select,
             "render_item": self.render_action,
         })
@@ -34,7 +32,7 @@ class CombatStateChoice:
     def on_select(self, index, item):
         pass
 
-    def render_action(sself, renderer, font, scale, x, y, item):
+    def render_action(self, renderer, font, scale, x, y, item):
         pass
 
     def enter(self):
@@ -47,7 +45,7 @@ class CombatStateChoice:
         pass
 
     def update(self, dt):
-        pass
+        return False
 
     def render(self, renderer):
         pass

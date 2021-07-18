@@ -1,3 +1,6 @@
+from core.graphics import Font
+from core.graphics import SpriteFont
+from core.graphics import FontStyle
 from collections import deque
 import math
 
@@ -74,7 +77,8 @@ class EventQueue:
         return len(self.queue) == 0
 
     def actor_has_event(self, actor):
-        current = Event("") if self.current_event is None else self.current_event
+        current = Event(
+            "") if self.current_event is None else self.current_event
         if current.owner == actor:
             return True
 
@@ -89,13 +93,33 @@ class EventQueue:
             if event.owner == actor:
                 self.queue.remove(event)
 
+    def render(self, x, y, renderer):
+        font = Font(style=FontStyle.small())
+
+        # title
+        title_sprite = SpriteFont("EVENT QUEUE", font=font)
+        title_sprite.set_position(x, y)
+        renderer.draw(title_sprite)
+
+        # current event
+        name = "None" if self.current_event is None else self.current_event.name
+        name_sprite = SpriteFont(f"CURRENT : {name}", font=font)
+        name_sprite.set_position(x, y + font.height())
+        renderer.draw(name_sprite)
+
+        # all events
+        if len(self.queue) == 0:
+            event_sprite = SpriteFont(f"EMPTY!", font=font)
+            event_sprite.set_position(x, y + font.height() * 2)
+            renderer.draw(event_sprite)
+
+        for index, event in enumerate(self.queue):
+            event_sprite = SpriteFont(
+                f"{index} Event: {event.count_down} - {event.name}",
+                font=font
+            )
+            event_sprite.set_position(x, y + font.height * (2 + index))
+            renderer.draw(event_sprite)
+
     def __repr__(self):
         return repr(self.queue)
-
-
-# test = EventQueue()
-# test.add(Event("Msg: Welcome to the Arena"), -1)
-# test.add(Event("Take Turn Goblin"), 5)
-# test.add(Event("Take Turn Hero"), 4)
-
-# print(test)
