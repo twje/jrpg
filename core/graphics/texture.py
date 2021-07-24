@@ -12,6 +12,9 @@ class Texture:
         self._width = surface.get_size()[0]
         self._height = surface.get_size()[1]
 
+    def flip(self, flip_x, flip_y):
+        self.image = pygame.transform.flip(self.image, flip_x, flip_y)
+
     def fill(self, color):
         self.original_image.fill(color)
         if self.image != self.original_image:

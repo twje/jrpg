@@ -26,6 +26,11 @@ class Entity:
         y_pad = 32
         return x_pos, y_pos - y_pad
 
+    def get_target_position(self):
+        x_pos = self.x + self.width
+        y_pos = self.y + self.height/2
+        return x_pos, y_pos
+
     def set_frame(self, frame):
         self.sprite.update_texture(frame)
 

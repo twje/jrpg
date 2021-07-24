@@ -1,5 +1,4 @@
-# 600 - Combat Actions (action-1-solution)
-# - port CombatStateChoice
+# 601 - Combat Target State (action-2-solution)
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory

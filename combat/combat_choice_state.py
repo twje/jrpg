@@ -1,10 +1,13 @@
 import math
 from combat.actor import Actor
+from .combat_target_state import CombatTargetState
+from .combat_target_state import CombatTargetType
 from core.graphics.sprite_font import Font, FontStyle
 from core.graphics.sprite_font import SpriteFont
-from graphics.UI import Icons, textbox
+from graphics.UI import Icons
 from core.graphics import Sprite
 from graphics.UI import Selection
+from functools import partial
 from graphics.UI import create_fixed_textbox
 from utils import lookup_texture_filepath
 
@@ -60,7 +63,22 @@ class CombatStateChoice:
         y_pos = self.selection.y + self.selection.height - self.down_arrow.height
         self.down_arrow.set_position(x_pos, y_pos)
 
-    def on_select(self, index, item):
+    def on_select(self, index, data):
+        print("on select", index, data)
+
+        if data == "attack":
+            print("character attacks")
+            self.selection.hide_cursor()
+            state = CombatTargetState(
+                self.combat_state,
+                target_type = CombatTargetType.SIDE,
+                on_select = partial(self.take_action, data),
+                on_exit = None
+            )
+            self.stack.push(state)
+            print(self.stack.states)
+    
+    def take_action(self, action_id, targets):
         pass
 
     def render_action(self, renderer, font, scale, x, y, item):
@@ -76,8 +94,8 @@ class CombatStateChoice:
     def exit(self):
         self.combat_state.selected_actor = None
 
-    def handle_input(self, event):
-        self.textbox.handle_input(event)
+    def handle_input(self, event):        
+        self.selection.handle_input(event)
 
     def update(self, dt):
         self.textbox.update(dt)

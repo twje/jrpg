@@ -16,6 +16,9 @@ class BaseSprite(IRenderable):
         self.hotspot_x = 0
         self.hotspot_y = 0    
 
+    def flip(self, flip_x, flip_y):
+        self.texture.flip(flip_x, flip_y)
+
     def set_color(self, color):
         self.texture.set_color(color)
 
@@ -113,13 +116,13 @@ class SpriteAtlas(BaseSprite):
     def texture(self):
         return self.textureAtlas[self.index]
 
-    # def draw_debug(self, surface, offset_x, offset_y):
-    #     pygame.draw.rect(surface, colors.WHITE, 
-    #         (
-    #             offset_x, 
-    #             offset_y, 
-    #             self.width,
-    #             self.height                 
-    #         ), 
-    #         width=1
-    #     )
+    def draw_debug(self, surface, offset_x, offset_y):
+        pygame.draw.rect(surface, colors.WHITE, 
+            (
+                offset_x, 
+                offset_y, 
+                self.width,
+                self.height                 
+            ), 
+            width=1
+        )
