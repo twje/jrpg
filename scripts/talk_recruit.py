@@ -42,6 +42,7 @@ def talk_recruit(map, trigger, entity, layer, x, y):
             storboard = Storyboard(stack, fadeout, True)
             stack.push(storboard)
 
+    # fix choices with Selection instance
     stack.push_fitted(
         info.screen_width/2,
         info.screen_height/2,

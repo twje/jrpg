@@ -1,8 +1,8 @@
 from core.graphics import Sprite
 from core.graphics import Font
 from core.graphics import SpriteFont
-from core.graphics import util as graphics_util
 import utils as game_utils
+from core.graphics import util as graphics_util
 import pygame
 
 
@@ -74,6 +74,12 @@ class Selection:
     def set_position(self, x, y):
         self.x = x
         self.y = y
+
+    def can_scroll_up(self):
+        return self.display_start > 0
+
+    def can_scroll_down(self):
+        return self.display_start < (self.max_rows - self.display_rows)
 
     def percentage_scrolled(self):
         one_percent = 1 / self.max_rows

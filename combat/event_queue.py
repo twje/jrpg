@@ -118,7 +118,7 @@ class EventQueue:
                 f"{index} Event: {event.count_down} - {event.name}",
                 font=font
             )
-            event_sprite.set_position(x, y + font.height * (2 + index))
+            event_sprite.set_position(x, y + font.height() * (2 + index))
             renderer.draw(event_sprite)
 
     def __repr__(self):

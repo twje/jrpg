@@ -28,6 +28,7 @@ def use_grate(map, trigger, entity, layer, x, y):
         map.add_trigger(57, 6, layer, "grate_open")
         map.add_trigger(58, 6, layer, "grate_open")
 
+    # fix choices with Selection instance
     stack.push_fitted(
         info.screen_width/2,
         info.screen_height/2,

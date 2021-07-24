@@ -28,6 +28,7 @@ def crumble(map, trigger, entity, layer, x, y):
         map.remove_trigger(x, y, layer)
         map.write_tile(x, y, layer, 134, 0, False)
 
+    # fix choices with Selection instance
     stack.push_fitted(
         info.screen_width/2,
         info.screen_height/2,

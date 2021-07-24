@@ -20,10 +20,10 @@ class Entity:
         self.x = entity_def.get("x", 0)
         self.y = entity_def.get("y", 0)
 
-    def get_selected_position(self):
-        x_pos = self.sprite.x
-        y_pos = self.sprite.y
-        return x_pos, (y_pos - 16)
+    def get_selected_position(self):        
+        x_pos = self.x
+        y_pos = self.y + self.height
+        return x_pos, y_pos
 
     def set_frame(self, frame):
         self.sprite.update_texture(frame)

@@ -2,7 +2,7 @@ from core import Context
 from core.graphics import TextureAtlas
 from graphics.UI import Panel
 import utils
-
+from core.graphics import util as graphics_util
 
 class PanelLayout:
     def __init__(self, x, y, width, height):

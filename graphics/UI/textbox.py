@@ -94,6 +94,9 @@ class Textbox:
     def is_dead(self):
         return self.appear_tween.is_finished and self.appear_tween.value == 0
 
+    def is_active(self):
+        return self.appear_tween.is_finished and self.appear_tween.value == 1
+
     def render(self, renderer):
         renderer.begin()
 
@@ -167,7 +170,7 @@ class Textbox:
 def create_fitted_textbox(
         stack, x, y, text_font, text, wrap=None,
         title_font=None, title=None, avatar=None,
-        choices=None, on_finish=None):
+        selection=None, on_finish=None):
 
     from core.graphics import Sprite
     from core.graphics import SpriteFont
@@ -184,7 +187,7 @@ def create_fitted_textbox(
         column_width[1].append(font_sprite.width + padding)
         height += font_sprite.height
 
-    # body text
+    # body text    
     sprite_text = SpriteFont(
         utils.TextProcessor(
             text_font,
@@ -194,18 +197,14 @@ def create_fitted_textbox(
             -1).compute_wrap()[0],
         text_font
     )
-    column_width[1].append(sprite_text.width + padding * 4)
-    height += sprite_text.height + padding * 2
+    if text:
+        column_width[1].append(sprite_text.width + padding * 4)
+        height += sprite_text.height + padding * 2
 
-    # selection menu
-    selection_menu = None
-    if choices:
-        selection_menu = Selection({
-            "data": choices["options"],
-            "on_selection": choices["on_selection"],
-        })
-        column_width[1].append(selection_menu.width + padding)
-        height += padding + selection_menu.height
+    # selection menu    
+    if selection is not None:        
+        column_width[1].append(selection.width + padding + 5)
+        height += padding + selection.height
 
     # append avatar child
     if avatar:
@@ -225,7 +224,7 @@ def create_fitted_textbox(
         title_font,
         title,
         avatar,
-        choices,
+        selection,
         on_finish
     )
 
@@ -233,7 +232,7 @@ def create_fitted_textbox(
 def create_fixed_textbox(
         stack, x, y, width, height, text_font, text,
         title_font=None, title=None, avatar=None,
-        choices=None, on_finish=None):
+        selection=None, on_finish=None):
 
     from core.graphics import Sprite
     from core.graphics import SpriteFont
@@ -271,13 +270,8 @@ def create_fixed_textbox(
             "y": -(font_sprite.height + padding)
         })
 
-    # selection menu
-    selection_menu = None
-    if choices:
-        selection_menu = Selection({
-            "data": choices["options"],
-            "on_selection": choices["on_selection"],
-        })
+    # selection menu    
+    if selection is not None:        
         bounds_bottom += padding
 
     # caret
@@ -301,7 +295,7 @@ def create_fixed_textbox(
         "font": text_font,
         "chunks": chunks,
         "wrap": wrap,
-        "selection_menu": selection_menu,
+        "selection_menu": selection,
         "size": dict(
             left=x,
             right=x+width,

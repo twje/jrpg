@@ -68,7 +68,7 @@ class CombatStateUI:
         self.layout.split_hort('top', 'notice', 'top', 0.25, 0)
         self.layout.contract('notice', 75, 25)
         self.layout.split_hort('bottom', 'tip', 'bottom', 0.24, 0)
-        self.layout.split_vert('bottom', 'left', 'right', 0.33, 0)
+        self.layout.split_vert('bottom', 'left', 'right', 0.35, 0)
 
         # panels
         self.panels = [
@@ -183,13 +183,15 @@ class CombatStateUI:
         self.stats_list.render(renderer)
 
     def render_party_names(self, renderer, font, scale, x, y, item):
-        if item == self.state.select_actor:
-            pass  # fix
-        else:
-            sprite = SpriteFont(item.name, font=font)
-            sprite.set_position(x, y)
-            sprite.scale_by_ratio(scale, scale)
-            renderer.draw(sprite)
+        sprite = SpriteFont(item.name, font=font)        
+        sprite.set_position(x, y)
+        sprite.scale_by_ratio(scale, scale)
+        
+        if item == self.state.selected_actor:            
+            sprite.set_color((255, 255, 0))            
+        else:            
+            sprite.set_color((255, 255, 255))            
+        renderer.draw(sprite)
 
     def render_party_stats(self, renderer, font, scale, x, y, item):
         stats = item.stats
@@ -233,6 +235,9 @@ class CombatStateUI:
         hp_now_sprite.set_color(hp_color)
         hp_now_sprite.set_position(x, y)
         hp_max_sprite.set_position(x + hp_now_sprite.width, y)
+
+        # hack
+        hp_max_sprite.set_color(colors.WHITE)
 
         renderer.draw(hp_now_sprite)
         renderer.draw(hp_max_sprite)
@@ -311,7 +316,7 @@ class CombatState(Injector):
             "party": [],
             "enemy": []
         }
-        self.select_actor = None
+        self.selected_actor = None
         self.actor_char_map = {}
 
         self.create_combat_characters("party")
@@ -364,7 +369,7 @@ class CombatState(Injector):
         pass
 
     def handle_input(self, event):
-        pass
+        self.stack.handle_input(event)
 
     def update(self, dt):
         for character in self.characters["party"]:

@@ -1,4 +1,5 @@
-# 585 - Combat Actions (action-1-solution)
+# 600 - Combat Actions (action-1-solution)
+# - port CombatStateChoice
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory
@@ -88,6 +89,9 @@ class JRPG(Application):
         self.world.party.add(Actor(model["mage"]))
         self.world.party.add(Actor(model["thief"]))
 
+        data = self.world.party.members["hero"]
+        data.actions = ["attack", "item", "attack", "item", "attack"]
+
         combat_def = {
             "background": "arena_background.png",
             "actors": {
@@ -99,7 +103,7 @@ class JRPG(Application):
         }
 
         self.stack.push(state)
-        #self.stack.push(CombatState(self.stack, combat_def))
+        self.stack.push(CombatState(self.stack, combat_def))
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath

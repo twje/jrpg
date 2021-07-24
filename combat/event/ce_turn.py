@@ -6,7 +6,7 @@ class CETurn:
         self.state = state
         self.owner = owner
         self.name = f"CETurn({owner.name})"
-        self.is_finished = False
+        self.done = False
 
     def time_points(self, queue):
         speed = self.owner.stats.get("speed")  # fix - check speed stat
@@ -16,10 +16,10 @@ class CETurn:
         if self.state.is_party_member(self.owner):
             state = CombatStateChoice(self.state, self.owner)
             self.state.stack.push(state)
-            self.is_finished = True
+            self.done = True
             return
         else:
-            pass
+            self.done = True
             # query AI for task
 
     def update(self):
