@@ -66,8 +66,7 @@ class CombatStateChoice:
     def on_select(self, index, data):
         print("on select", index, data)
 
-        if data == "attack":
-            print("character attacks")
+        if data == "attack":            
             self.selection.hide_cursor()
             state = CombatTargetState(
                 self.combat_state,
@@ -75,13 +74,12 @@ class CombatStateChoice:
                 on_select = partial(self.take_action, data),
                 on_exit = None
             )
-            self.stack.push(state)
-            print(self.stack.states)
+            self.stack.push(state)            
     
     def take_action(self, action_id, targets):
-        pass
+        print(action_id, targets)
 
-    def render_action(self, renderer, font, scale, x, y, item):
+    def render_action(self, renderer, font, scale, x, y, item):        
         text = Actor.ACTION_LABELS.get(item, "")
         sprite = SpriteFont(text, font=font)
         sprite.scale_by_ratio(scale, scale)

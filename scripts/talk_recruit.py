@@ -3,6 +3,7 @@ from . import register
 from model import PartyModel
 from core.context import Context
 from core.graphics import Font
+from graphics.UI import Selection
 
 
 @register("talk_recruit")
@@ -49,11 +50,8 @@ def talk_recruit(map, trigger, entity, layer, x, y):
         Font(),
         f"Recruit {actor_def['name']}?",
         wrap=400,
-        choices={
-            "options": [
-                "Recruit",
-                "Leave"
-            ],
-            "on_selection": on_recruit
-        }
+        choices=Selection({
+            "data": ["Recruit", "Leave"],
+            "on_selection": on_recruit,
+        })
     )

@@ -5,7 +5,7 @@ class CETurn:
     def __init__(self, state, owner):
         self.state = state
         self.owner = owner
-        self.name = f"CETurn({owner.name})"
+        self.name = f"Tuen for {owner.name}"
         self.done = False
 
     def time_points(self, queue):
@@ -19,11 +19,11 @@ class CETurn:
             self.done = True
             return
         else:
-            self.done = True
+            pass
             # query AI for task
 
     def update(self):
         pass
 
     def is_finished(self):
-        return self.is_finished
+        return self.done

@@ -363,7 +363,7 @@ class CombatState(Injector):
         return char_def["entity"]
 
     def enter(self):
-        self.stack.push(CombatStateChoice(self, self.actors["party"][0]))
+        pass
 
     def exit(self):
         pass
@@ -409,8 +409,7 @@ class CombatState(Injector):
         return not self.has_live_actors(self.actors["party"])
 
     def has_live_actors(self, actors):
-        for actor in actors:
-            print(actor.stats.get("hp_now"))
+        for actor in actors:            
             if actor.stats.get("hp_now") > 0:
                 return True
         return False

@@ -1,4 +1,4 @@
-# 601 - Combat Target State (action-2-solution)
+# 611 - Attack Event (action-2-solution)
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory
@@ -86,10 +86,7 @@ class JRPG(Application):
         model = PartyModel()      
         self.world.party.add(Actor(model["hero"]))
         self.world.party.add(Actor(model["mage"]))
-        self.world.party.add(Actor(model["thief"]))
-
-        data = self.world.party.members["hero"]
-        data.actions = ["attack", "item", "attack", "item", "attack"]
+        self.world.party.add(Actor(model["thief"]))                
 
         combat_def = {
             "background": "arena_background.png",

@@ -2,11 +2,8 @@ from combat.combat_choice_state import CombatStateChoice
 
 
 class CEAttack:
-    def __init__(self, scene, owner, target):
-        self.scene = scene
-        self.owner = owner
-        self.is_finished = False
-        self.name = f"CEAttack({owner.name}, {target.name})"
+    def __init__(self):
+        pass
 
     def time_points(self, queue):
         speed = self.owner.speed
