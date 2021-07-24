@@ -1,3 +1,4 @@
+import math
 from combat.actor import Actor
 from core.graphics.sprite_font import Font, FontStyle
 from core.graphics.sprite_font import SpriteFont
@@ -21,17 +22,17 @@ class CombatStateChoice:
             lookup_texture_filepath("continue_caret.png")
         )
         self.marker_pos = self.character.entity.get_selected_position()
-        self.time = 0      
+        self.time = 0
 
         font = Font(FontStyle.small())
         self.textbox = create_fixed_textbox(
             self.stack,
             0,
-            0,  
+            0,
             130,
-            65 ,          
+            65,
             font,
-            "",                              
+            "",
             selection=Selection({
                 "data": self.actor.actions,
                 "columns": 1,
@@ -42,27 +43,27 @@ class CombatStateChoice:
                 "on_selection": self.on_select,
                 "render_item": self.render_action,
             })
-        )        
-        self.textbox.x = 65       
-        self.textbox.y = 280        
+        )
+        self.textbox.x = 65
+        self.textbox.y = 280
         self.selection = self.textbox.selection_menu
-        
+
     def set_arrow_position(self):
         pad = 20
         x_pos = self.selection.x + self.selection.width + pad
 
-        # up arrow        
+        # up arrow
         y_pos = self.selection.y
         self.up_arrow.set_position(x_pos, y_pos)
-        
-        # down arrow        
+
+        # down arrow
         y_pos = self.selection.y + self.selection.height - self.down_arrow.height
         self.down_arrow.set_position(x_pos, y_pos)
 
     def on_select(self, index, item):
         pass
 
-    def render_action(self, renderer, font, scale, x, y, item):        
+    def render_action(self, renderer, font, scale, x, y, item):
         text = Actor.ACTION_LABELS.get(item, "")
         sprite = SpriteFont(text, font=font)
         sprite.scale_by_ratio(scale, scale)
@@ -80,15 +81,18 @@ class CombatStateChoice:
 
     def update(self, dt):
         self.textbox.update(dt)
-        x_pos = self.marker_pos[0]
+        x_pos = self.marker_pos[0] - self.marker.width/2
         y_pos = self.marker_pos[1]
-        self.marker.set_position(x_pos, y_pos)
+
+        self.time += dt
+        self.marker.set_position(x_pos, y_pos + math.sin(self.time * 10))
+
         return False
 
-    def render(self, renderer):                
+    def render(self, renderer):
         self.textbox.render(renderer)
         renderer.draw(self.marker)
-        self.set_arrow_position()    
+        self.set_arrow_position()
 
         # prevent showing arrows while tween in progress - hack
         if not self.textbox.is_active():
@@ -96,6 +100,6 @@ class CombatStateChoice:
 
         if self.selection.can_scroll_up():
             renderer.draw(self.up_arrow)
-        
+
         if self.selection.can_scroll_down():
             renderer.draw(self.down_arrow)

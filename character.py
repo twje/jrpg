@@ -1,6 +1,4 @@
-from collections import namedtuple
 from core import Context
-import dependency
 from entity import Entity
 from state_machine import StateMachine
 from state_machine import state_registry

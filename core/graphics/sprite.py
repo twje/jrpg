@@ -1,6 +1,7 @@
 import pygame
 from core.system.render import IRenderable
 from core.graphics import Texture
+import colors
 
 
 # -------
@@ -13,7 +14,7 @@ class BaseSprite(IRenderable):
         self.y = 0
         self.angle = 0
         self.hotspot_x = 0
-        self.hotspot_y = 0
+        self.hotspot_y = 0    
 
     def set_color(self, color):
         self.texture.set_color(color)
@@ -66,7 +67,10 @@ class BaseSprite(IRenderable):
         pos_x = self.x + offset_x
         pos_y = self.y + offset_y
         self.texture.draw(surface, pos_x, pos_y)
+        self.draw_debug(surface, pos_x, pos_y)
 
+    def draw_debug(self, surface, offset_x, offset_y):
+        pass
 
 class Sprite(BaseSprite):
     def __init__(self, texture):
@@ -108,3 +112,14 @@ class SpriteAtlas(BaseSprite):
     @property
     def texture(self):
         return self.textureAtlas[self.index]
+
+    # def draw_debug(self, surface, offset_x, offset_y):
+    #     pygame.draw.rect(surface, colors.WHITE, 
+    #         (
+    #             offset_x, 
+    #             offset_y, 
+    #             self.width,
+    #             self.height                 
+    #         ), 
+    #         width=1
+    #     )
