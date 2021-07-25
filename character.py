@@ -86,14 +86,14 @@ class Character(Subject):
 
     def create_controller(self, character_def):
         controller = StateMachine()
-        controller.set_states({
-            key: self.state_factory(key) for
-            key in character_def["controller"]
-        })
+        for state_id in character_def["controller"]:
+            state = state_registry[state_id]                        
+            controller.set_state(state.name, self.state_factory(state_id, state))
 
         return controller
 
-    def state_factory(self, key):
-        state = state_registry[key]
-        dependency = self.get_dependency(state_dependencies[key])
-        return lambda: state(self, *dependency.args, **dependency.kwargs)
+    def state_factory(self, state_id, state):
+        def instance():
+            dependency = self.get_dependency(state_dependencies[state_id])
+            return state(self, *dependency.args, **dependency.kwargs)
+        return instance

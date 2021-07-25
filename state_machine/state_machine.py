@@ -17,8 +17,11 @@ class NullState:
 
 class StateMachine:
     def __init__(self):
-        self.states = None
+        self.states = {}
         self.current = NullState()
+
+    def set_state(self, state_id, state):
+        self.states[state_id] = state
 
     def set_states(self, states):
         self.states = states

@@ -231,7 +231,7 @@
             "entity": "goblin",
             "controller":  [
                 "cs_run_anim",
-                "cs_hurt",
+                "cs_hurt_enemy",
                 "cs_standby",
                 "cs_die"
             ],
