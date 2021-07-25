@@ -1,38 +1,23 @@
-from combat.combat_choice_state import CombatStateChoice
-
-
 class CEAttack:
-    def __init__(self):
-        pass
+    # stack
+    def __init__(self, state, owner, attack_def, targets):
+        self.state = state
+        self.owner = owner
+        self.targets = targets
+        self.character = state
+        self.name = f"Attack for {self.owner.name}"
+        self.done = False
+        self.controller = self.character.contoller
 
     def time_points(self, queue):
-        speed = self.owner.speed
+        speed = self.owner.stats.get('speed')
         return queue.speed_to_time_points(speed)
 
     def execute(self, queue):
         pass
-        # target = self.target
-        # if target.HP == 0:
-        #     # new random target
-        #     target = self.scene.get_target(self.owner)
-
-        # demage = self.owner.attack
-        # target.HP -= demage
-
-        # msg = "{} hit for {} demage".format(
-        #     target.name,
-        #     demage
-        # )
-        # print(msg)
-
-        # if target.HP < 0:
-        #     msg = f"{self.target.name} is killed."
-        #     print(msg)
-
-        #     self.scene.on_dead(target)
 
     def update(self):
         pass
 
     def is_finished(self):
-        return True
+        return self.done

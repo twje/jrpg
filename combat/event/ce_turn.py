@@ -2,6 +2,7 @@ from combat.combat_choice_state import CombatStateChoice
 
 
 class CETurn:
+    # stack
     def __init__(self, state, owner):
         self.state = state
         self.owner = owner

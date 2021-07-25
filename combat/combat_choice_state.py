@@ -2,6 +2,7 @@ import math
 from combat.actor import Actor
 from .combat_target_state import CombatTargetState
 from .combat_target_state import CombatTargetType
+from .event import CEAttack
 from core.graphics.sprite_font import Font, FontStyle
 from core.graphics.sprite_font import SpriteFont
 from graphics.UI import Icons
@@ -66,20 +67,28 @@ class CombatStateChoice:
     def on_select(self, index, data):
         print("on select", index, data)
 
-        if data == "attack":            
+        if data == "attack":
             self.selection.hide_cursor()
             state = CombatTargetState(
                 self.combat_state,
-                target_type = CombatTargetType.SIDE,
-                on_select = partial(self.take_action, data),
-                on_exit = None
+                target_type=CombatTargetType.SIDE,
+                on_select=partial(self.take_action, data),
+                on_exit=None
             )
-            self.stack.push(state)            
-    
-    def take_action(self, action_id, targets):
-        print(action_id, targets)
+            self.stack.push(state)
 
-    def render_action(self, renderer, font, scale, x, y, item):        
+    def take_action(self, action_id, targets):
+        self.stack.pop()  # CombatTargetState
+        self.stack.pop()  # CombatStateChoice
+
+        queue = self.combat_state.event_queue
+
+        if action_id == "attack":
+            event = CEAttack(self.combat_state, self.actor, {}, targets)
+            tp = event.time_points(queue)
+            queue.add(event, tp)
+
+    def render_action(self, renderer, font, scale, x, y, item):
         text = Actor.ACTION_LABELS.get(item, "")
         sprite = SpriteFont(text, font=font)
         sprite.scale_by_ratio(scale, scale)
@@ -92,7 +101,7 @@ class CombatStateChoice:
     def exit(self):
         self.combat_state.selected_actor = None
 
-    def handle_input(self, event):        
+    def handle_input(self, event):
         self.selection.handle_input(event)
 
     def update(self, dt):
