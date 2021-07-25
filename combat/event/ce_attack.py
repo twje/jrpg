@@ -1,3 +1,4 @@
+from combat.combat_target_state import CombatSelector
 from storyboard.storyboard import Storyboard
 from storyboard import events
 
@@ -31,6 +32,15 @@ class CEAttack:
     def execute(self, queue):
         self.state.stack.push(self.storyboard)
 
+        # prevent attacking a dead target
+        for target in list(self.targets):
+            hp = target.stats.get("hp_now")
+            if hp <= 0:
+                self.targets.remove(target)
+        
+        if len(self.targets) == 0:
+            self.targets = CombatSelector.weakest_enemy(self.state)
+
     def update(self):
         pass
 
@@ -56,8 +66,18 @@ class CEAttack:
 
         enemy_stats.set("hp_now", max(0, hp))            
 
+        if demage > 0:
+            self.set_hurt_state(target)
+
         # death is handled seperately so it occurs parallel with attack event         
         self.state.handle_death()
+
+    def set_hurt_state(self, target):
+        character = self.state.actor_char_map[target]
+        controller = character.controller
+        state = controller.current
+        if state.name != "cs_hurt":
+            controller.change("cs_hurt", {"state": state})
 
     def on_finish(self):
         self.done  = True

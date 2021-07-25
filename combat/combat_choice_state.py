@@ -64,14 +64,12 @@ class CombatStateChoice:
         y_pos = self.selection.y + self.selection.height - self.down_arrow.height
         self.down_arrow.set_position(x_pos, y_pos)
 
-    def on_select(self, index, data):
-        print("on select", index, data)
-
+    def on_select(self, index, data):        
         if data == "attack":
             self.selection.hide_cursor()
             state = CombatTargetState(
                 self.combat_state,
-                target_type=CombatTargetType.SIDE,
+                target_type=CombatTargetType.ONE,
                 on_select=partial(self.take_action, data),
                 on_exit=None
             )

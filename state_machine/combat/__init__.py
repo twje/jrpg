@@ -11,6 +11,7 @@ __all__ = [state_registry]
 def register_state(name):
     """add resolver class to registry"""
     def add_class(clazz):
+        clazz.name = name
         module = sys.modules[clazz.__module__]
         if hasattr(module, '__all__'):
             module.__all__.append(clazz.__name__)

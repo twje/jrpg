@@ -1,4 +1,4 @@
-# 619 - Attack Event (action-4-solution)
+# 624 - death and targeting - action 5
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory
@@ -93,6 +93,7 @@ class JRPG(Application):
             "actors": {
                 "party": self.world.party.to_list(),
                 "enemy": [
+                    Actor(enemy_defs["goblin"]),
                     Actor(enemy_defs["goblin"])                    
                 ]
             }
