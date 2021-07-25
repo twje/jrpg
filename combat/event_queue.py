@@ -103,7 +103,7 @@ class EventQueue:
 
         # current event
         name = "None" if self.current_event is None else self.current_event.name
-        name_sprite = SpriteFont(f"CURRENT: Turn for {name}", font=font)
+        name_sprite = SpriteFont(f"CURRENT: {name}", font=font)
         name_sprite.set_position(x, y + font.height())
         renderer.draw(name_sprite)
 

@@ -427,3 +427,13 @@ def move_cam_to_tile(state_id, tile_x, tile_y, duration=1):
         )
 
     return create
+
+
+def run_state(statemachine, state_id, params):
+    @debug_storyboard_event(move_cam_to_tile)
+    def create(storyboard):
+        statemachine.change(state_id, params)
+        return BlockUntilEvent(
+            lambda: statemachine.current.is_finished()
+        )
+    return create

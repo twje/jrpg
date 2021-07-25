@@ -17,14 +17,14 @@ class Animation:
                 if self.loop:
                     self.index = 0
                 else:
-                    self.index = len(self.frames)
+                    self.index = len(self.frames) - 1
 
     def set_frames(self, frames):
         self.frames = frames
-        self.index = min(self.index, len(frames) - 1)
+        self.index = min(self.index, len(frames) - 1)        
 
     def frame(self):
         return self.frames[self.index]
 
     def is_finished(self):
-        return self.loop and self.index == len(self.frames)
+        return self.loop == False and self.index == len(self.frames) - 1

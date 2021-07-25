@@ -12,9 +12,11 @@ class CSStandby:
         self.anim = None
 
     def enter(self, data):
+        data = dict(data)
         self.anim_id = data["anim"]
+        del data["anim"]
         frames = self.character.get_combat_anim(self.anim_id)
-        self.anim = Animation(frames, data["loop"], data["spf"])
+        self.anim = Animation(frames, **data)
 
     def exit(self):
         pass
