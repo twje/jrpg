@@ -33,9 +33,9 @@ class Actor:
         "acces2",
     ]
     ACTOR_STATS = [
-        "str",
-        "spd",
-        "int",
+        "strength",
+        "speed",
+        "intelligence",
     ]
     ITEM_STATS = [
         "attack",

@@ -232,7 +232,8 @@
             "controller":  [
                 "cs_run_anim",
                 "cs_hurt",
-                "cs_standby"
+                "cs_standby",
+                "cs_die"
             ],
             "state": "cs_standby"
         }

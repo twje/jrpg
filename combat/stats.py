@@ -16,7 +16,7 @@ class StatModifier:
         self.add = modifier.get("add", {})
         self.mult = modifier.get("mult", {})
 
-    def get_add(self, stat_id):        
+    def get_add(self, stat_id):
         return self.add.get(stat_id, 0)
 
     def get_mult(self, stat_id):
@@ -37,7 +37,7 @@ class Stat:
     def add_modifier(self, modifier_id, modifier):
         self.modifiers[modifier_id] = StatModifier(modifier)
 
-    def remove_modifier(self, modifier_id):        
+    def remove_modifier(self, modifier_id):
         self.modifiers.pop(modifier_id, None)
 
     def get(self, stat_id):
@@ -49,3 +49,6 @@ class Stat:
             multiplier += modifier.get_mult(stat_id)
 
         return total + (total * multiplier)
+
+    def set(self, stat_id, value):
+        self.base[stat_id] = value

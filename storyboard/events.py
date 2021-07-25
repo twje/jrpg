@@ -428,6 +428,13 @@ def move_cam_to_tile(state_id, tile_x, tile_y, duration=1):
 
     return create
 
+def function(func):
+    @debug_storyboard_event(move_cam_to_tile)
+    def create(storyboard):
+        func()
+        return NullEvent()
+    return create
+
 
 def run_state(statemachine, state_id, params):
     @debug_storyboard_event(move_cam_to_tile)

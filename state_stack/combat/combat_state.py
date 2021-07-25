@@ -16,7 +16,7 @@ from dependency import Injector
 from dependency import Payload
 from combat.event_queue import EventQueue
 from combat.event import CETurn
-from combat.combat_choice_state import CombatStateChoice
+from state_machine.combat import state_registry
 import utils
 import colors
 
@@ -170,6 +170,9 @@ class CombatStateUI:
         for character in self.state.characters['enemy']:
             character.entity.render(renderer)
 
+        for character in self.state.death_list:
+            character.entity.render(renderer)
+
     def render_panels(self, renderer):
         for panel in self.panels:
             panel.render(renderer)
@@ -183,14 +186,14 @@ class CombatStateUI:
         self.stats_list.render(renderer)
 
     def render_party_names(self, renderer, font, scale, x, y, item):
-        sprite = SpriteFont(item.name, font=font)        
+        sprite = SpriteFont(item.name, font=font)
         sprite.set_position(x, y)
         sprite.scale_by_ratio(scale, scale)
-        
-        if item == self.state.selected_actor:            
-            sprite.set_color((255, 255, 0))            
-        else:            
-            sprite.set_color((255, 255, 255))            
+
+        if item == self.state.selected_actor:
+            sprite.set_color((255, 255, 0))
+        else:
+            sprite.set_color((255, 255, 255))
         renderer.draw(sprite)
 
     def render_party_stats(self, renderer, font, scale, x, y, item):
@@ -318,6 +321,7 @@ class CombatState(Injector):
         }
         self.selected_actor = None
         self.actor_char_map = {}
+        self.death_list = []
 
         self.create_combat_characters("party")
         self.create_combat_characters("enemy")
@@ -378,6 +382,13 @@ class CombatState(Injector):
         for character in self.characters["enemy"]:
             character.controller.update(dt)
 
+        for character in list(self.death_list):
+            character.controller.update(dt)
+            state = character.controller.current
+
+            if state.is_finished():
+                self.death_list.remove(character)
+
         if len(self.stack) > 0:
             self.stack.update(dt)
         else:
@@ -409,13 +420,51 @@ class CombatState(Injector):
         return not self.has_live_actors(self.actors["party"])
 
     def has_live_actors(self, actors):
-        for actor in actors:            
+        for actor in actors:
             if actor.stats.get("hp_now") > 0:
                 return True
         return False
 
     def is_party_member(self, actor):
         return actor in self.actors["party"]
+
+    def handle_death(self):
+        self.handle_party_death()
+        self.handle_enemy_death()
+
+    def handle_party_death(self):
+        actors = self.actors["party"]
+        for actor in actors:
+            character = self.actor_char_map[actor]
+            controller = character.controller
+            state = controller.current
+
+            if isinstance(state, state_registry["cs_run_anim"]) and state.anim_id != "death":
+                hp = actor.stats.get("hp_now")
+                if hp <= 0:
+                    controller.change("cs_run_anim", {"anim": "death"})
+                    self.event_queue.removed_events_owned_by(actor)    
+
+    def handle_enemy_death(self):
+        actors = self.actors["enemy"]
+        for actor in list(actors):
+            hp = actor.stats.get("hp_now")
+            if hp > 0:
+                continue
+
+            character = self.actor_char_map[actor]
+            controller = character.controller
+
+            # purge
+            actors.remove(actor)
+            self.characters["enemy"].remove(character)
+            del self.actor_char_map[actor]
+
+            controller.change("cs_die")
+            self.event_queue.removed_events_owned_by(actor)
+
+            # add to effects
+            self.death_list.append(character)
 
     def render(self, renderer):
         renderer.begin()

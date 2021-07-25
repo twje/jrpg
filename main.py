@@ -1,4 +1,4 @@
-# 611 - Attack Event (action-2-solution)
+# 619 - Attack Event (action-4-solution)
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory
@@ -93,7 +93,7 @@ class JRPG(Application):
             "actors": {
                 "party": self.world.party.to_list(),
                 "enemy": [
-                    Actor(enemy_defs["goblin"])
+                    Actor(enemy_defs["goblin"])                    
                 ]
             }
         }

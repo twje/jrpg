@@ -16,8 +16,8 @@ class PartyModel:
             party_member["stat_growth"]["hp_max"]["dice"])
         party_member["stat_growth"]["mp_max"] = Dice(
             party_member["stat_growth"]["mp_max"]["dice"])
-        party_member["stat_growth"]["str"] = self.stat_model[party_member["stat_growth"]["str"]]
-        party_member["stat_growth"]["spd"] = self.stat_model[party_member["stat_growth"]["spd"]]
-        party_member["stat_growth"]["int"] = self.stat_model[party_member["stat_growth"]["int"]]
+        party_member["stat_growth"]["strength"] = self.stat_model[party_member["stat_growth"]["strength"]]
+        party_member["stat_growth"]["speed"] = self.stat_model[party_member["stat_growth"]["speed"]]
+        party_member["stat_growth"]["intelligence"] = self.stat_model[party_member["stat_growth"]["intelligence"]]
 
         return party_member
