@@ -82,7 +82,7 @@ class CombatStateChoice:
         queue = self.combat_state.event_queue
 
         if action_id == "attack":
-            event = CEAttack(self.combat_state, self.actor, {}, targets)
+            event = CEAttack(self.combat_state, self.actor, {"player": True}, targets)
             tp = event.time_points(queue)
             queue.add(event, tp)
 

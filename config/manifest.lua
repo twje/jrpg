@@ -265,6 +265,10 @@ manifest =
         {
             path = "code/CombatChoiceState.lua"
         },
+        ['CombatFormula.lua'] =
+        {
+            path = "code/CombatFormula.lua"
+        },
         ['JumpingNumbers.lua'] =
         {
             path = "code/fx/JumpingNumbers.lua"
@@ -295,6 +299,10 @@ manifest =
         ['goblin.png'] =
         {
             path = "art/goblin.png",
+        },
+        ['chest.png'] =
+        {
+            path = "art/chest.png",
         },
         ['cursor.png'] =
         {
@@ -364,9 +372,9 @@ manifest =
         {
             path = "art/combat_slash.png",
         },
-        ['chest.png'] =
+        ['combat_claw.png'] =
         {
-            path = "art/chest.png",
+            path = "art/combat_claw.png",
         },
     },
     ['fonts'] =

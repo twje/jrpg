@@ -20,15 +20,33 @@ class CEAttack:
 
         # prime combat event
         self.controller.change("cs_run_anim", {"anim": "prone"})
-        self.storyboard = Storyboard(
-            self.state.stack, [
-                events.run_state(self.controller, "cs_move", {"dir": 1}),
-                events.run_state(self.controller, "cs_run_anim", {
-                                 "anim": "attack", "loop": False}),
-                events.function(self.do_attack),
-                events.run_state(self.controller, "cs_move", {"dir": -1}),
-                events.function(self.on_finish),
-            ])
+
+        if attack_def["player"]:
+            self.attack_anim = self.get_entity_def("slash")
+            self.default_targeter = CombatSelector.weakest_enemy
+
+            self.storyboard = Storyboard(
+                self.state.stack, [
+                    events.run_state(self.controller, "cs_move", {"dir": 1}),
+                    events.run_state(self.controller, "cs_run_anim", {
+                                     "anim": "attack", "loop": False}),
+                    events.function(self.do_attack),
+                    events.run_state(self.controller, "cs_move", {"dir": -1}),
+                    events.function(self.on_finish),
+                ])
+        else:
+            self.attack_anim = self.get_entity_def("claw")
+            self.default_targeter = CombatSelector.random_alive_player
+
+            self.storyboard = Storyboard(
+                self.state.stack, [
+                    events.run_state(self.controller, "cs_move", {
+                                     "dir": -1, "distance": 8, "time": 0.1}),
+                    events.function(self.do_attack),
+                    events.run_state(self.controller, "cs_move", {
+                                     "dir": 1, "distance": 8, "time": 0.4}),
+                    events.function(self.on_finish),
+                ])
 
     def time_points(self, queue):
         speed = self.owner.stats.get('speed')
@@ -44,7 +62,7 @@ class CEAttack:
                 self.targets.remove(target)
 
         if len(self.targets) == 0:
-            self.targets = CombatSelector.weakest_enemy(self.state)
+            self.targets = self.default_targeter(self.state)
 
     def update(self):
         pass
@@ -58,20 +76,22 @@ class CEAttack:
 
     def attack_target(self, target):
         demage = combat_formula.malee_attack(self.state, self.owner, target)
-        self.state.apply_demage(target, demage)
-        self.add_slash_effects(target)
-
-    def add_slash_effects(self, target):
         entity = self.state.actor_to_entity(target)
-        entity_defs = self.context.data["entity_definitions"]
-        entity_def = entity_defs.get_entity_def("slash")
-        slash_effect = AnimEntityFX(
+        self.state.apply_demage(target, demage)
+        self.add_attack_effect(entity)
+
+    def add_attack_effect(self, entity):
+        effect = AnimEntityFX(
             entity.sprite.x + entity.width/2,
             entity.sprite.y + entity.height/2,
-            entity_def,
-            entity_def["frames"]
+            self.attack_anim,
+            self.attack_anim["frames"]
         )
-        self.state.add_effect(slash_effect)
+        self.state.add_effect(effect)
+
+    def get_entity_def(self, entity_id):
+        entity_defs = self.context.data["entity_definitions"]
+        return entity_defs.get_entity_def(entity_id)
 
     def on_finish(self):
         self.done = True

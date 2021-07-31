@@ -57,6 +57,9 @@
             "CombatChoiceState.lua": {
                 "path": "code/CombatChoiceState.lua"
             },
+            "CombatFormula.lua": {
+                "path": "code/CombatFormula.lua"
+            },
             "CombatState.lua": {
                 "path": "code/CombatState.lua"
             },
@@ -212,6 +215,9 @@
             },
             "chest.png": {
                 "path": "art/chest.png"
+            },
+            "combat_claw.png": {
+                "path": "art/combat_claw.png"
             },
             "combat_hero.png": {
                 "path": "art/combat_hero.png"

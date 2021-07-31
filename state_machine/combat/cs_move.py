@@ -18,8 +18,8 @@ class CSMove:
         self.pixel_y = None
 
     def enter(self, params):
-        self.move_time = params.get("move_time", self.move_time)
-        self.move_distance = params.get("move_distance", self.move_distance)
+        self.move_time = params.get("time", self.move_time)
+        self.move_distance = params.get("distance", self.move_distance)
         backfourth = params["dir"]
 
         anims = self.character.anims

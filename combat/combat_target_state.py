@@ -1,3 +1,4 @@
+import random
 import pygame
 import sys
 from core.graphics import Sprite
@@ -36,7 +37,9 @@ class CombatSelector:
         for actor in state.actors["party"]:
             if actor.stats.get("hp_now") > 0:
                 targets.append(actor)
-        return targets
+
+        target = random.choice(targets)
+        return [target]
 
 
 class CombatTargetType:

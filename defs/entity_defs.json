@@ -91,6 +91,13 @@
             "height": 64,
             "start_frame": 2,
             "frames": [2, 1, 0]
+        },
+        "claw": {
+            "texture": "combat_claw.png",
+            "width": 64,
+            "height": 64,
+            "start_frame": 0,
+            "frames": [0, 1, 2]
         }
     },
     "characters": {
@@ -240,7 +247,8 @@
                 "cs_run_anim",
                 "cs_hurt_enemy",
                 "cs_standby",
-                "cs_die_enemy"
+                "cs_die_enemy",
+                "cs_move"
             ],
             "state": "cs_standby"
         }     

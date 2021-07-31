@@ -1,4 +1,6 @@
+from combat.combat_target_state import CombatSelector
 from combat.combat_choice_state import CombatStateChoice
+from combat.event import CEAttack
 
 
 class CETurn:
@@ -20,8 +22,13 @@ class CETurn:
             self.done = True
             return
         else:
+            targets = CombatSelector.random_alive_player(self.state)
+            attack_def = {"player": False}
+            queue = self.state.event_queue
+            event = CEAttack(self.state, self.owner, attack_def, targets)            
+            tp = event.time_points(queue)            
+            queue.add(event, tp)
             self.done = True
-            # query AI for task
 
     def update(self):
         pass
