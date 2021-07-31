@@ -104,6 +104,15 @@ class FontStyle:
             antialias=True
         )
 
+    @classmethod
+    def title(cls):
+        return cls(
+            font_loader=TTFFont(),
+            size=40,
+            bold=False,
+            color=(255, 255, 255, 255),
+            antialias=True
+        )
 
 # ----
 # Font

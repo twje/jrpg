@@ -56,7 +56,8 @@ class Application:
         self.handle_event_hook(event)
 
     def update(self):
-        self.window.update()
+        self.context.delta_time = self.elapsed_time
+        self.window.update()        
         self.update_hook(self.elapsed_time)
         self.context.input_manager.clear()
 

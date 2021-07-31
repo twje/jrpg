@@ -8,6 +8,7 @@ class Context:
         self.camera = None
         self.info = None
         self.data = {}
+        self.delta_time = 0
 
     @classmethod
     def instance(cls):

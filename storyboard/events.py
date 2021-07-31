@@ -428,6 +428,7 @@ def move_cam_to_tile(state_id, tile_x, tile_y, duration=1):
 
     return create
 
+
 def function(func):
     @debug_storyboard_event(move_cam_to_tile)
     def create(storyboard):
@@ -442,5 +443,28 @@ def run_state(statemachine, state_id, params):
         statemachine.change(state_id, params)
         return BlockUntilEvent(
             lambda: statemachine.current.is_finished()
+        )
+    return create
+
+
+def replace_state(current, new_state):
+    def create(storyboard):
+        stack = storyboard.stack
+        for index, state in enumerate(stack.states):
+            if state == current:
+                stack.states[index].exit()
+                stack.states[index] = new_state
+                stack.states[index].enter()
+        return NullEvent()
+    return create
+
+
+def update_state(state, time):
+    def create(storyboard):
+        dt = Context.instance().delta_time
+        return TweenEvent(
+            tween.Tween(0, 1, time),
+            state,
+            lambda target, value: target.update(dt)
         )
     return create

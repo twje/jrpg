@@ -1,5 +1,7 @@
 import copy
 from collections import namedtuple
+from state_stack.world.game_over_state import GameOverState
+from combat import event
 from utils import lookup_texture_filepath
 from state_stack import StateStack
 from core.graphics import Sprite
@@ -15,6 +17,8 @@ from graphics.menu import Layout
 from dependency import Injector
 from dependency import Payload
 from combat.fx import JumpingNumbers
+from storyboard.storyboard import Storyboard
+from storyboard import events
 from combat.event_queue import EventQueue
 from combat.event import CETurn
 from state_machine.combat import state_registry
@@ -329,6 +333,8 @@ class CombatState(Injector):
         self.actor_char_map = {}
         self.death_list = []
         self.effects_list = []
+        self.is_finishing = False
+
 
         self.create_combat_characters("party")
         self.create_combat_characters("enemy")
@@ -431,7 +437,7 @@ class CombatState(Injector):
 
         if len(self.stack) > 0:
             self.stack.update(dt)
-        else:
+        elif not self.is_finishing:
             self.event_queue.update()
 
             self.add_turns(self.actors["party"])
@@ -439,10 +445,31 @@ class CombatState(Injector):
 
             if self.party_wins():
                 self.event_queue.clear()
+                self.on_win()
             elif self.enemy_wins():
                 self.event_queue.clear()
+                self.on_lose()
 
         return False
+
+    def on_win(self):
+        self.is_finishing = True
+
+    def on_lose(self):
+        world = Context.instance().data["world"]
+        self.storyboard = Storyboard(
+            self.game_stack, 
+            [
+                # update self for a further 1.5 seconds to see the end of effects
+                events.update_state(self, 1.5),
+                events.black_screen("blackscreen"),
+                events.fade_in_screen("blackscreen"),
+                events.replace_state(self, GameOverState(self.game_stack, world)),
+                events.fade_out_screen("blackscreen"),
+            ]
+        )
+        self.game_stack.push(self.storyboard)
+        self.is_finishing = True
 
     def update_party(self, dt):
         for character in self.characters["party"]:

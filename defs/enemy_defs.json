@@ -6,8 +6,8 @@
             "hp_max": 80,
             "mp_now": 0,
             "mp_max": 0,
-            "strength": 8,
-            "speed": 16,
+            "strength": 200,
+            "speed": 20,
             "intelligence": 2
         },
         "name": "Arena Goblin",
