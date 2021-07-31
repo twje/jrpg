@@ -1,6 +1,7 @@
 from combat.combat_target_state import CombatSelector
 from storyboard.storyboard import Storyboard
 from storyboard import events
+from combat.fx import JumpingNumbers
 
 
 class CEAttack:
@@ -9,7 +10,7 @@ class CEAttack:
         self.state = state
         self.owner = owner
         self.targets = targets
-        self.character = state.actor_char_map[owner]
+        self.character = state.actor_char_map[owner]        
         self.name = f"Attack for {self.owner.name}"
         self.done = False
         self.controller = self.character.controller
@@ -69,8 +70,21 @@ class CEAttack:
         if demage > 0:
             self.set_hurt_state(target)
 
+        self.add_effects(target, demage)        
+
         # death is handled seperately so it occurs parallel with attack event         
         self.state.handle_death()
+
+    def add_effects(self, target, demage):
+        # jumping number
+        character = self.state.actor_char_map[target]
+        entity = character.entity
+        dmg_effect = JumpingNumbers(
+            entity.sprite.x + entity.width/2,
+            entity.sprite.y + entity.height/2,
+            str(demage)
+        )
+        self.state.add_effect(dmg_effect)
 
     def set_hurt_state(self, target):
         character = self.state.actor_char_map[target]

@@ -155,6 +155,7 @@ class CombatStateUI:
         self.render_background(renderer)
         self.render_party(renderer)
         self.render_enemy(renderer)
+        self.render_effects(renderer)
         self.render_panels(renderer)
         self.render_panel_titles(renderer)
         self.render_selection_boxes(renderer)
@@ -172,6 +173,10 @@ class CombatStateUI:
 
         for character in self.state.death_list:
             character.entity.render(renderer)
+
+    def render_effects(self, renderer):
+        for effect in self.state.effects_list:
+            effect.render(renderer)
 
     def render_panels(self, renderer):
         for panel in self.panels:
@@ -322,6 +327,7 @@ class CombatState(Injector):
         self.selected_actor = None
         self.actor_char_map = {}
         self.death_list = []
+        self.effects_list = []
 
         self.create_combat_characters("party")
         self.create_combat_characters("enemy")
@@ -330,6 +336,14 @@ class CombatState(Injector):
     def get_dependency(self, identifier):
         if identifier == "combat_scene":
             return Payload(self)
+
+    def add_effect(self, effect):
+        for index, effect in enumerate(list(self.effects_list)):
+            priority = effect.priority
+            if effect.priority > priority:
+                self.effects_list.insert(index + 1, effect)
+                return
+        self.effects_list.append(effect)
 
     def on_party_member_select(self, index, item):
         pass
@@ -376,11 +390,9 @@ class CombatState(Injector):
         self.stack.handle_input(event)
 
     def update(self, dt):
-        for character in self.characters["party"]:
-            character.controller.update(dt)
-
-        for character in self.characters["enemy"]:
-            character.controller.update(dt)
+        self.update_party(dt)
+        self.update_enemy(dt)
+        self.update_effects(dt)
 
         for character in list(self.death_list):
             character.controller.update(dt)
@@ -388,7 +400,7 @@ class CombatState(Injector):
 
             if state.is_finished():
                 self.death_list.remove(character)
-
+        
         if len(self.stack) > 0:
             self.stack.update(dt)
         else:
@@ -403,6 +415,20 @@ class CombatState(Injector):
                 self.event_queue.clear()
 
         return False
+
+    def update_party(self, dt):
+         for character in self.characters["party"]:
+            character.controller.update(dt)
+
+    def update_enemy(self, dt):
+        for character in self.characters["enemy"]:
+            character.controller.update(dt)
+
+    def update_effects(self, dt):
+        for effect in list(self.effects_list):
+            if effect.is_finished():
+                self.effects_list.remove(effect)
+            effect.update(dt)
 
     def add_turns(self, actor_list):
         for actor in actor_list:

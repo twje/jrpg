@@ -100,7 +100,7 @@ class JRPG(Application):
         }
 
         self.stack.push(state)
-        #self.stack.push(CombatState(self.stack, combat_def))
+        self.stack.push(CombatState(self.stack, combat_def))
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath
