@@ -116,13 +116,13 @@ class SpriteAtlas(BaseSprite):
     def texture(self):
         return self.textureAtlas[self.index]
 
-    def draw_debug(self, surface, offset_x, offset_y):
-        pygame.draw.rect(surface, colors.WHITE, 
-            (
-                offset_x, 
-                offset_y, 
-                self.width,
-                self.height                 
-            ), 
-            width=1
-        )
+    # def draw_debug(self, surface, offset_x, offset_y):
+    #     pygame.draw.rect(surface, colors.WHITE, 
+    #         (
+    #             offset_x, 
+    #             offset_y, 
+    #             self.width,
+    #             self.height                 
+    #         ), 
+    #         width=1
+    #     )

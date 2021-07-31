@@ -84,6 +84,13 @@
             "width": 32,
             "height": 32,
             "start_frame": 0
+        },
+        "slash": {
+            "texture": "combat_slash.png",
+            "width": 64,
+            "height": 64,
+            "start_frame": 2,
+            "frames": [2, 1, 0]
         }
     },
     "characters": {
@@ -236,6 +243,6 @@
                 "cs_die_enemy"
             ],
             "state": "cs_standby"
-        }
+        }     
     }
 }

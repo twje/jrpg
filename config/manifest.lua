@@ -233,9 +233,45 @@ manifest =
         {
             path = "code/combat_states/CSStandby.lua"
         },
+        ['CSEnemyHurt.lua'] =
+        {
+            path = "code/combat_states/CSEnemyHurt.lua"
+        },
+        ['CSEnemyDie.lua'] =
+        {
+            path = "code/combat_states/CSEnemyDie.lua"
+        },
         ['Animation.lua'] =
         {
             path = "code/Animation.lua"
+        },
+        ['EventQueue.lua'] =
+        {
+            path = "code/EventQueue.lua"
+        },
+        ['CombatTargetState.lua'] =
+        {
+            path = "code/CombatTargetState.lua"
+        },
+        ['CETurn.lua'] =
+        {
+            path = "code/combat_events/CETurn.lua"
+        },
+        ['CEAttack.lua'] =
+        {
+            path = "code/combat_events/CEAttack.lua"
+        },
+        ['CombatChoiceState.lua'] =
+        {
+            path = "code/CombatChoiceState.lua"
+        },
+        ['JumpingNumbers.lua'] =
+        {
+            path = "code/fx/JumpingNumbers.lua"
+        },
+        ['AnimEntityFx.lua'] =
+        {
+            path = "code/fx/AnimEntityFx.lua"
         },
     },
     textures =
@@ -323,6 +359,10 @@ manifest =
         ['arena_background.png'] =
         {
             path = "art/arena_background.png",
+        },
+        ['combat_slash.png'] =
+        {
+            path = "art/combat_slash.png",
         },
         ['chest.png'] =
         {

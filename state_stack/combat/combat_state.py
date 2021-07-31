@@ -338,8 +338,8 @@ class CombatState(Injector):
             return Payload(self)
 
     def add_effect(self, effect):
-        for index, effect in enumerate(list(self.effects_list)):
-            priority = effect.priority
+        for index, item in enumerate(list(self.effects_list)):
+            priority = item.priority
             if effect.priority > priority:
                 self.effects_list.insert(index + 1, effect)
                 return

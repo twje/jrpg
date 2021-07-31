@@ -15,8 +15,23 @@
             "ActorSummary.lua": {
                 "path": "code/ActorSummary.lua"
             },
+            "AnimEntityFx.lua": {
+                "path": "code/fx/AnimEntityFx.lua"
+            },
             "Animation.lua": {
                 "path": "code/Animation.lua"
+            },
+            "CEAttack.lua": {
+                "path": "code/combat_events/CEAttack.lua"
+            },
+            "CETurn.lua": {
+                "path": "code/combat_events/CETurn.lua"
+            },
+            "CSEnemyDie.lua": {
+                "path": "code/combat_states/CSEnemyDie.lua"
+            },
+            "CSEnemyHurt.lua": {
+                "path": "code/combat_states/CSEnemyHurt.lua"
             },
             "CSHurt.lua": {
                 "path": "code/combat_states/CSHurt.lua"
@@ -39,8 +54,14 @@
             "Character.lua": {
                 "path": "code/Character.lua"
             },
+            "CombatChoiceState.lua": {
+                "path": "code/CombatChoiceState.lua"
+            },
             "CombatState.lua": {
                 "path": "code/CombatState.lua"
+            },
+            "CombatTargetState.lua": {
+                "path": "code/CombatTargetState.lua"
             },
             "Dependencies.lua": {
                 "path": "code/Dependencies.lua"
@@ -59,6 +80,9 @@
             },
             "EquipMenuState.lua": {
                 "path": "code/EquipMenuState.lua"
+            },
+            "EventQueue.lua": {
+                "path": "code/EventQueue.lua"
             },
             "ExploreState.lua": {
                 "path": "code/ExploreState.lua"
@@ -83,6 +107,9 @@
             },
             "ItemMenuState.lua": {
                 "path": "code/ItemMenuState.lua"
+            },
+            "JumpingNumbers.lua": {
+                "path": "code/fx/JumpingNumbers.lua"
             },
             "Layout.lua": {
                 "path": "code/Layout.lua"
@@ -191,6 +218,9 @@
             },
             "combat_mage.png": {
                 "path": "art/combat_mage.png"
+            },
+            "combat_slash.png": {
+                "path": "art/combat_slash.png"
             },
             "combat_thief.png": {
                 "path": "art/combat_thief.png"
