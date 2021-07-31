@@ -2,8 +2,8 @@
     "goblin": {
         "id": "goblin",
         "stats": {            
-            "hp_now": 3,
-            "hp_max": 3,
+            "hp_now": 80,
+            "hp_max": 80,
             "mp_now": 0,
             "mp_max": 0,
             "strength": 8,

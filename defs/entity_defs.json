@@ -233,7 +233,7 @@
                 "cs_run_anim",
                 "cs_hurt_enemy",
                 "cs_standby",
-                "cs_die"
+                "cs_die_enemy"
             ],
             "state": "cs_standby"
         }

@@ -17,8 +17,8 @@ class CSEnemyHurt:
     def enter(self, data):
         self.prev_state = data["state"]
         frames = self.character.get_combat_anim('hurt')
-        anim = Animation(frames, False, 0.2)
-        self.entity.set_frame(anim.frame())
+        self.anim = Animation(frames, False, 0.2)        
+        self.entity.set_frame(self.anim.frame())
 
     def exit(self):
         pass

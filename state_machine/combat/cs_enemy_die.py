@@ -2,8 +2,10 @@ from . import register_state
 from core.tween import Tween
 
 
-@register_state('cs_die')
+@register_state('cs_die_enemy')
 class CSEnemyDie:
+    name = "cs_die"
+
     def __init__(self, character, context):
         self.character = character        
         self.sprite = character.entity.sprite        
