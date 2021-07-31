@@ -14,6 +14,7 @@ from graphics.UI import Selection
 from graphics.menu import Layout
 from dependency import Injector
 from dependency import Payload
+from combat.fx import JumpingNumbers
 from combat.event_queue import EventQueue
 from combat.event import CETurn
 from state_machine.combat import state_registry
@@ -337,6 +338,34 @@ class CombatState(Injector):
         if identifier == "combat_scene":
             return Payload(self)
 
+    def apply_demage(self, target, demage):
+        stats = target.stats
+        hp = stats.get("hp_now") - demage
+        stats.set("hp_now", hp)
+
+        if demage > 0:
+            self.set_hurt_state(target)
+
+        self.add_jump_numbers_effect(target, demage)
+        self.handle_death()
+
+    def set_hurt_state(self, actor):
+        character = self.actor_char_map[actor]
+        controller = character.controller
+        state = controller.current
+        if state.name != "cs_hurt":
+            controller.change("cs_hurt", {"state": state})
+
+    def add_jump_numbers_effect(self, actor, demage):
+        character = self.actor_char_map[actor]
+        entity = character.entity
+        effect = JumpingNumbers(
+            entity.sprite.x + entity.width/2,
+            entity.sprite.y + entity.height/2,
+            str(demage)
+        )
+        self.add_effect(effect)            
+
     def add_effect(self, effect):
         for index, item in enumerate(list(self.effects_list)):
             priority = item.priority
@@ -455,6 +484,7 @@ class CombatState(Injector):
         return actor in self.actors["party"]
 
     def handle_death(self):
+        # death is handled seperately so it occurs parallel with attack event
         self.handle_party_death()
         self.handle_enemy_death()
 

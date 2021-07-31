@@ -1,4 +1,4 @@
-# 628 - CSEnemyHurt - action 5
+# 639 - Enemies Fighting Back, Solution 8
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory

@@ -1,9 +1,9 @@
 from combat.combat_target_state import CombatSelector
 from storyboard.storyboard import Storyboard
 from storyboard import events
-from combat.fx import JumpingNumbers
 from combat.fx import AnimEntityFX
 from core import Context
+from combat import combat_formula
 
 class CEAttack:
     # event queue - orchestrate stack using storyboard
@@ -56,41 +56,14 @@ class CEAttack:
             self.attack_target(target)
 
     def attack_target(self, target):
-        stats = self.owner.stats
-        enemy_stats = target.stats
+        demage = combat_formula.malee_attack(self.state, self.owner, target)
+        self.state.apply_demage(target, demage)
+        self.add_slash_effects(target, demage)
 
-        # simple attack
-        attack = stats.get("attack")
-        attack += stats.get("strength")
-        defense = enemy_stats.get("defence")
 
-        demage = max(0, attack - defense)
-        hp = enemy_stats.get("hp_now")
-        hp = hp - demage
-
-        enemy_stats.set("hp_now", max(0, hp))
-
-        if demage > 0:
-            self.set_hurt_state(target)
-
-        self.add_effects(target, demage)
-
-        # death is handled seperately so it occurs parallel with attack event
-        self.state.handle_death()
-
-    def add_effects(self, target, demage):
+    def add_slash_effects(self, target, demage):        
         character = self.state.actor_char_map[target]
         entity = character.entity
-
-        # jumping number
-        dmg_effect = JumpingNumbers(
-            entity.sprite.x + entity.width/2,
-            entity.sprite.y + entity.height/2,
-            str(demage)
-        )
-        self.state.add_effect(dmg_effect)
-
-        # slash
         entity_defs = self.context.data["entity_definitions"]
         entity_def = entity_defs.get_entity_def("slash")
         slash_effect = AnimEntityFX(
@@ -100,13 +73,6 @@ class CEAttack:
             entity_def["frames"]
         )
         self.state.add_effect(slash_effect)
-
-    def set_hurt_state(self, target):
-        character = self.state.actor_char_map[target]
-        controller = character.controller
-        state = controller.current
-        if state.name != "cs_hurt":
-            controller.change("cs_hurt", {"state": state})
 
     def on_finish(self):
         self.done = True

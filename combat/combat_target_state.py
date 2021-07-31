@@ -30,6 +30,14 @@ class CombatSelector:
         targets.extend(state.actors["party"])
         return targets
 
+    @staticmethod
+    def random_alive_player(state):
+        targets = []
+        for actor in state.actors["party"]:
+            if actor.stats.get("hp_now") > 0:
+                targets.append(actor)
+        return targets
+
 
 class CombatTargetType:
     ONE = "one"
