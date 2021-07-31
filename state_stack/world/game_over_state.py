@@ -58,8 +58,7 @@ class GameOverState:
 
             # hack for now
             context = Context.instance()
-            stack = context.data["stack"]
-            world = World()
+            stack = context.data["stack"]            
             map_db = Context.instance().data["maps"]
 
             state = ExploreState(

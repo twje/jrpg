@@ -335,7 +335,6 @@ class CombatState(Injector):
         self.effects_list = []
         self.is_finishing = False
 
-
         self.create_combat_characters("party")
         self.create_combat_characters("enemy")
         self.combat_ui = CombatStateUI(self)
@@ -346,7 +345,7 @@ class CombatState(Injector):
 
     def apply_demage(self, target, demage):
         stats = target.stats
-        hp = stats.get("hp_now") - demage
+        hp = max(0, stats.get("hp_now") - demage)
         stats.set("hp_now", hp)
 
         if demage > 0:
@@ -458,13 +457,14 @@ class CombatState(Injector):
     def on_lose(self):
         world = Context.instance().data["world"]
         self.storyboard = Storyboard(
-            self.game_stack, 
+            self.game_stack,
             [
                 # update self for a further 1.5 seconds to see the end of effects
-                events.update_state(self, 1.5),
+                events.update_state(self, 1),
                 events.black_screen("blackscreen"),
                 events.fade_in_screen("blackscreen"),
-                events.replace_state(self, GameOverState(self.game_stack, world)),
+                events.replace_state(
+                    self, GameOverState(self.game_stack, world)),
                 events.fade_out_screen("blackscreen"),
             ]
         )
@@ -524,12 +524,18 @@ class CombatState(Injector):
             character = self.actor_char_map[actor]
             controller = character.controller
             state = controller.current
+            if self.is_already_in_death_state(state):
+                continue
 
-            if isinstance(state, state_registry["cs_run_anim"]) and state.anim_id != "death":
-                hp = actor.stats.get("hp_now")
-                if hp <= 0:
-                    controller.change("cs_run_anim", {"anim": "death"})
-                    self.event_queue.removed_events_owned_by(actor)
+            hp = actor.stats.get("hp_now")
+            if hp <= 0:
+                controller.change("cs_run_anim", {"anim": "death", "loop": False})
+                self.event_queue.removed_events_owned_by(actor)
+
+    def is_already_in_death_state(self, state):
+        if isinstance(state, state_registry["cs_run_anim"]):
+            return state.anim_id == "death"
+        return False
 
     def handle_enemy_death(self):
         actors = self.actors["enemy"]
