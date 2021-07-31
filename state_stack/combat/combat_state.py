@@ -357,14 +357,13 @@ class CombatState(Injector):
             controller.change("cs_hurt", {"state": state})
 
     def add_jump_numbers_effect(self, actor, demage):
-        character = self.actor_char_map[actor]
-        entity = character.entity
+        entity = self.actor_to_entity(actor)
         effect = JumpingNumbers(
             entity.sprite.x + entity.width/2,
             entity.sprite.y + entity.height/2,
             str(demage)
         )
-        self.add_effect(effect)            
+        self.add_effect(effect)
 
     def add_effect(self, effect):
         for index, item in enumerate(list(self.effects_list)):
@@ -429,7 +428,7 @@ class CombatState(Injector):
 
             if state.is_finished():
                 self.death_list.remove(character)
-        
+
         if len(self.stack) > 0:
             self.stack.update(dt)
         else:
@@ -446,7 +445,7 @@ class CombatState(Injector):
         return False
 
     def update_party(self, dt):
-         for character in self.characters["party"]:
+        for character in self.characters["party"]:
             character.controller.update(dt)
 
     def update_enemy(self, dt):
@@ -458,6 +457,10 @@ class CombatState(Injector):
             if effect.is_finished():
                 self.effects_list.remove(effect)
             effect.update(dt)
+
+    def actor_to_entity(self, actor):
+        character = self.actor_char_map[actor]
+        return character.entity
 
     def add_turns(self, actor_list):
         for actor in actor_list:
@@ -499,7 +502,7 @@ class CombatState(Injector):
                 hp = actor.stats.get("hp_now")
                 if hp <= 0:
                     controller.change("cs_run_anim", {"anim": "death"})
-                    self.event_queue.removed_events_owned_by(actor)    
+                    self.event_queue.removed_events_owned_by(actor)
 
     def handle_enemy_death(self):
         actors = self.actors["enemy"]

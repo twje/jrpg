@@ -5,6 +5,7 @@ from combat.fx import AnimEntityFX
 from core import Context
 from combat import combat_formula
 
+
 class CEAttack:
     # event queue - orchestrate stack using storyboard
     def __init__(self, state, owner, attack_def, targets):
@@ -58,12 +59,10 @@ class CEAttack:
     def attack_target(self, target):
         demage = combat_formula.malee_attack(self.state, self.owner, target)
         self.state.apply_demage(target, demage)
-        self.add_slash_effects(target, demage)
+        self.add_slash_effects(target)
 
-
-    def add_slash_effects(self, target, demage):        
-        character = self.state.actor_char_map[target]
-        entity = character.entity
+    def add_slash_effects(self, target):
+        entity = self.state.actor_to_entity(target)
         entity_defs = self.context.data["entity_definitions"]
         entity_def = entity_defs.get_entity_def("slash")
         slash_effect = AnimEntityFX(
