@@ -208,7 +208,11 @@
                 "path": "code/map_jail.lua"
             }
         },
-        "sounds": {},
+        "sounds": {
+            "arena": {
+                "path": "art/sound/Caketown 1.mp3"
+            }
+        },
         "textures": {
             "arena_background.png": {
                 "path": "art/arena_background.png"

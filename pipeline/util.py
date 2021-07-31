@@ -54,6 +54,19 @@ class RemoveKeysFromSettings:
         return contents
 
 
+class ExtendManifest:
+    def __init__(self, filepath):
+        with open(filepath) as fp:
+            self.data = json.load(fp)
+
+    def modify(self, contents):      
+        for category, entries in self.data["manifest"].items():
+            for entry, asset in entries.items():                
+                contents["manifest"][category][entry] = asset
+        
+        return contents
+
+
 class RemoveLuaEncoding:
     def modify(self, contents):
         for layer in contents["layers"]:
@@ -132,6 +145,7 @@ def convert_lua_to_json(dir):
         LuaToJsonConverter(
             descriptor=LuaFilepath(dir.LUA_MANIFEST),
             pre_modifiers=[EnvelopWithBracketsPreModifier()],
+            post_modifiers=[ExtendManifest(dir.JSON_DEFAULT_MANIFEST)]
         ),
         LuaToJsonConverter(
             descriptor=LuaFilepath(dir.LUA_SETTINGS),

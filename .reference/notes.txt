@@ -14,3 +14,7 @@
 - fix stat bugs
 - fix character layout in combat state
 - class CETurn test 'speed' stat for Actor
+
+# sounds
+- arena
+  - https://opengameart.org/content/caketown-cuteplayful

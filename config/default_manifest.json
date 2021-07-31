@@ -1,0 +1,9 @@
+{
+    "manifest": {
+        "sounds": {
+            "arena": {
+                "path": "art/sound/Caketown 1.mp3"
+            }
+        }        
+    }
+}

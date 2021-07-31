@@ -15,5 +15,6 @@ LUA_SETTINGS = CONFIG.joinpath("settings.lua")
 LUA_MANIFEST = CONFIG.joinpath("manifest.lua")
 JSON_SETTINGS = CONFIG.joinpath("settings.json")
 JSON_MANIFEST = CONFIG.joinpath("manifest.json")
+JSON_DEFAULT_MANIFEST = CONFIG.joinpath("default_manifest.json")
 
 MAPS_DIR = ROOT.joinpath("art", "maps", "data")
