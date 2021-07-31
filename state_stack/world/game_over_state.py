@@ -60,7 +60,6 @@ class GameOverState:
             context = Context.instance()
             stack = context.data["stack"]            
             map_db = Context.instance().data["maps"]
-
             state = ExploreState(
                 self.stack,
                 Camera.create_camera_from_surface(
