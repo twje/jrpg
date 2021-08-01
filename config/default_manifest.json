@@ -1,9 +1,17 @@
 {
     "manifest": {
-        "sounds": {
+        "music": {
             "arena": {
-                "path": "art/sound/Caketown 1.mp3"
-            }
-        }        
+                "path": "art/music/Caketown 1.ogg"
+            }           
+        },
+        "sounds": {
+            "attack": {
+                "path": "art/sounds/knifesharpener1.ogg"
+            },
+            "open_chest": {
+                "path": "art/sounds/open chest.ogg"
+            }            
+        }
     }
 }

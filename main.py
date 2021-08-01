@@ -3,6 +3,7 @@
 # item layout
 # move defs to def directory
 from pipeline.util import convert_lua_to_json
+from pipeline.audio_converter import AudioConverter
 
 from core import dirs
 from core import Application
@@ -170,9 +171,11 @@ class JRPG(Application):
 if __name__ == "__main__":
     # content pipeline
     convert_lua_to_json(dirs)
-    settings = factory.load_application_settings()
+    ac = AudioConverter(dirs.FFMPEG, dirs.ASSET_DIR)
+    ac.convert_files()
 
     # application logic
+    settings = factory.load_application_settings()
     game = JRPG(
         settings["name"],
         settings["width"],

@@ -6,6 +6,7 @@ from core.system.input import InputManager
 from core.info import Info
 from core import config
 from core.sound import SoundManager
+from core.system.audio import AudioSystem
 
 
 class Application:
@@ -29,7 +30,11 @@ class Application:
         self.context.input_manager = InputManager()
         self.context.sound_manager = SoundManager()
         self.context.info = Info(self.window.window_surface)
-        self.context.renderer = BatchRenderer(self.window.window_surface)
+        self.context.renderer = BatchRenderer(self.window.window_surface)        
+
+        # add listening systems
+        event_dispatcher = self.context.event_dispatcher
+        event_dispatcher.subscribe(AudioSystem())
 
         self.load()
 
@@ -57,7 +62,7 @@ class Application:
 
     def update(self):
         self.context.delta_time = self.elapsed_time
-        self.window.update()        
+        self.window.update()
         self.update_hook(self.elapsed_time)
         self.context.input_manager.clear()
 

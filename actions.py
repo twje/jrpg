@@ -1,4 +1,5 @@
 from scripts import script_registry
+from core.system.communication import SystemEvent
 from character import Character
 from model import PartyModel
 from core.context import Context
@@ -79,11 +80,18 @@ def add_party_member(actor_id):
         world.party.add(Actor(actor_def))
     return action
 
+@register_action("SetAudioOnMap")
+def set_audio_on_map(map, audio_id):
+    def action(trigger, entity, layer, tile_x, tile_y):
+        map.audio_id = audio_id        
+
+    return action
 
 @register_action("AddChest")
-def add_chest(map, entity_id, loot, chest_x, chest_y, chest_layer=0):
+def add_chest(map, entity_id, loot, audio_id, chest_x, chest_y, chest_layer=0):
     def action(trigger, entity, layer, tile_x, tile_y):
-        context = Context.instance()        
+        context = Context.instance()  
+        event_dispatcher = context.event_dispatcher
         entity_defs = context.data["entity_definitions"]        
         entity_def = entity_defs.get_entity_def(entity_id)
         chest = Entity(entity_def)
@@ -119,6 +127,7 @@ def add_chest(map, entity_id, loot, chest_x, chest_y, chest_layer=0):
 
             map.remove_trigger(chest.tile_x, chest.tile_y, chest.layer)
             chest.set_frame(entity_def["open_frame"])
+            event_dispatcher.notify(SystemEvent.PLAY_SOUND, {"audio_id": audio_id })
 
         trigger = Trigger({ "on_use": on_open_chest })
         map.add_full_trigger(trigger, chest.tile_x, chest.tile_y, chest.layer)

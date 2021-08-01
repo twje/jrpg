@@ -62,7 +62,7 @@ class ExtendManifest:
     def modify(self, contents):      
         for category, entries in self.data["manifest"].items():
             for entry, asset in entries.items():                
-                contents["manifest"][category][entry] = asset
+                contents["manifest"].setdefault(category, {})[entry] = asset
         
         return contents
 

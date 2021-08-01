@@ -5,6 +5,11 @@
                 "path": "art/junction.ttf"
             }
         },
+        "music": {
+            "arena": {
+                "path": "art/music/Caketown 1.ogg"
+            }
+        },
         "scripts": {
             "Actions.lua": {
                 "path": "code/Actions.lua"
@@ -209,8 +214,11 @@
             }
         },
         "sounds": {
-            "arena": {
-                "path": "art/sound/Caketown 1.mp3"
+            "attack": {
+                "path": "art/sounds/knifesharpener1.ogg"
+            },
+            "open_chest": {
+                "path": "art/sounds/open chest.ogg"
             }
         },
         "textures": {

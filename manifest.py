@@ -20,4 +20,9 @@ class Manifest:
     def get_sound_filepath(self, resource_id):
         if resource_id in self.manifest["sounds"]:
             return self.manifest["sounds"][resource_id]["path"]
+        return None
+
+    def get_music_filepath(self, resource_id):
+        if resource_id in self.manifest["music"]:
+            return self.manifest["music"][resource_id]["path"]
         return resource_id

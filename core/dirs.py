@@ -18,3 +18,5 @@ JSON_MANIFEST = CONFIG.joinpath("manifest.json")
 JSON_DEFAULT_MANIFEST = CONFIG.joinpath("default_manifest.json")
 
 MAPS_DIR = ROOT.joinpath("art", "maps", "data")
+ASSET_DIR = ROOT
+FFMPEG = ROOT.joinpath("tools", "ffmpeg.exe")

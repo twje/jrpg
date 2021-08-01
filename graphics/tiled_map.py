@@ -35,11 +35,12 @@ def load_tiled_map_from_filesystem(map_filepath, map_seed_filepath=None):
 class TiledMap(Injector):
     def __init__(self, map_def):
         super().__init__()
-        Character.register_as_dependency_injector(self)
+        Character.register_as_dependency_injector(self)        
 
         self.map_def = map_def
         self.context = Context.instance()
         self.renderer = self.context.renderer
+        self.audio_id = None
 
         self.layer = self.map_def["layers"][0]
         self.width = self.layer["width"]

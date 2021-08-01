@@ -32,6 +32,11 @@ def lookup_sound_filepath(resource_id):
     return manifest.get_sound_filepath(resource_id)
 
 
+def lookup_music_filepath(resource_id):
+    context = Context.instance()
+    manifest = context.data["manifest"]
+    return manifest.get_music_filepath(resource_id)
+
 def extract_from_dict(store, mandatory_keys, optional_keys):
     """
     Extract subset of keys from a dictionary

@@ -4,6 +4,7 @@ from storyboard import events
 from combat.fx import AnimEntityFX
 from core import Context
 from combat import combat_formula
+from core.system.communication import SystemEvent
 
 
 class CEAttack:
@@ -17,6 +18,7 @@ class CEAttack:
         self.done = False
         self.controller = self.character.controller
         self.context = Context.instance()
+        self.event_dispatcher = self.context.event_dispatcher
 
         # prime combat event
         self.controller.change("cs_run_anim", {"anim": "prone"})
@@ -74,11 +76,12 @@ class CEAttack:
         for target in self.targets:
             self.attack_target(target)
 
-    def attack_target(self, target):
+    def attack_target(self, target):                
         demage = combat_formula.malee_attack(self.state, self.owner, target)
         entity = self.state.actor_to_entity(target)
         self.state.apply_demage(target, demage)
         self.add_attack_effect(entity)
+        self.event_dispatcher.notify(SystemEvent.PLAY_SOUND, {"audio_id": "attack"})
 
     def add_attack_effect(self, entity):
         effect = AnimEntityFX(

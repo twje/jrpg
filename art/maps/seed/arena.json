@@ -41,6 +41,7 @@
             "params": {
                 "entity_id": "chest",
                 "loot": { "ref": "loot.hero" },
+                "audio_id": "open_chest",
                 "chest_x": 27,
                 "chest_y": 14                
             }
@@ -50,6 +51,7 @@
             "params": {
                 "entity_id": "chest",
                 "loot": { "ref": "loot.mage" },
+                "audio_id": "open_chest",
                 "chest_x": 20,
                 "chest_y": 14                
             }
@@ -59,8 +61,15 @@
             "params": {
                 "entity_id": "chest",
                 "loot": { "ref": "loot.thief" },
+                "audio_id": "open_chest",
                 "chest_x": 34,
                 "chest_y": 14                
+            }
+        },
+        {
+            "id": "SetAudioOnMap",
+            "params": {
+                "audio_id": "arena"                       
             }
         }
     ],

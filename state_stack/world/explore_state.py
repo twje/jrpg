@@ -3,13 +3,15 @@ import math
 from core import Context
 from character import Character
 from state_stack.menu import InGameMenuState
+from core.system import SystemEvent
 
 class ExploreState:
     def __init__(self, stack, camera, map, tile_x, tile_y, layer):                  
         context = Context.instance()
         self.input_manager = context.input_manager
         self.stack = stack
-        self.camera = camera
+        self.camera = camera        
+        self.event_dispatcher = context.event_dispatcher
 
         # hero
         self.map = map
@@ -22,7 +24,7 @@ class ExploreState:
         self.follow_cam = True
         self.follow_char = self.hero
         self.manual_cam_x = 0
-        self.manual_cam_y = 0                
+        self.manual_cam_y = 0                        
 
     # state machine methods
     def enter(self):
@@ -38,10 +40,17 @@ class ExploreState:
             if event.key == pygame.K_LALT:
                 self.stack.push(InGameMenuState(self.stack))
 
-    def update(self, dt):
+    def update(self, dt):        
+        self.update_audio()
         self.update_controllers(dt)
         self.update_camera()
         self.update_player_input()
+
+    def update_audio(self):        
+        if self.is_on_top():
+            self.event_dispatcher.notify(SystemEvent.PLAY_MUSIC, {
+                "audio_id": self.map.audio_id,                
+            })        
 
     def update_player_input(self):
         if self.is_on_top():
@@ -52,6 +61,7 @@ class ExploreState:
     def is_on_top(self):
         if self.stack is None:
             return False
+        
         return self.stack.is_on_top(self)
 
     def update_controllers(self, dt):

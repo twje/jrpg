@@ -1,3 +1,6 @@
+from core.system import SystemEventDispatcher
+
+
 class Context:
     _instance = None
 
@@ -9,6 +12,7 @@ class Context:
         self.info = None
         self.data = {}
         self.delta_time = 0
+        self.event_dispatcher = SystemEventDispatcher()
 
     @classmethod
     def instance(cls):
