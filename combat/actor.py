@@ -85,6 +85,7 @@ class Actor:
             "accessory"
         ]
 
+        self.portrait = None
         if "portrait" in self.party_model:
             self.portrait = Sprite.load_from_filesystem(
                 utils.lookup_texture_filepath(self.party_model["portrait"])

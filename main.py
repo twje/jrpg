@@ -101,8 +101,11 @@ class JRPG(Application):
         }
 
         self.stack.push(state)
-        self.stack.push(CombatState(self.stack, combat_def))
+        #self.stack.push(CombatState(self.stack, combat_def))
         
+        from state_stack.menu.xp_summary import XPSummaryState
+        self.stack.push(XPSummaryState(self.stack, self.world.party.to_list(), {"xp": 1000}))
+
         # from state_stack.world import GameOverState
         # self.stack.push(GameOverState(None, None))
 

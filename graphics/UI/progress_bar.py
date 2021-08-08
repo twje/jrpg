@@ -13,6 +13,14 @@ class ProgressBar:
     # ---
     # API
     # ---
+    @property
+    def width(self):
+        return max(self.foreground.width, self.background.width)
+
+    @property
+    def height(self):
+        return max(self.foreground.height, self.background.height)
+
     def scale(self, value):
         self.foreground.scale_by_ratio(value, 1)
         self.background.scale_by_ratio(value, 1)

@@ -15,6 +15,10 @@ class Panel:
             sprite = Sprite(texture_atlas[index])
             self.tiles[index] = sprite
 
+    def set_alpha(self, alpha):
+        for tile in self.tiles.values():
+            tile.set_alpha(alpha)
+
     def position(self, left, top, right, bottom):
         # normalize
         if left > right:
