@@ -2,8 +2,8 @@
     "hero": {
         "id": "hero",
         "stats": {
-            "hp_now": 300,
-            "hp_max": 300,
+            "hp_now": 250,
+            "hp_max": 250,
             "mp_now": 300,
             "mp_max": 300,
             "strength": 10,
@@ -27,13 +27,13 @@
     "thief": {
         "id": "thief",
         "stats": {
-            "hp_now": 280,
-            "hp_max": 280,
+            "hp_now": 200,
+            "hp_max": 200,
             "mp_now": 150,
             "mp_max": 150,
             "strength": 10,
             "speed": 15,
-            "intelligence": 15
+            "intelligence": 10
         },
         "stat_growth": {
             "hp_max": { "dice": "3d40+100" },

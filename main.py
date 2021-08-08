@@ -1,4 +1,4 @@
-# 654 -Winning and the Combat Summary, loot-2
+# 689 - Loot Tables - loot 4
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory
@@ -47,10 +47,10 @@ class BlockState:
 
 
 class JRPG(Application):
-    def load(self):  
+    def load(self):
         # input
-        self.input_manager = self.context.input_manager      
-        binding.init(self.input_manager)        
+        self.input_manager = self.context.input_manager
+        binding.init(self.input_manager)
         self.input_processor = self.bind_input()
 
         self.init_managers()
@@ -76,38 +76,30 @@ class JRPG(Application):
             30,
             18,
             0,
-        )                
+        )
 
         from state_stack.combat import CombatState
 
         enemy_defs = self.context.data["enemy_definitions"]
-        
 
         # TEST
-        model = PartyModel()      
+        model = PartyModel()
         self.world.party.add(Actor(model["hero"]))
         self.world.party.add(Actor(model["mage"]))
-        self.world.party.add(Actor(model["thief"]))                
+        self.world.party.add(Actor(model["thief"]))
 
         combat_def = {
             "background": "arena_background.png",
             "actors": {
                 "party": self.world.party.to_list(),
                 "enemy": [
-                    Actor(enemy_defs["goblin"]),
-                    Actor(enemy_defs["goblin"])                    
+                    Actor(enemy_defs["goblin"]),                    
                 ]
             }
         }
 
         self.stack.push(state)
-        #self.stack.push(CombatState(self.stack, combat_def))
-        
-        from state_stack.menu.xp_summary import XPSummaryState
-        self.stack.push(XPSummaryState(self.stack, self.world.party.to_list(), {"xp": 1000}))
-
-        # from state_stack.world import GameOverState
-        # self.stack.push(GameOverState(None, None))
+        self.stack.push(CombatState(self.stack, combat_def))
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath
@@ -152,15 +144,15 @@ class JRPG(Application):
 
         return input_processor
 
-    def handle_event(self, event):        
+    def handle_event(self, event):
         self.input_manager.update(event)
-        self.stack.handle_input(event)        
+        self.stack.handle_input(event)
 
-    def update_hook(self, dt):                
+    def update_hook(self, dt):
         self.input_processor.process()
         self.stack.update(dt)
-        self.world.update(dt)             
-        
+        self.world.update(dt)
+
     def draw_hook(self, renderer):
         self.stack.render(renderer)
 

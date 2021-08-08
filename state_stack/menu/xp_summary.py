@@ -1,4 +1,3 @@
-from graphics.UI import panel
 import math
 from core.graphics import SpriteFont
 from combat.actor_xp_summary import ActorXPSummary
@@ -7,21 +6,24 @@ from graphics.menu import Layout
 from core.graphics.util import create_rect
 from core import Context
 import colors
+import pygame
 
 
 class XPSummaryState:
-    def __init__(self, stack, party, combat_def):
+    def __init__(self, stack, party, combat_data):
         self.stack = stack
         self.party = party
-        self.combat_def = combat_def
+        self.combat_data = combat_data
         self.layout = Layout()
-        self.xp = combat_def["xp"]
+        self.xp = combat_data["xp"]
         self.xp_per_sec = 5
         self.xp_counter = 0
         self.is_counting_xp = True
         self.party = party
         self.party_summary = []
-        self.info = Context.instance().info
+        self.context = Context.instance()
+        self.info = self.context.info
+        self.world = self.context.data["world"]
 
         # init experience growth rate
         digit_number = math.log10(self.xp + 1)
@@ -77,20 +79,62 @@ class XPSummaryState:
                 while(actor.ready_to_level_up()):
                     level_up = actor.create_level_up()
                     level_number = actor.level + level_up["level"]
-                    summary.add_pop_up("Level Up!", colors.WHITE)
+                    summary.add_pop_up(
+                        f"Level Up {level_number}!", colors.YELLO)
                     actor.apply_level(level_up)
 
     def are_pop_ups_remianing(self):
-        pass
+        for summary in self.party_summary:
+            if summary.pop_up_count() > 0:
+                return True
+        return False
 
     def close_next_pop_up(self):
-        pass
+        for summary in self.party_summary:
+            if summary.pop_up_count() > 0:
+                summary.cancel_pop_up()
 
     def skip_counting_xp(self):
-        pass
+        self.is_counting_xp = False
+        self.xp_counter = 0
+        xp_to_apply = self.xp
+        self.xp = 0
+        self.apply_xp_to_party(xp_to_apply)
 
     def handle_input(self, event):
-        pass
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                if self.xp > 0:
+                    self.skip_counting_xp()
+                    return
+
+                if self.are_pop_ups_remianing():
+                    self.close_next_pop_up()
+                    return
+
+                self.goto_loot_summary()
+
+    def goto_loot_summary(self):
+        # hack - circular imports
+        from state_stack.menu import LootSummaryState  
+        from storyboard.storyboard import Storyboard
+        from storyboard import events
+
+        world = self.context.data["world"]
+        loot_summary_state = LootSummaryState(
+            self.stack, world, self.combat_data)
+
+        self.storyboard = Storyboard(
+            self.stack,
+            [                
+                events.black_screen("blackscreen"),
+                events.fade_in_screen("blackscreen", 0.2),
+                events.replace_state(self, loot_summary_state),
+                events.wait(0.1),
+                events.fade_out_screen("blackscreen", .2),
+            ]
+        )
+        self.stack.push(self.storyboard)
 
     def update(self, dt):
         for summary in self.party_summary:
@@ -100,8 +144,7 @@ class XPSummaryState:
             self.xp_counter += self.xp_per_sec * dt
             xp_to_apply = math.floor(self.xp_counter)
             self.xp_counter -= xp_to_apply
-            self.xp -= xp_to_apply
-
+            self.xp = max(0, self.xp - xp_to_apply)
             self.apply_xp_to_party(xp_to_apply)
 
             if self.xp == 0:
@@ -111,7 +154,6 @@ class XPSummaryState:
 
     def render(self, renderer):
         renderer.begin()
-        self.layout.debug_render(renderer)
         self.render_background(renderer)
         self.render_title_panels(renderer)
         self.render_title(renderer)

@@ -1,8 +1,7 @@
 import copy
 from collections import namedtuple
-from state_stack.world.game_over_state import GameOverState
-from combat import event
 from utils import lookup_texture_filepath
+from state_stack.world.game_over_state import GameOverState
 from state_stack import StateStack
 from core.graphics import Sprite
 from core import Context
@@ -21,6 +20,7 @@ from storyboard.storyboard import Storyboard
 from storyboard import events
 from combat.event_queue import EventQueue
 from combat.event import CETurn
+from state_stack.menu import XPSummaryState
 from state_machine.combat import state_registry
 import utils
 import colors
@@ -451,8 +451,44 @@ class CombatState(Injector):
 
         return False
 
+    def calc_combat_data(self):
+        return {
+            "xp": 30,
+            "gold": 10,
+            "loot": [
+                {"id": 1, "count": 1},
+            ]
+        }
+
     def on_win(self):
+        self.set_victory_dance_animation()
+
+        world = self.context.data["world"]
+        combat_data = self.calc_combat_data()
+        xp_summary_state = XPSummaryState(
+            self.game_stack, world.party.to_list(), combat_data)
+
+        self.storyboard = Storyboard(
+            self.game_stack,
+            [
+                # update self for a further 1 seconds to see the end of effects
+                events.update_state(self, 1),
+                events.black_screen("blackscreen"),
+                events.fade_in_screen("blackscreen", 0.6),
+                events.replace_state(self, xp_summary_state),
+                events.wait(0.3),
+                events.fade_out_screen("blackscreen"),
+            ]
+        )
+        self.game_stack.push(self.storyboard)
         self.is_finishing = True
+
+    def set_victory_dance_animation(self):
+        for actor in self.actors["party"]:
+            character = self.actor_char_map[actor]
+            alive = actor.stats.get("hp_now") > 0
+            if alive:
+                character.controller.change("cs_run_anim", {"anim": "victory"})
 
     def on_lose(self):
         world = Context.instance().data["world"]
@@ -529,7 +565,8 @@ class CombatState(Injector):
 
             hp = actor.stats.get("hp_now")
             if hp <= 0:
-                controller.change("cs_run_anim", {"anim": "death", "loop": False})
+                controller.change(
+                    "cs_run_anim", {"anim": "death", "loop": False})
                 self.event_queue.removed_events_owned_by(actor)
 
     def is_already_in_death_state(self, state):

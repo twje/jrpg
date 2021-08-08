@@ -2,12 +2,12 @@
     "goblin": {
         "id": "goblin",
         "stats": {            
-            "hp_now": 100,
-            "hp_max": 100,
+            "hp_now": 30,
+            "hp_max": 30,
             "mp_now": 0,
             "mp_max": 0,
-            "strength": 10,
-            "speed": 16,
+            "strength": 8,
+            "speed": 5,
             "intelligence": 2
         },
         "name": "Arena Goblin",
