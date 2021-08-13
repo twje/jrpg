@@ -9,6 +9,7 @@ from item_db import items_db
 from .stats import Stat
 from core.graphics import Sprite
 from core.graphics import formatter
+from .drop_table import DropTable
 import utils
 
 
@@ -91,6 +92,10 @@ class Actor:
                 utils.lookup_texture_filepath(self.party_model["portrait"])
             )
 
+        self.drop = None
+        if "drop" in party_model:
+            self.drop = DropTable(party_model["drop"])
+
     @staticmethod
     def create_stat_name_list():
         return Actor.ACTOR_STATS + Actor.ITEM_STATS + ['hp_max', 'mp_max']
@@ -99,11 +104,10 @@ class Actor:
     def create_stat_label_list():
         return Actor.ACTOR_STAT_LABELS + Actor.ITEM_STAT_LABELS + ['HP', 'MP']
 
-
     def predict_stats(self, slot, item):
-        stats_id = self.create_stat_name_list()        
+        stats_id = self.create_stat_name_list()
         if item is None:
-            return {stat: 0 for stat in stats_id }
+            return {stat: 0 for stat in stats_id}
 
         # compute current stats
         current = {}
@@ -129,7 +133,7 @@ class Actor:
         self.stats.remove_modifier(slot)
         if prev_item_id is not None:
             self.stats.add_modifier(slot, items_db[prev_item_id]["stats"])
-        
+
         return diff
 
     def equip(self, slot, item):
@@ -189,8 +193,8 @@ class Actor:
     def render_equipment(self, renderer, font, scale, x, y, index):
         x = x
         label = self.EQUIP_SLOT_LABELS[index]
-        lable_sprite = SpriteFont(label)        
-        entries = [lable_sprite]        
+        lable_sprite = SpriteFont(label)
+        entries = [lable_sprite]
 
         slot_id = self.EQUIP_SLOT_ID[index]
         text = "none"
@@ -205,11 +209,11 @@ class Actor:
             entry.y = y
             formatter.in_place_multi_hort(
                 start=x,
-                margin=5, 
+                margin=5,
                 seperators=[120, 0],
                 drawables=entries
             )
-            renderer.draw(entry)            
+            renderer.draw(entry)
 
     def can_use(self, item):
         if "restriction" not in item:
@@ -218,5 +222,5 @@ class Actor:
         for actor_id in item["restriction"]:
             if actor_id == self.id:
                 return True
-        
+
         return False

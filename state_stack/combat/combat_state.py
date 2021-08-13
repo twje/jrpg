@@ -1,5 +1,5 @@
 import copy
-from collections import namedtuple
+from collections import defaultdict, namedtuple
 from utils import lookup_texture_filepath
 from state_stack.world.game_over_state import GameOverState
 from state_stack import StateStack
@@ -333,6 +333,7 @@ class CombatState(Injector):
         self.actor_char_map = {}
         self.death_list = []
         self.effects_list = []
+        self.loot = []
         self.is_finishing = False
 
         self.create_combat_characters("party")
@@ -452,13 +453,36 @@ class CombatState(Injector):
         return False
 
     def calc_combat_data(self):
-        return {
-            "xp": 30,
-            "gold": 10,
-            "loot": [
-                {"id": 1, "count": 1},
-            ]
+        drop = {
+            "xp": 0,
+            "gold": 0,
+            "loot": []
         }
+
+        loot_dict = defaultdict(lambda: 0)
+        for drop_table in self.loot:
+            drop["xp"] += drop_table.xp
+            drop["gold"] += drop_table.gold
+
+            # items that are always dropped
+            for item_id in drop_table.always:
+                loot_dict[item_id] += 1
+
+            # chance items
+            item = drop_table.pick()
+            if item["id"] == -1:
+                continue
+
+            item["count"] = item.get("count", 1)
+            loot_dict[item["id"]] += item["count"]
+
+        for item_id, count in loot_dict.items():
+            drop["loot"].append({
+                "id": item_id,
+                "count": count
+            })
+        
+        return drop
 
     def on_win(self):
         self.set_victory_dance_animation()
@@ -583,6 +607,10 @@ class CombatState(Injector):
 
             character = self.actor_char_map[actor]
             controller = character.controller
+
+            # loot drops
+            if actor.drop != None:
+                self.loot.append(actor.drop)
 
             # purge
             actors.remove(actor)

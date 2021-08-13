@@ -11,6 +11,21 @@
             "intelligence": 2
         },
         "name": "Arena Goblin",
-        "actions": ["attack"]
+        "actions": ["attack"],
+        "drop": {
+            "xp": 5,
+            "gold": [0, 100],
+            "always": [8],
+            "chance": [
+                {
+                    "oddment": 3, 
+                    "item": {"id": -1}
+                },
+                {
+                    "oddment": 90, 
+                    "item": {"id": 5}
+                }
+            ]
+        }
     }
 }
