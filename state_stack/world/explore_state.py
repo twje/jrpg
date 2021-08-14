@@ -50,7 +50,7 @@ class ExploreState:
         if self.is_on_top():
             self.event_dispatcher.notify(SystemEvent.PLAY_MUSIC, {
                 "audio_id": self.map.audio_id,                
-            })        
+            })
 
     def update_player_input(self):
         if self.is_on_top():

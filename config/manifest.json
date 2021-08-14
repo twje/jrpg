@@ -8,6 +8,9 @@
         "music": {
             "arena": {
                 "path": "art/music/Caketown 1.ogg"
+            },
+            "combat": {
+                "path": "art/music/battleThemeA.ogg"
             }
         },
         "scripts": {

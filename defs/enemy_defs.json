@@ -8,7 +8,8 @@
             "mp_max": 0,
             "strength": 8,
             "speed": 5,
-            "intelligence": 2
+            "intelligence": 2,
+            "counter": 0.5
         },
         "name": "Arena Goblin",
         "actions": ["attack"],

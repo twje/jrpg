@@ -20,7 +20,7 @@ class CEFlee:
                     events.function(self.do_flee_success_part1),
                     events.wait(0.3),
                     events.function(self.do_flee_success_part2),
-                    events.wait(0.75)
+                    events.wait(0.6)
                 ])
         else:
             self.storyboard = Storyboard(

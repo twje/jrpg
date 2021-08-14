@@ -1,4 +1,4 @@
-# 716 - fleeing
+# 727 - items
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory
@@ -95,7 +95,8 @@ class JRPG(Application):
                 "enemy": [
                     Actor(enemy_defs["goblin"]),                    
                 ]
-            }
+            },
+            "audio_id": "combat"
         }
 
         self.stack.push(state)

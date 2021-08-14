@@ -1,4 +1,3 @@
-from pygame import font
 from combat.event.ce_attack import CEAttack
 import copy
 from collections import defaultdict
@@ -25,6 +24,7 @@ from storyboard import events
 from combat.event_queue import EventQueue
 from combat.event import CETurn
 from state_stack.menu import XPSummaryState
+from core.system import SystemEvent
 from state_machine.combat import state_registry
 import utils
 import colors
@@ -354,8 +354,10 @@ class CombatState(Injector):
         self.stack = StateStack()
         self.event_queue = EventQueue()
         self.context = Context.instance()
+        self.event_dispatcher = self.context.event_dispatcher
         self.entity_defs = self.context.data["entity_definitions"]
         self.info = self.context.info
+        self.audio_id = self.combat_def.get("audio_id")
         self.actors = {
             "party": self.combat_def["actors"]["party"],
             "enemy": self.combat_def["actors"]["enemy"],
@@ -524,6 +526,7 @@ class CombatState(Injector):
         self.update_party(dt)
         self.update_enemy(dt)
         self.update_effects(dt)
+        self.update_audio()
 
         for character in list(self.death_list):
             character.controller.update(dt)
@@ -548,6 +551,12 @@ class CombatState(Injector):
                 self.on_lose()
 
         return False
+
+    def update_audio(self):
+        if self.audio_id is not None:
+            self.event_dispatcher.notify(SystemEvent.PLAY_MUSIC, {
+                "audio_id": self.audio_id,
+            })
 
     def calc_combat_data(self):
         drop = {
@@ -595,7 +604,7 @@ class CombatState(Injector):
                 # update self for a further 1 seconds to see the end of effects
                 events.update_state(self, 1),
                 events.black_screen("blackscreen"),
-                events.fade_in_screen("blackscreen", 0.3),
+                events.fade_in_screen("blackscreen", 0.6),
                 events.replace_state(self, xp_summary_state),
                 events.wait(0.3),
                 events.fade_out_screen("blackscreen"),
