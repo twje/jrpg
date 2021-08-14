@@ -1,4 +1,4 @@
-# 700 - melee combat
+# 716 - fleeing
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory

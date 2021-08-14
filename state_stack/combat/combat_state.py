@@ -1,3 +1,4 @@
+from pygame import font
 from combat.event.ce_attack import CEAttack
 import copy
 from collections import defaultdict
@@ -39,6 +40,7 @@ class CombatStateUI:
 
         # font
         self.small_font = Font(FontStyle.small())
+        self.font = Font()
 
         # background
         self.background = Sprite.load_from_filesystem(
@@ -167,6 +169,8 @@ class CombatStateUI:
         self.render_panels(renderer)
         self.render_panel_titles(renderer)
         self.render_selection_boxes(renderer)
+        self.render_tip(renderer)
+        self.render_notice(renderer)
 
     def render_background(self, renderer):
         renderer.draw(self.background)
@@ -258,6 +262,34 @@ class CombatStateUI:
         renderer.draw(hp_now_sprite)
         renderer.draw(hp_max_sprite)
 
+    def render_tip(self, renderer):
+        if not self.state._show_tip:
+            return
+
+        layout = self.layout.layout("tip")
+        sprite = SpriteFont(self.state.tip_text, font=self.small_font)
+        sprite.set_position(
+            formatter.left_justify(5, layout, sprite),
+            formatter.center_y(layout, sprite)
+        )
+
+        self.tip_panel.render(renderer)
+        renderer.draw(sprite)
+
+    def render_notice(self, renderer):
+        if not self.state._show_notice:
+            return
+
+        layout = self.layout.layout("notice")
+        sprite = SpriteFont(self.state.notice_text, font=self.font)
+        sprite.set_position(
+            formatter.center_x(layout, sprite),
+            formatter.center_y(layout, sprite)
+        )
+
+        self.notice_panel.render(renderer)
+        renderer.draw(sprite)
+
 
 class CombatState(Injector):
     # 0 - 1, each number is a percentage of with, hegiht offset from center of the screen
@@ -337,7 +369,14 @@ class CombatState(Injector):
         self.death_list = []
         self.effects_list = []
         self.loot = []
+        self.fled = False
         self.is_finishing = False
+
+        # ntoice
+        self.tip_text = ""
+        self._show_tip = False
+        self.notice_text = ""
+        self._show_notice = False
 
         self.create_combat_characters("party")
         self.create_combat_characters("enemy")
@@ -346,6 +385,23 @@ class CombatState(Injector):
     def get_dependency(self, identifier):
         if identifier == "combat_scene":
             return Payload(self)
+
+    def show_tip(self, text):
+        self._show_tip = True
+        self.tip_text = text
+
+    def show_notice(self, text):
+        self._show_notice = True
+        self.notice_text = text
+
+    def hide_tip(self):
+        self._show_tip = False
+
+    def hide_notice(self):
+        self._show_notice = False
+
+    def on_flee(self):
+        self.fled = True
 
     def apply_miss(self, target):
         self.add_text_effect(target, "MISS")
@@ -484,7 +540,7 @@ class CombatState(Injector):
             self.add_turns(self.actors["party"])
             self.add_turns(self.actors["enemy"])
 
-            if self.party_wins():
+            if self.party_wins() or self.party_fled():
                 self.event_queue.clear()
                 self.on_win()
             elif self.enemy_wins():
@@ -539,7 +595,7 @@ class CombatState(Injector):
                 # update self for a further 1 seconds to see the end of effects
                 events.update_state(self, 1),
                 events.black_screen("blackscreen"),
-                events.fade_in_screen("blackscreen", 0.6),
+                events.fade_in_screen("blackscreen", 0.3),
                 events.replace_state(self, xp_summary_state),
                 events.wait(0.3),
                 events.fade_out_screen("blackscreen"),
@@ -598,6 +654,9 @@ class CombatState(Injector):
                 event = CETurn(self, actor)
                 tp = event.time_points(self.event_queue)
                 self.event_queue.add(event, tp)
+
+    def party_fled(self):
+        return self.fled
 
     def party_wins(self):
         return not self.has_live_actors(self.actors["enemy"])

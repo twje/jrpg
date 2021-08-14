@@ -1,5 +1,3 @@
-from combat.combat_target_state import CombatSelector
-from combat.combat_choice_state import CombatStateChoice
 from combat.event import CEAttack
 
 
@@ -16,6 +14,10 @@ class CETurn:
         return queue.speed_to_time_points(speed)
 
     def execute(self, queue):
+        # hack - circular import
+        from combat.combat_target_state import CombatSelector
+        from combat.combat_choice_state import CombatStateChoice
+
         if self.state.is_party_member(self.owner):
             state = CombatStateChoice(self.state, self.owner)
             self.state.stack.push(state)

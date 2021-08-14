@@ -21,7 +21,9 @@
         "name": "Seven",
         "actions": [
             "attack",
-            "item"
+            "special",
+            "item",
+            "flee"
         ]
     },
     "thief": {
@@ -46,7 +48,9 @@
         "name": "Jude",
         "actions": [
             "attack",
-            "item"
+            "special",
+            "item",
+            "flee"
         ]
     },
     "mage": {
@@ -71,7 +75,9 @@
         "name": "Ermis",
         "actions": [
             "attack",
-            "item"
+            "special",
+            "item",
+            "flee"
         ]        
     }
 }

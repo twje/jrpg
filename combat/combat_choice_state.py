@@ -3,6 +3,7 @@ from combat.actor import Actor
 from .combat_target_state import CombatTargetState
 from .combat_target_state import CombatTargetType
 from .event import CEAttack
+from .event import CEFlee
 from core.graphics.sprite_font import Font, FontStyle
 from core.graphics.sprite_font import SpriteFont
 from graphics.UI import Icons
@@ -49,7 +50,7 @@ class CombatStateChoice:
             })
         )
         self.textbox.x = 65
-        self.textbox.y = 280
+        self.textbox.y = 257
         self.selection = self.textbox.selection_menu
 
     def set_arrow_position(self):
@@ -74,6 +75,13 @@ class CombatStateChoice:
                 on_exit=None
             )
             self.stack.push(state)
+        elif data == "flee":
+            self.stack.pop()  # CombatStateChoice
+            queue = self.combat_state.event_queue
+            event = CEFlee(self.combat_state, self.actor)
+            tp = event.time_points(queue)
+            queue.add(event, tp)
+
 
     def take_action(self, action_id, targets):
         self.stack.pop()  # CombatTargetState

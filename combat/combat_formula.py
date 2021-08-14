@@ -11,6 +11,27 @@ class HitResult(Enum):
     CRITICAL = 3
 
 
+def can_flee(state, fleer):
+    flee_chance = 0.35
+    speed = fleer.stats.get("speed")
+
+    enemy_count = 0
+    total_speed = 0
+    for enemy_actor in state.actors["enemy"]:
+        speed = enemy_actor.stats.get("speed")
+        total_speed = total_speed + speed
+        enemy_count += 1
+
+    avg_speed = total_speed/enemy_count
+
+    if speed > avg_speed:
+        flee_chance += 0.15
+    else:
+        flee_chance -= 0.15
+
+    return random.uniform(0, 1) <= flee_chance
+
+
 def malee_attack(state, attacker, target):
     demage = 0
     hit_result = is_hit(state, attacker, target)
@@ -74,7 +95,7 @@ def is_dodged(state, attacker, target):
     return random.uniform(0, 1) <= ctd
 
 
-def is_countered(state, attacker, target):    
+def is_countered(state, attacker, target):
     counter = target.stats.get("counter")
     return random.uniform(0, 1) < counter
 

@@ -58,6 +58,9 @@ class Actor:
     ACTION_LABELS = {
         "attack": "Attack",
         "item": "Item",
+        "flee": "Flee",
+        "magic": "Magic",
+        "special": "Special"
     }
 
     def __init__(self, party_model):

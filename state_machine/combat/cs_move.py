@@ -28,6 +28,10 @@ class CSMove:
 
         frames = anims["advance"]
         direction = -1
+        if self.character.facing == "right":
+            frames = anims["retreat"]
+            direction = 1
+
         direction *= backfourth
         self.animation = Animation(frames)
 
