@@ -4,6 +4,10 @@ from pathlib import Path
 from core import Context
 
 
+def clamp(value, min_value, max_value):
+    return max(min_value, min(value, max_value))
+
+
 def next_level(level):
     exponent = 1.5
     base_xp = 1000
@@ -36,6 +40,7 @@ def lookup_music_filepath(resource_id):
     context = Context.instance()
     manifest = context.data["manifest"]
     return manifest.get_music_filepath(resource_id)
+
 
 def extract_from_dict(store, mandatory_keys, optional_keys):
     """

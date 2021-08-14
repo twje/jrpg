@@ -1,4 +1,4 @@
-# 689 - Loot Tables - loot 4
+# 700 - melee combat
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory

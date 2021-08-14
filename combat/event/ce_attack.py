@@ -1,3 +1,4 @@
+from math import trunc
 from combat.combat_target_state import CombatSelector
 from storyboard.storyboard import Storyboard
 from storyboard import events
@@ -5,6 +6,7 @@ from combat.fx import AnimEntityFX
 from core import Context
 from combat import combat_formula
 from core.system.communication import SystemEvent
+from combat.combat_formula import HitResult
 
 
 class CEAttack:
@@ -19,6 +21,7 @@ class CEAttack:
         self.controller = self.character.controller
         self.context = Context.instance()
         self.event_dispatcher = self.context.event_dispatcher
+        self.counter = attack_def.get("counter")
 
         # prime combat event
         self.controller.change("cs_run_anim", {"anim": "prone"})
@@ -76,12 +79,31 @@ class CEAttack:
         for target in self.targets:
             self.attack_target(target)
 
-    def attack_target(self, target):                
-        demage = combat_formula.malee_attack(self.state, self.owner, target)
+            # prevent a counter triggering another counter attack
+            if self.counter == None:
+                self.counter_taget(target)
+
+    def counter_taget(self, target):
+        countered = combat_formula.is_countered(self.state, self.owner, target)
+        if countered:
+            self.state.apply_counter(target, self.owner)
+
+    def attack_target(self, target):           
+        demage, hit_result = combat_formula.malee_attack(
+            self.state, self.owner, target)
         entity = self.state.actor_to_entity(target)
-        self.state.apply_demage(target, demage)
+
+        if hit_result == HitResult.MISS:
+            self.state.apply_miss(target)
+        elif hit_result == HitResult.DODGE:
+            self.state.apply_dodge(target)
+        else:
+            is_crit = hit_result == HitResult.CRITICAL
+            self.state.apply_demage(target, demage, is_crit)
+
         self.add_attack_effect(entity)
-        self.event_dispatcher.notify(SystemEvent.PLAY_SOUND, {"audio_id": "attack"})
+        self.event_dispatcher.notify(
+            SystemEvent.PLAY_SOUND, {"audio_id": "attack"})
 
     def add_attack_effect(self, entity):
         effect = AnimEntityFX(

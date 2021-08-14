@@ -1,5 +1,7 @@
+from combat.event.ce_attack import CEAttack
 import copy
-from collections import defaultdict, namedtuple
+from collections import defaultdict
+from collections import namedtuple
 from utils import lookup_texture_filepath
 from state_stack.world.game_over_state import GameOverState
 from state_stack import StateStack
@@ -16,6 +18,7 @@ from graphics.menu import Layout
 from dependency import Injector
 from dependency import Payload
 from combat.fx import JumpingNumbers
+from combat.fx import CombatTextFX
 from storyboard.storyboard import Storyboard
 from storyboard import events
 from combat.event_queue import EventQueue
@@ -344,7 +347,14 @@ class CombatState(Injector):
         if identifier == "combat_scene":
             return Payload(self)
 
-    def apply_demage(self, target, demage):
+    def apply_miss(self, target):
+        self.add_text_effect(target, "MISS")
+
+    def apply_dodge(self, target):
+        self.set_hurt_state(target)
+        self.add_text_effect(target, "DODGE")
+
+    def apply_demage(self, target, demage, is_crit):
         stats = target.stats
         hp = max(0, stats.get("hp_now") - demage)
         stats.set("hp_now", hp)
@@ -352,8 +362,28 @@ class CombatState(Injector):
         if demage > 0:
             self.set_hurt_state(target)
 
-        self.add_jump_numbers_effect(target, demage)
+        demage_color = colors.WHITE
+        if is_crit:
+            demage_color = colors.RED
+
+        self.add_jump_numbers_effect(target, demage, demage_color)
         self.handle_death()
+
+    def apply_counter(self, target, owner):
+        alive = target.stats.get("hp_now")
+        if not alive:
+            return
+
+        attack_def = {
+            "player": self.is_party_member(target),
+            "counter": True
+        }
+
+        attack = CEAttack(self, target, attack_def, [owner])
+        tp = -1  # immediate
+        self.event_queue.add(attack, tp)
+
+        self.add_text_effect(target, "COUNTER")
 
     def set_hurt_state(self, actor):
         character = self.actor_char_map[actor]
@@ -362,12 +392,23 @@ class CombatState(Injector):
         if state.name != "cs_hurt":
             controller.change("cs_hurt", {"state": state})
 
-    def add_jump_numbers_effect(self, actor, demage):
+    def add_jump_numbers_effect(self, actor, demage, color):
         entity = self.actor_to_entity(actor)
         effect = JumpingNumbers(
             entity.sprite.x + entity.width/2,
             entity.sprite.y + entity.height/2,
-            str(demage)
+            str(demage),
+            color
+        )
+        self.add_effect(effect)
+
+    def add_text_effect(self, actor, text):
+        character = self.actor_char_map[actor]
+        entity = character.entity
+        effect = CombatTextFX(
+            entity.sprite.x + entity.width/2,
+            entity.sprite.y + entity.height/2,
+            text
         )
         self.add_effect(effect)
 
@@ -481,7 +522,7 @@ class CombatState(Injector):
                 "id": item_id,
                 "count": count
             })
-        
+
         return drop
 
     def on_win(self):

@@ -18,6 +18,7 @@ class JumpingNumbers:
         self.current_y = self.y
         self.velocity_y = 224
         self.font_sprite = SpriteFont(number, font=self.font)
+        self.font_sprite.set_color(color)
         self.font_sprite.set_position(self.x, self.y)
 
     def update(self, dt):
