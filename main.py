@@ -88,6 +88,13 @@ class JRPG(Application):
         self.world.party.add(Actor(model["mage"]))
         self.world.party.add(Actor(model["thief"]))
 
+        self.world.add_item(0)
+        self.world.add_item(1)
+        self.world.add_item(3)
+        self.world.add_item(9, 2)
+        self.world.add_item(10)
+        self.world.add_item(11)
+
         combat_def = {
             "background": "arena_background.png",
             "actors": {
@@ -100,7 +107,7 @@ class JRPG(Application):
         }
 
         self.stack.push(state)
-        self.stack.push(CombatState(self.stack, combat_def))
+        # self.stack.push(CombatState(self.stack, combat_def))
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath
