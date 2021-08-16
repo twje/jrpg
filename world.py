@@ -1,6 +1,5 @@
 import math
 from item_db import items_db
-from core import Context
 from core.graphics import SpriteFont
 from combat import Party
 from graphics.UI import Icons
@@ -50,6 +49,16 @@ class World:
                 return
         else:
             self.items.append(Item(item_id, count))
+
+    def filter_items(self, predicate):
+        result = []
+        for item in self.items:
+            item_def = items_db[item.id]
+
+            if predicate(item_def):
+                result.append(item)
+        
+        return result
 
     def remove_item(self, item_id, amount=1):
         assert not self.is_item_key(item_id)

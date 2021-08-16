@@ -50,6 +50,7 @@ class Selection:
                 if self.calc_item_width:
                     width = self.calc_item_width(self.font, item)
                 else:
+                                        
                     width = self.font.width(str(item))
                 max_entry_width = max(width, max_entry_width)
             return max_entry_width + self.cursor.width
@@ -161,8 +162,11 @@ class Selection:
 
             # render item
             item = self.get_item(item_index)
-            self.render_item(renderer, self.font, self.scale, x +
-                             self.cursor.width, y, item)
+            sprite = self.render_item(renderer, self.font, self.scale,
+                                      x + self.cursor.width, y, item)
+            # backwards compatibility
+            if sprite is not None:
+                renderer.draw(sprite)
 
     def cursor_offset(self):
         row_height = self.spacing_y * self.scale

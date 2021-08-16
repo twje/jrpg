@@ -95,6 +95,14 @@ class JRPG(Application):
         self.world.add_item(10)
         self.world.add_item(11)
 
+        # test items for scroll
+        self.world.add_item(13)
+        self.world.add_item(14)
+        self.world.add_item(15)
+        self.world.add_item(16)
+        self.world.add_item(17)
+        self.world.add_item(18)        
+
         combat_def = {
             "background": "arena_background.png",
             "actors": {
@@ -107,7 +115,7 @@ class JRPG(Application):
         }
 
         self.stack.push(state)
-        # self.stack.push(CombatState(self.stack, combat_def))
+        self.stack.push(CombatState(self.stack, combat_def))
 
     def init_managers(self):
         self.context.sound_manager.resolver = utils.lookup_sound_filepath

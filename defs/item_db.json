@@ -170,5 +170,95 @@
                 "speed": 10
             }
         }
+    },
+    {
+        "name": "Mana Potion",
+        "type": "useable",                         
+        "description": "Heals a small amount of MP.",        
+        "use": {
+            "action": "mp_restore",
+            "restore": 50,
+            "target": {
+                "selector": "most_drained_party",
+                "switch_sides": true,
+                "type": "one"
+            },
+            "hint": "Choose target to revive."
+        }
+    },
+    {
+        "name": "Mana Potion",
+        "type": "useable",                         
+        "description": "Heals a small amount of MP.",        
+        "use": {
+            "action": "mp_restore",
+            "restore": 50,
+            "target": {
+                "selector": "most_drained_party",
+                "switch_sides": true,
+                "type": "one"
+            },
+            "hint": "Choose target to revive."
+        }
+    },
+    {
+        "name": "Mana Potion",
+        "type": "useable",                         
+        "description": "Heals a small amount of MP.",        
+        "use": {
+            "action": "mp_restore",
+            "restore": 50,
+            "target": {
+                "selector": "most_drained_party",
+                "switch_sides": true,
+                "type": "one"
+            },
+            "hint": "Choose target to revive."
+        }
+    },
+    {
+        "name": "Mana Potion",
+        "type": "useable",                         
+        "description": "Heals a small amount of MP.",        
+        "use": {
+            "action": "mp_restore",
+            "restore": 50,
+            "target": {
+                "selector": "most_drained_party",
+                "switch_sides": true,
+                "type": "one"
+            },
+            "hint": "Choose target to revive."
+        }
+    },
+    {
+        "name": "Mana Potion adsdasdadada",
+        "type": "useable",                         
+        "description": "Heals a small amount of MP.",        
+        "use": {
+            "action": "mp_restore",
+            "restore": 50,
+            "target": {
+                "selector": "most_drained_party",
+                "switch_sides": true,
+                "type": "one"
+            },
+            "hint": "Choose target to revive."
+        }
+    },
+    {
+        "name": "Mana Potion Hello World",
+        "type": "useable",                         
+        "description": "Heals a small amount of MP.",        
+        "use": {
+            "action": "mp_restore",
+            "restore": 50,
+            "target": {
+                "selector": "most_drained_party",
+                "switch_sides": true,
+                "type": "one"
+            },
+            "hint": "Choose target to revive."
+        }
     }
 ]

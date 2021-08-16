@@ -1,3 +1,5 @@
+from os import stat
+from combat.browse_list_state import BrowseListState
 import math
 from combat.actor import Actor
 from .combat_target_state import CombatTargetState
@@ -7,11 +9,13 @@ from .event import CEFlee
 from core.graphics.sprite_font import Font, FontStyle
 from core.graphics.sprite_font import SpriteFont
 from graphics.UI import Icons
-from core.graphics import Sprite
+from core.graphics import Sprite, sprite, texture
 from graphics.UI import Selection
 from functools import partial
 from graphics.UI import create_fixed_textbox
 from utils import lookup_texture_filepath
+from core import Context
+from item_db import items_db
 
 
 class CombatStateChoice:
@@ -81,7 +85,52 @@ class CombatStateChoice:
             event = CEFlee(self.combat_state, self.actor)
             tp = event.time_points(queue)
             queue.add(event, tp)
+        elif data == "item":
+            self.on_item_action()
 
+    def on_item_action(self):
+        self.selection.hide_cursor()
+        
+        world = Context.instance().data["world"]
+        filtered_items = world.filter_items(lambda item: item["type"] == "useable")
+        
+        def on_focus(item):
+            text = ""
+            if item is not None:
+                item_def = items_db[item.id]
+                text = item_def["description"]
+            self.combat_state.show_tip(text)
+
+        def on_render_item(renderer, font, scale, x, y, item):
+            text = "--"
+            if item is not None:
+                item_def = items_db[item.id]
+                text = item_def["name"]
+                if item.count > 1:
+                    text = f"{text} x{item.count}"
+            
+            sprite = SpriteFont(text, font)
+            sprite.scale_by_ratio(scale, scale)
+            sprite.set_position(x, y)
+            return sprite
+
+        def on_exit():
+            self.combat_state.hide_tip()
+            self.selection.show_cursor()
+
+        def on_selection(index, item):
+            print("on select")
+        
+        state = BrowseListState(
+            stack=self.stack,
+            title="ITEMS",
+            data=filtered_items,
+            on_exit=on_exit,
+            on_render_item=on_render_item,
+            on_focus=on_focus,
+            on_selection=on_selection,            
+        )
+        self.stack.push(state)
 
     def take_action(self, action_id, targets):
         self.stack.pop()  # CombatTargetState
