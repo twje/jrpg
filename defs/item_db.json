@@ -232,7 +232,7 @@
         }
     },
     {
-        "name": "Mana Potion adsdasdadada",
+        "name": "Mana Potion",
         "type": "useable",                         
         "description": "Heals a small amount of MP.",        
         "use": {
@@ -247,7 +247,7 @@
         }
     },
     {
-        "name": "Mana Potion Hello World",
+        "name": "Mana Potion",
         "type": "useable",                         
         "description": "Heals a small amount of MP.",        
         "use": {

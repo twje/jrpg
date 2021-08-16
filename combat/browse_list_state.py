@@ -74,10 +74,14 @@ class BrowseListState:
         return panel
 
     def set_arrow_position(self):
-        arrow_pad = 9
-        arrow_x = self.x + self.width - arrow_pad
-        self.up_arrow.set_position(arrow_x, self.y - arrow_pad)
-        self.down_arrow.set_position(arrow_x, self.y - self.height + arrow_pad)
+        self.up_arrow.set_position(
+            self.selection.x + self.selection.width - self.up_arrow.width, 
+            self.selection.y,
+        )        
+        self.down_arrow.set_position(
+            self.selection.x + self.selection.width - self.down_arrow.width, 
+            self.selection.y + self.selection.height - self.down_arrow.height,
+        )
 
     def enter(self):
         self.on_focus(self.selection.selected_item())

@@ -89,10 +89,8 @@ class CombatStateChoice:
             self.on_item_action()
 
     def on_item_action(self):
-        self.selection.hide_cursor()
-        
-        world = Context.instance().data["world"]
-        filtered_items = world.filter_items(lambda item: item["type"] == "useable")
+        state = None                
+        self.selection.hide_cursor()                    
         
         def on_focus(item):
             text = ""
@@ -112,25 +110,36 @@ class CombatStateChoice:
             sprite = SpriteFont(text, font)
             sprite.scale_by_ratio(scale, scale)
             sprite.set_position(x, y)
-            return sprite
+            renderer.draw(sprite)
 
         def on_exit():
             self.combat_state.hide_tip()
             self.selection.show_cursor()
-
-        def on_selection(index, item):
-            print("on select")
         
+        def on_selection(index, item):
+            if item is None:
+                return            
+            item_def = items_db[item.id]
+            targeter = self.create_item_targeter(item_def, state)
+            self.stack.push(targeter)
+
         state = BrowseListState(
             stack=self.stack,
             title="ITEMS",
-            data=filtered_items,
+            data=self.get_useable_items(),
             on_exit=on_exit,
             on_render_item=on_render_item,
             on_focus=on_focus,
             on_selection=on_selection,            
         )
         self.stack.push(state)
+
+    def get_useable_items(self):
+        world = Context.instance().data["world"]
+        return world.filter_items(lambda item: item["type"] == "useable")
+
+    def create_item_targeter(self, item_def, browse_state):
+        pass
 
     def take_action(self, action_id, targets):
         self.stack.pop()  # CombatTargetState
