@@ -8,17 +8,33 @@ from utils import lookup_texture_filepath
 class CombatSelector:
     @staticmethod
     def weakest_enemy(state):
-        enemies = state.actors["enemy"]
-        target = None
-        health = sys.maxsize
+        return CombatSelector.weakest_actor(state.actors["enemy"], False)
 
-        for enemy in enemies:
-            hp = enemy.stats.get("hp_now")
-            if hp < health:
-                health = hp
-                target = enemy
+    @staticmethod
+    def weakest_party(state):
+        return CombatSelector.weakest_actor(state.actors["party"], False)
 
-        return [target]
+    @staticmethod
+    def most_hurt_enemy(state):
+        return CombatSelector.weakest_actor(state.actors["enemy"], True)
+
+    @staticmethod
+    def most_hurt_party(state):
+        return CombatSelector.weakest_actor(state.actors["party"], True)
+
+    @staticmethod
+    def most_drained_party(state):
+        return CombatSelector.most_drained_actor(state.actors["party"], True)
+
+    @staticmethod
+    def dead_party(state):
+        actors = state.actors["party"]
+        for actor in actors:
+            hp = actor.stats.get("hp_now")
+            if hp == 0:
+                return [actor]
+
+        return [actors[0]]
 
     @staticmethod
     def side_enemy(state):
@@ -39,6 +55,49 @@ class CombatSelector:
                 targets.append(actor)
 
         target = random.choice(targets)
+        return [target]
+
+    # --------------
+    # Helper Methods
+    # --------------
+    def weakest_actor(actors, only_check_hurt):
+        target = None
+        health = sys.maxsize
+
+        for actor in actors:
+            hp = actor.stats.get("hp_now")
+            is_hurt = hp < actor.stats.get("hp_max")
+            skip = False
+            if only_check_hurt and not is_hurt:
+                skip = True
+
+            if hp < health and not skip:
+                health = hp
+                target = actor
+
+        if target is None:
+            target = actors[0]
+
+        return [target]
+
+    def most_drained_actor(actors, only_check_drained):
+        target = None
+        magic = sys.maxsize
+
+        for actor in actors:
+            mp = actor.stats.get("mp_now")
+            is_hurt = mp < actor.stats.get("mp_max")
+            skip = False
+            if only_check_drained and not is_hurt:
+                skip = True
+
+            if mp < magic and not skip:
+                magic = mp
+                target = actor
+
+        if target is None:
+            target = actors[0]
+
         return [target]
 
 
@@ -73,6 +132,9 @@ class CombatTargetState:
                 self.default_selector = CombatSelector.side_enemy
             elif self.select_type == CombatTargetType.ALL:
                 self.default_selector = CombatSelector.sellect_all
+        else:
+            self.default_selector = getattr(
+                CombatSelector, self.default_selector)
 
     def enter(self):
         self.enemy = self.combat_state.actors["enemy"]

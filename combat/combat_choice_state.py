@@ -32,6 +32,7 @@ class CombatStateChoice:
         )
         self.marker_pos = self.character.entity.get_selected_position()
         self.time = 0
+        self.hide = False
 
         font = Font(FontStyle.small())
         self.textbox = create_fixed_textbox(
@@ -69,7 +70,7 @@ class CombatStateChoice:
         y_pos = self.selection.y + self.selection.height - self.down_arrow.height
         self.down_arrow.set_position(x_pos, y_pos)
 
-    def on_select(self, index, data):        
+    def on_select(self, index, data):
         if data == "attack":
             self.selection.hide_cursor()
             state = CombatTargetState(
@@ -89,9 +90,9 @@ class CombatStateChoice:
             self.on_item_action()
 
     def on_item_action(self):
-        state = None                
-        self.selection.hide_cursor()                    
-        
+        state = None
+        self.selection.hide_cursor()
+
         def on_focus(item):
             text = ""
             if item is not None:
@@ -106,7 +107,7 @@ class CombatStateChoice:
                 text = item_def["name"]
                 if item.count > 1:
                     text = f"{text} x{item.count}"
-            
+
             sprite = SpriteFont(text, font)
             sprite.scale_by_ratio(scale, scale)
             sprite.set_position(x, y)
@@ -115,10 +116,10 @@ class CombatStateChoice:
         def on_exit():
             self.combat_state.hide_tip()
             self.selection.show_cursor()
-        
+
         def on_selection(index, item):
             if item is None:
-                return            
+                return
             item_def = items_db[item.id]
             targeter = self.create_item_targeter(item_def, state)
             self.stack.push(targeter)
@@ -130,7 +131,7 @@ class CombatStateChoice:
             on_exit=on_exit,
             on_render_item=on_render_item,
             on_focus=on_focus,
-            on_selection=on_selection,            
+            on_selection=on_selection,
         )
         self.stack.push(state)
 
@@ -139,7 +140,27 @@ class CombatStateChoice:
         return world.filter_items(lambda item: item["type"] == "useable")
 
     def create_item_targeter(self, item_def, browse_state):
-        pass
+        target_def = item_def["use"]["target"]
+        browse_state.hide()
+        self.hide = True
+
+        def on_select(targets):
+            self.stack.pop()  # CombatTargetState
+            self.stack.pop()  # BrowseListState
+            self.stack.pop()  # CombatStateChoice
+
+        def on_exit():
+            browse_state.show()
+            self.hide = False
+
+        return CombatTargetState(
+            self.combat_state,
+            select_type=target_def["type"],
+            default_selector=target_def["selector"],
+            can_switch_sides=target_def["switch_sides"],
+            on_select=on_select,
+            on_exit=on_exit
+        )
 
     def take_action(self, action_id, targets):
         self.stack.pop()  # CombatTargetState
@@ -148,7 +169,8 @@ class CombatStateChoice:
         queue = self.combat_state.event_queue
 
         if action_id == "attack":
-            event = CEAttack(self.combat_state, self.actor, {"player": True}, targets)
+            event = CEAttack(self.combat_state, self.actor,
+                             {"player": True}, targets)
             tp = event.time_points(queue)
             queue.add(event, tp)
 
@@ -179,6 +201,9 @@ class CombatStateChoice:
         return False
 
     def render(self, renderer):
+        if self.hide:
+            return
+
         self.textbox.render(renderer)
         renderer.draw(self.marker)
         self.set_arrow_position()

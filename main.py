@@ -93,15 +93,7 @@ class JRPG(Application):
         self.world.add_item(3)
         self.world.add_item(9, 2)
         self.world.add_item(10)
-        self.world.add_item(11)
-
-        # test items for scroll
-        self.world.add_item(13)
-        self.world.add_item(14)
-        self.world.add_item(15)
-        self.world.add_item(16)
-        self.world.add_item(17)
-        self.world.add_item(18)        
+        self.world.add_item(11)        
 
         combat_def = {
             "background": "arena_background.png",

@@ -34,7 +34,7 @@ class Application:
 
         # add listening systems
         event_dispatcher = self.context.event_dispatcher
-        event_dispatcher.subscribe(AudioSystem())
+        #event_dispatcher.subscribe(AudioSystem())
 
         self.load()
 
