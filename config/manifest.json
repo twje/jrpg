@@ -23,17 +23,29 @@
             "ActorSummary.lua": {
                 "path": "code/ActorSummary.lua"
             },
+            "ActorXPSummary.lua": {
+                "path": "code/ActorXPSummary.lua"
+            },
             "AnimEntityFx.lua": {
                 "path": "code/fx/AnimEntityFx.lua"
             },
             "Animation.lua": {
                 "path": "code/Animation.lua"
             },
+            "BrowseListState.lua": {
+                "path": "code/BrowseListState.lua"
+            },
             "CEAttack.lua": {
                 "path": "code/combat_events/CEAttack.lua"
             },
+            "CEFlee.lua": {
+                "path": "code/combat_events/CEFlee.lua"
+            },
             "CETurn.lua": {
                 "path": "code/combat_events/CETurn.lua"
+            },
+            "CEUseItem.lua": {
+                "path": "code/combat_events/CEUseItem.lua"
             },
             "CSEnemyDie.lua": {
                 "path": "code/combat_states/CSEnemyDie.lua"
@@ -62,6 +74,9 @@
             "Character.lua": {
                 "path": "code/Character.lua"
             },
+            "CombatActions.lua": {
+                "path": "code/CombatActions.lua"
+            },
             "CombatChoiceState.lua": {
                 "path": "code/CombatChoiceState.lua"
             },
@@ -73,6 +88,9 @@
             },
             "CombatTargetState.lua": {
                 "path": "code/CombatTargetState.lua"
+            },
+            "CombatTextFx.lua": {
+                "path": "code/fx/CombatTextFx.lua"
             },
             "Dependencies.lua": {
                 "path": "code/Dependencies.lua"
@@ -128,6 +146,9 @@
             "LevelFunction.lua": {
                 "path": "code/LevelFunction.lua"
             },
+            "LootSummaryState.lua": {
+                "path": "code/LootSummaryState.lua"
+            },
             "Map.lua": {
                 "path": "code/Map.lua"
             },
@@ -139,6 +160,9 @@
             },
             "NPCStandState.lua": {
                 "path": "code/NPCStandState.lua"
+            },
+            "OddmentTable.lua": {
+                "path": "code/OddmentTable.lua"
             },
             "Panel.lua": {
                 "path": "code/Panel.lua"
@@ -206,6 +230,12 @@
             "World.lua": {
                 "path": "code/World.lua"
             },
+            "XPPopUp.lua": {
+                "path": "code/XPPopUp.lua"
+            },
+            "XPSummaryState.lua": {
+                "path": "code/XPSummaryState.lua"
+            },
             "main.lua": {
                 "path": "code/main.lua"
             },
@@ -251,6 +281,18 @@
             },
             "cursor.png": {
                 "path": "art/cursor.png"
+            },
+            "fx_restore_hp.png": {
+                "path": "art/fx_restore_hp.png"
+            },
+            "fx_restore_mp.png": {
+                "path": "art/fx_restore_mp.png"
+            },
+            "fx_revive.png": {
+                "path": "art/fx_revive.png"
+            },
+            "fx_use_item.png": {
+                "path": "art/fx_use_item.png"
             },
             "goblin.png": {
                 "path": "art/goblin.png"

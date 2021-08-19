@@ -17,14 +17,15 @@ def does_item_have_stats(item):
 
 def fill_in_missing_stats():
     for index, item in enumerate(items_db):
+        item["id"] = index
+        
         if not does_item_have_stats(item):
             continue
 
         stats = item.get("stats", {})
         for key, value in empty_item["stats"].items():
             stats[key] = stats.get(key, value)
-        item["stats"] = stats
-        item["id"] = index
+        item["stats"] = stats        
 
 
 fill_in_missing_stats()

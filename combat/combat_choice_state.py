@@ -6,10 +6,11 @@ from .combat_target_state import CombatTargetState
 from .combat_target_state import CombatTargetType
 from .event import CEAttack
 from .event import CEFlee
+from .event import CEUseItem
 from core.graphics.sprite_font import Font, FontStyle
 from core.graphics.sprite_font import SpriteFont
 from graphics.UI import Icons
-from core.graphics import Sprite, sprite, texture
+from core.graphics import Sprite
 from graphics.UI import Selection
 from functools import partial
 from graphics.UI import create_fixed_textbox
@@ -148,6 +149,16 @@ class CombatStateChoice:
             self.stack.pop()  # CombatTargetState
             self.stack.pop()  # BrowseListState
             self.stack.pop()  # CombatStateChoice
+
+            queue = self.combat_state.event_queue
+            event = CEUseItem(
+                self.combat_state,
+                self.actor,
+                item_def,
+                targets
+            )
+            tp = event.time_points(queue)
+            queue.add(event, tp)
 
         def on_exit():
             browse_state.show()

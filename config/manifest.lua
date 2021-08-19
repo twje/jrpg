@@ -201,6 +201,10 @@ manifest =
         {
             path = "code/ActorSummary.lua"
         },
+        ['ActorXPSummary.lua'] =
+        {
+            path = "code/ActorXPSummary.lua"
+        },
         ['StatusMenuState.lua'] =
         {
             path = "code/StatusMenuState.lua"
@@ -261,6 +265,14 @@ manifest =
         {
             path = "code/combat_events/CEAttack.lua"
         },
+        ['CEFlee.lua'] =
+        {
+            path = "code/combat_events/CEFlee.lua"
+        },
+        ['CEUseItem.lua'] =
+        {
+            path = "code/combat_events/CEUseItem.lua"
+        },
         ['CombatChoiceState.lua'] =
         {
             path = "code/CombatChoiceState.lua"
@@ -273,10 +285,38 @@ manifest =
         {
             path = "code/fx/JumpingNumbers.lua"
         },
+        ['CombatTextFx.lua'] =
+        {
+            path = "code/fx/CombatTextFx.lua"
+        },
         ['AnimEntityFx.lua'] =
         {
             path = "code/fx/AnimEntityFx.lua"
         },
+        ['XPSummaryState.lua'] =
+        {
+            path = "code/XPSummaryState.lua"
+        },
+        ['LootSummaryState.lua'] =
+        {
+            path = "code/LootSummaryState.lua"
+        },
+        ['XPPopUp.lua'] =
+        {
+            path = "code/XPPopUp.lua"
+        },
+        ['OddmentTable.lua'] =
+        {
+            path = "code/OddmentTable.lua"
+        },
+        ['BrowseListState.lua'] =
+        {
+            path = "code/BrowseListState.lua"
+        },
+        ['CombatActions.lua'] =
+        {
+            path = "code/CombatActions.lua"
+        }
     },
     textures =
     {
@@ -299,10 +339,6 @@ manifest =
         ['goblin.png'] =
         {
             path = "art/goblin.png",
-        },
-        ['chest.png'] =
-        {
-            path = "art/chest.png",
         },
         ['cursor.png'] =
         {
@@ -375,6 +411,26 @@ manifest =
         ['combat_claw.png'] =
         {
             path = "art/combat_claw.png",
+        },
+        ['fx_restore_hp.png'] =
+        {
+            path = "art/fx_restore_hp.png",
+        },
+        ['fx_use_item.png'] =
+        {
+            path = "art/fx_use_item.png",
+        },
+        ['fx_restore_mp.png'] =
+        {
+            path = "art/fx_restore_mp.png",
+        },
+        ['fx_revive.png'] =
+        {
+            path = "art/fx_revive.png",
+        },
+        ['chest.png'] =
+        {
+            path = "art/chest.png",
         },
     },
     ['fonts'] =

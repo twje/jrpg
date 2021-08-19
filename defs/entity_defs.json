@@ -98,6 +98,34 @@
             "height": 64,
             "start_frame": 0,
             "frames": [0, 1, 2]
+        },
+        "fx_restore_hp": {
+            "texture": "fx_restore_hp.png",
+            "width": 16,
+            "height": 16,
+            "start_frame": 0,
+            "frames": [0, 1, 2, 3, 4]
+        },
+        "fx_restore_mp": {
+            "texture": "fx_restore_mp.png",
+            "width": 16,
+            "height": 16,
+            "start_frame": 0,
+            "frames": [0, 1, 2, 3, 4, 5]
+        },
+        "fx_revive": {
+            "texture": "fx_revive.png",
+            "width": 16,
+            "height": 16,
+            "start_frame": 0,
+            "frames": [0, 1, 2, 3, 4, 5, 6, 7]
+        },
+        "fx_use_item": {
+            "texture": "fx_use_item.png",
+            "width": 16,
+            "height": 16,
+            "start_frame": 0,
+            "frames": [0, 1, 2, 3, 3, 2, 1, 0]
         }
     },
     "characters": {
