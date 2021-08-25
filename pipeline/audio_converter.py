@@ -62,6 +62,10 @@ class AudioConverter:
         self.target_extention = ".ogg"
 
     def convert_files(self):
+        # tools/ffmpeg.exe is required - safely ignore audio convertion (development only)
+        if not self.ffmpeg_filepath.exists():
+            return
+
         for filepath, extensions in self.collect_files().items():
             self.convert_file(filepath, extensions)
 
