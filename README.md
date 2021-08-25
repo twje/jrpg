@@ -16,9 +16,27 @@ This project came about wanting to learn best practices for a developing a Role 
 
 ### Installing
 
-* Clone repository to a local directory
-* Create and activate a virtual environment
-* Install Python packages
+Clone repository:
+```
+git clone https://github.com/twje/jrpg.git
+```
+
+Navigate into repostory:
+```
+cd jrpg
+```
+
+Create a Python Virtual Environment:
+```
+python -m venv venv
+```
+
+Activate Virtual Environment:
+```
+venv\Scripts\activate
+```
+
+Install Python packages
 ```
 >> pip install -r requirements.txt
 ```
