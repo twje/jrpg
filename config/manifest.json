@@ -38,8 +38,17 @@
             "CEAttack.lua": {
                 "path": "code/combat_events/CEAttack.lua"
             },
+            "CECastSpell.lua": {
+                "path": "code/combat_events/CECastSpell.lua"
+            },
             "CEFlee.lua": {
                 "path": "code/combat_events/CEFlee.lua"
+            },
+            "CESlash.lua": {
+                "path": "code/combat_events/CESlash.lua"
+            },
+            "CESteal.lua": {
+                "path": "code/combat_events/CESteal.lua"
             },
             "CETurn.lua": {
                 "path": "code/combat_events/CETurn.lua"
@@ -188,6 +197,12 @@
             "Selection.lua": {
                 "path": "code/Selection.lua"
             },
+            "SpecialDB.lua": {
+                "path": "code/SpecialDB.lua"
+            },
+            "SpellDB.lua": {
+                "path": "code/SpellDB.lua"
+            },
             "StatDefs.lua": {
                 "path": "code/StatDefs.lua"
             },
@@ -281,6 +296,15 @@
             },
             "cursor.png": {
                 "path": "art/cursor.png"
+            },
+            "fx_electric.png": {
+                "path": "art/fx_electric.png"
+            },
+            "fx_fire.png": {
+                "path": "art/fx_fire.png"
+            },
+            "fx_ice.png": {
+                "path": "art/fx_ice.png"
             },
             "fx_restore_hp.png": {
                 "path": "art/fx_restore_hp.png"

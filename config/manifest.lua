@@ -273,6 +273,18 @@ manifest =
         {
             path = "code/combat_events/CEUseItem.lua"
         },
+        ['CECastSpell.lua'] =
+        {
+            path = "code/combat_events/CECastSpell.lua"
+        },
+        ['CESlash.lua'] =
+        {
+            path = "code/combat_events/CESlash.lua"
+        },
+        ['CESteal.lua'] =
+        {
+            path = "code/combat_events/CESteal.lua"
+        },
         ['CombatChoiceState.lua'] =
         {
             path = "code/CombatChoiceState.lua"
@@ -316,6 +328,14 @@ manifest =
         ['CombatActions.lua'] =
         {
             path = "code/CombatActions.lua"
+        },
+        ['SpellDB.lua'] =
+        {
+            path = "code/SpellDB.lua"
+        },
+        ['SpecialDB.lua'] =
+        {
+            path = "code/SpecialDB.lua"
         }
     },
     textures =
@@ -427,6 +447,18 @@ manifest =
         ['fx_revive.png'] =
         {
             path = "art/fx_revive.png",
+        },
+        ['fx_electric.png'] =
+        {
+            path = "art/fx_electric.png",
+        },
+        ['fx_ice.png'] =
+        {
+            path = "art/fx_ice.png",
+        },
+        ['fx_fire.png'] =
+        {
+            path = "art/fx_fire.png",
         },
         ['chest.png'] =
         {

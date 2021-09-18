@@ -11,8 +11,12 @@
             "intelligence": 10
         },
         "stat_growth": {
-            "hp_max": { "dice": "4d50+100" },
-            "mp_max": { "dice": "2d50+100" },
+            "hp_max": {
+                "dice": "4d50+100"
+            },
+            "mp_max": {
+                "dice": "2d50+100"
+            },
             "strength": "fast",
             "speed": "fast",
             "intelligence": "med"
@@ -24,7 +28,8 @@
             "special",
             "item",
             "flee"
-        ]
+        ],
+        "special": ["slash"]
     },
     "thief": {
         "id": "thief",
@@ -38,8 +43,12 @@
             "intelligence": 10
         },
         "stat_growth": {
-            "hp_max": { "dice": "3d40+100" },
-            "mp_max": { "dice": "4d50+100" },
+            "hp_max": {
+                "dice": "3d40+100"
+            },
+            "mp_max": {
+                "dice": "4d50+100"
+            },
             "strength": "med",
             "speed": "med",
             "intelligence": "fast"
@@ -51,7 +60,9 @@
             "special",
             "item",
             "flee"
-        ]
+        ],
+        "special": ["steal"],
+        "level": 20
     },
     "mage": {
         "id": "mage",
@@ -61,12 +72,16 @@
             "mp_now": 250,
             "mp_max": 250,
             "strength": 8,
-            "speed": 10,
+            "speed": 16,
             "intelligence": 20
         },
         "stat_growth": {
-            "hp_max": { "dice": "3d40+100" },
-            "mp_max": { "dice": "4d50+100" },
+            "hp_max": {
+                "dice": "3d40+100"
+            },
+            "mp_max": {
+                "dice": "4d50+100"
+            },
             "strength": "med",
             "speed": "med",
             "intelligence": "fast"
@@ -75,9 +90,15 @@
         "name": "Ermis",
         "actions": [
             "attack",
-            "special",
+            "magic",            
             "item",
             "flee"
-        ]        
+        ],
+        "magic": [
+            "fire",
+            "burn",
+            "ice",
+            "bolt"
+        ]
     }
 }

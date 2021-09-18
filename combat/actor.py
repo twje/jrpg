@@ -73,8 +73,10 @@ class Actor:
         self.stat_growth = party_model.get("stat_growth")
         self.actions = party_model["actions"]
         self.xp = 0
-        self.level = 1
+        self.level = party_model.get("level", 1)
         self.next_level_xp = next_level(self.level)
+        self.magic = list(party_model.get("magic", []))
+        self.special = list(party_model.get("special", []))
         self.equipment = {
             "weapon": party_model.get("weapon"),
             "armor": party_model.get("armor"),

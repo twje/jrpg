@@ -120,7 +120,7 @@
         "type": "useable",                         
         "description": "Heal a small amount of HP.",        
         "use": {
-            "action": "small_hp_restore",
+            "action": "hp_restore",
             "restore": 250,
             "target": {
                 "selector": "most_hurt_party",

@@ -126,6 +126,48 @@
             "height": 16,
             "start_frame": 0,
             "frames": [0, 1, 2, 3, 3, 2, 1, 0]
+        },
+        "fx_fire": {
+            "texture": "fx_fire.png",
+            "width": 32,
+            "height": 48,
+            "start_frame": 0,
+            "frames": [0, 1, 2]
+        },
+        "fx_electric": {
+            "texture": "fx_electric.png",
+            "width": 32,
+            "height": 16,
+            "start_frame": 0,
+            "frames": [0, 1, 2]
+        },
+        "fx_ice_1": {
+            "texture": "fx_ice.png",
+            "width": 16,
+            "height": 16,
+            "start_frame": 0,
+            "frames": [0, 1, 2, 3]
+        },
+        "fx_ice_2": {
+            "texture": "fx_ice.png",
+            "width": 16,
+            "height": 16,
+            "start_frame": 4,
+            "frames": [4, 5, 6, 7]
+        },
+        "fx_ice_3": {
+            "texture": "fx_ice.png",
+            "width": 16,
+            "height": 16,
+            "start_frame": 8,
+            "frames": [8, 9, 10, 11]
+        },
+        "fx_ice_spark": {
+            "texture": "fx_ice.png",
+            "width": 16,
+            "height": 16,
+            "start_frame": 12,
+            "frames": [12, 13, 14, 15]
         }
     },
     "characters": {
@@ -238,7 +280,8 @@
                 "advance": [35, 36, 37, 38],
                 "retreat": [60, 61, 62, 63],
                 "death": [25, 26, 27, 28, 29, 30, 31, 32, 33],
-                "victory": [55, 56, 57, 58, 59, 52, 53, 54, 48, 49, 39, 34]
+                "victory": [55, 56, 57, 58, 59, 52, 53, 54, 48, 49, 39, 34],
+                "cast": [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 24]
             },
             "facing": "down",
             "controller": [

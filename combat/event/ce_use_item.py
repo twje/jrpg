@@ -2,6 +2,7 @@ from anim_entity_fx import AnimEntityFx
 from core import Context
 from storyboard.storyboard import Storyboard
 from storyboard import events
+from combat.combat_actions import combat_action_registry
 
 
 class CEUseItem:
@@ -53,11 +54,18 @@ class CEUseItem:
             entity_def["frames"],
         )
         self.state.add_effect(effect)
-        
-        self.run_item_action()        
+
+        self.run_item_action()
 
     def run_item_action(self):
-        action = self.item_def["use"]["action"]
+        action_id = self.item_def["use"]["action"]
+        action = combat_action_registry[action_id]
+        action(
+            self.state,
+            self.owner,
+            self.targets,
+            self.item_def
+        )
 
     def do_finish(self):
         self.done = True

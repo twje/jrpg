@@ -1,4 +1,5 @@
-# 727 - items
+# 762 - ce_use_item -> combat_actions.py -> advanced-combat-5-solution
+# 766 - CECastSpell
 # item_db - str v.s. strnegth fix
 # item layout
 # move defs to def directory

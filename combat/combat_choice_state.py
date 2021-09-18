@@ -7,6 +7,7 @@ from .combat_target_state import CombatTargetType
 from .event import CEAttack
 from .event import CEFlee
 from .event import CEUseItem
+from .event import CECastSpell
 from core.graphics.sprite_font import Font, FontStyle
 from core.graphics.sprite_font import SpriteFont
 from graphics.UI import Icons
@@ -17,6 +18,7 @@ from graphics.UI import create_fixed_textbox
 from utils import lookup_texture_filepath
 from core import Context
 from item_db import items_db
+from spell_db import spell_db
 
 
 class CombatStateChoice:
@@ -89,6 +91,99 @@ class CombatStateChoice:
             queue.add(event, tp)
         elif data == "item":
             self.on_item_action()
+        elif data == "magic":
+            self.on_magic_action()
+
+    def on_magic_action(self):
+        state = None
+        self.selection.hide_cursor()
+
+        def on_render_item(renderer, font, scale, x, y, spell_id):
+            text = "--"
+            cost = "0"
+            canCast = False
+            mp = self.actor.stats.get("mp_now")
+
+            color = (255, 255, 255, 255)
+            if spell_id is not None:
+                spell_def = spell_db[spell_id]
+                text = spell_def["name"]
+                cost = spell_def["mp_cost"]
+
+                canCast = mp >= cost
+                if not canCast:
+                    color = (178, 178, 178, 255)
+
+                sprite = SpriteFont(str(cost), font)
+                sprite.scale_by_ratio(scale, scale)
+                sprite.set_position(x + 96, y)
+                sprite.set_color(color)
+                renderer.draw(sprite)
+
+            sprite = SpriteFont(text, font)
+            sprite.scale_by_ratio(scale, scale)
+            sprite.set_position(x, y)
+            sprite.set_color(color)
+            renderer.draw(sprite)
+
+        def on_exit():
+            self.combat_state.hide_tip()
+            self.selection.show_cursor()
+
+        def on_selection(index, spell_id):            
+            if spell_id is None:
+                return
+            
+            spell_def = spell_db[spell_id]
+            mp = self.actor.stats.get("mp_now")
+            if mp < spell_def["mp_cost"]:
+                return
+
+            targeter = self.create_action_targeter(spell_def, state, CECastSpell)
+            self.stack.push(targeter)
+
+        state = BrowseListState(
+            stack=self.stack,
+            title="MAGIC",
+            data=self.actor.magic,
+            on_exit=on_exit,
+            on_render_item=on_render_item,
+            on_selection=on_selection,
+        )
+        self.stack.push(state)
+
+    def create_action_targeter(self, spell_def, browse_state, ce_class):
+        target_def = spell_def["target"]        
+        browse_state.hide()
+        self.hide = True
+
+        def on_select(targets):
+            self.stack.pop()  # CombatTargetState
+            self.stack.pop()  # BrowseListState
+            self.stack.pop()  # CombatStateChoice
+
+            queue = self.combat_state.event_queue
+            event = ce_class(
+                self.combat_state,
+                self.actor,
+                spell_def,
+                targets
+            )
+            tp = event.time_points(queue)
+            queue.add(event, tp)            
+
+        def on_exit():
+            browse_state.show()
+            self.hide = False
+
+        return CombatTargetState(
+            self.combat_state,
+            select_type=target_def["type"],
+            default_selector=target_def["selector"],
+            can_switch_sides=target_def["switch_sides"],
+            on_select=on_select,
+            on_exit=on_exit
+        )
 
     def on_item_action(self):
         state = None

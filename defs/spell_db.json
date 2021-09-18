@@ -1,0 +1,62 @@
+{
+    "fire": {
+        "name": "Fire",
+        "action": "elemental_spell",
+        "element": "fire",
+        "mp_cost": 8,
+        "cast_time": 1,
+        "base_demage": [3, 5],
+        "base_hit_chance": 1,
+        "time_points": 10,
+        "target": {
+            "selector": "weakest_enemy",
+            "switch_sides": true,
+            "type": "one"
+        }
+    },
+    "burn": {
+        "name": "Burn",
+        "action": "elemental_spell",
+        "element": "fire",
+        "mp_cost": 16,
+        "cast_time": 1,
+        "base_demage": [3, 6],
+        "base_hit_chance": 1,
+        "time_points": 20,
+        "target": {
+            "selector": "weakest_enemy",
+            "switch_sides": true,
+            "type": "side"
+        }
+    },
+    "ice": {
+        "name": "Ice",
+        "action": "elemental_spell",
+        "element": "ice",
+        "mp_cost": 8,
+        "cast_time": 1.8,
+        "base_demage": [7, 17],
+        "base_hit_chance": 1,
+        "time_points": 10,
+        "target": {
+            "selector": "weakest_enemy",
+            "switch_sides": true,
+            "type": "one"
+        }
+    },
+    "bolt": {
+        "name": "Bolt",
+        "action": "elemental_spell",
+        "element": "electric",
+        "mp_cost": 8,
+        "cast_time": 1.1,
+        "base_demage": [4, 14],
+        "base_hit_chance": 1,
+        "time_points": 10,
+        "target": {
+            "selector": "weakest_enemy",
+            "switch_sides": true,
+            "type": "one"
+        }
+    }
+}

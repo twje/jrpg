@@ -1,0 +1,62 @@
+{
+    "on_wake": [
+        {
+            "id": "AddNPC",
+            "params": {
+                "definition": "strolling_npc",
+                "tile_x": 11,
+                "tile_y": 5
+            }
+        },
+        {
+            "id": "AddNPC",
+            "params": {
+                "definition": "standing_npc",
+                "tile_x": 4,
+                "tile_y": 5
+            }
+        }
+    ],
+    "actions": [
+        {
+            "tele_north": {
+                "id": "Teleport",
+                "params": {
+                    "tile_x": 11,
+                    "tile_y": 3
+                }
+            },
+            "tele_south": {
+                "id": "Teleport",
+                "params": {
+                    "tile_x": 10,
+                    "tile_y": 11
+                }
+            }
+        }
+    ],
+    "trigger_types": [
+        {
+            "north_door_trigger": {
+                "on_enter": "tele_south"                
+            }
+        },
+        {
+            "south_door_trigger": {
+                "on_enter": "tele_north"
+            }
+        }
+    ],
+    "triggers": [
+        {
+            "trigger": "north_door_trigger",
+            "tile_x": 11,
+            "tile_y": 2
+        },
+        {
+            "trigger": "south_door_trigger",
+            "tile_x": 10,
+            "tile_y": 12
+        }
+    ]
+}

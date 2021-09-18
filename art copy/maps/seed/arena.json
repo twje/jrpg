@@ -1,0 +1,105 @@
+{
+    "debug": true,
+    "loot": {
+        "hero": [
+            {"id": 0},
+            {"id": 1},
+            {"id": 2}
+        ],
+        "mage": [
+            {"id": 3},
+            {"id": 4},
+            {"id": 5}
+        ],
+        "thief": [
+            {"id": 6},
+            {"id": 7},
+            {"id": 8}
+        ]
+    },
+    "on_wake": [
+        {
+            "id": "AddNPC",
+            "params": {
+                "definition": "mage",
+                "npc_id": "mage",
+                "tile_x": 21,
+                "tile_y": 14
+            }
+        },
+        {
+            "id": "AddNPC",
+            "params": {
+                "definition": "thief",
+                "npc_id": "thief",
+                "tile_x": 35,
+                "tile_y": 14
+            }
+        },
+        {
+            "id": "AddChest",
+            "params": {
+                "entity_id": "chest",
+                "loot": { "ref": "loot.hero" },
+                "audio_id": "open_chest",
+                "chest_x": 27,
+                "chest_y": 14                
+            }
+        },
+        {
+            "id": "AddChest",
+            "params": {
+                "entity_id": "chest",
+                "loot": { "ref": "loot.mage" },
+                "audio_id": "open_chest",
+                "chest_x": 20,
+                "chest_y": 14                
+            }
+        },
+        {
+            "id": "AddChest",
+            "params": {
+                "entity_id": "chest",
+                "loot": { "ref": "loot.thief" },
+                "audio_id": "open_chest",
+                "chest_x": 34,
+                "chest_y": 14                
+            }
+        },
+        {
+            "id": "SetAudioOnMap",
+            "params": {
+                "audio_id": "arena"                       
+            }
+        }
+    ],
+    "actions": [
+        {
+            "talk_recruit": {
+                "id": "RunScript",
+                "params": {
+                    "func": "talk_recruit"
+                }
+            }
+        }
+    ],
+    "trigger_types": [
+        {
+            "recruit": {
+                "on_use": "talk_recruit"
+            }
+        }
+    ],
+    "triggers": [
+        {
+            "trigger": "recruit",
+            "tile_x": 21,
+            "tile_y": 14
+        },
+        {
+            "trigger": "recruit",
+            "tile_x": 35,
+            "tile_y": 14
+        }
+    ]
+}

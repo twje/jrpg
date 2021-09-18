@@ -1,7 +1,7 @@
 from enum import Enum
 import random
 import math
-from utils import clamp
+from utils import clamp, strip_filepath
 
 
 class HitResult(Enum):
@@ -117,3 +117,63 @@ def calc_demage(state, attacker, target):
     attack = base_attack(state, attacker, target)
 
     return math.floor(max(0, attack - defence))
+
+
+def is_hit_magic(state, attacker, target, spell_def):
+    hit_chance = spell_def["base_hit_chance"]
+    if random.uniform(0, 1) <= hit_chance:
+        return HitResult.HIT
+    else:
+        return HitResult.MISS
+
+
+def calc_base_spell_demage(spell_def):
+    base = spell_def["base_demage"]
+    if isinstance(base, list):
+        base = random.uniform(base[0], base[1])
+    demage = base * 4
+
+    return demage
+
+
+def calc_spell_caster_bonus(base, attacker):
+    level = attacker.level
+    stats = attacker.stats
+    bonus = level * stats.get("intelligence") * (base/32)
+
+    return bonus
+
+
+def calc_target_elemental_modifier(spell_def, target):
+    element = spell_def.get("element")
+    if element is not None:
+        modifier = target.stats.get(element)
+        return 1 + modifier  # 1 is no modifier applied
+    return 0
+
+
+def calc_target_resistance_modifier(target):
+    resist = min(255, target.stats.get("resist"))
+    resist = 1 - (resist / 255)
+    return resist
+
+
+def calc_spell_def_demage(state, attacker, target, spell_def):
+    demage = calc_base_spell_demage(spell_def)
+    demage += calc_spell_caster_bonus(demage, attacker)
+    demage *= calc_target_elemental_modifier(spell_def, target)
+    demage *= calc_target_resistance_modifier(target)
+
+    return math.floor(demage)
+
+
+def magic_attack(state, attacker, target, spell_def):
+    demage = 0
+    hit_result = is_hit_magic(state, attacker, target, spell_def)
+
+    if hit_result == HitResult.MISS:
+        return math.floor(demage), HitResult.Miss
+
+    demage = calc_spell_def_demage(state, attacker, target, spell_def)
+
+    return math.floor(demage), HitResult.HIT

@@ -19,7 +19,7 @@ class CombatTextFX:
         self.velocity = 125
         self.gravity = 700
         self.font_sprite = SpriteFont(text, font=self.font)
-        #self.font_sprite.set_color(self.color)
+        self.font_sprite.set_color(self.color)
 
     def is_finished(self):
         return self.alpha == 0
