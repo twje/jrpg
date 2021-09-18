@@ -77,6 +77,7 @@ class Actor:
         self.next_level_xp = next_level(self.level)
         self.magic = list(party_model.get("magic", []))
         self.special = list(party_model.get("special", []))
+        self.steal_item =  party_model.get("steal_item")
         self.equipment = {
             "weapon": party_model.get("weapon"),
             "armor": party_model.get("armor"),

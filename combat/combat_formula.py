@@ -177,3 +177,13 @@ def magic_attack(state, attacker, target, spell_def):
     demage = calc_spell_def_demage(state, attacker, target, spell_def)
 
     return math.floor(demage), HitResult.HIT
+
+
+def steal(attacker, target):
+    cts = 0.05
+    if attacker.level > target.level:
+        cts = (50 + attacker.level - target.level)/128
+        cts = clamp(cts, 0.05, 0.95)
+
+    rand = random.uniform(0, 1)
+    return rand <= cts

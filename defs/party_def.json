@@ -7,7 +7,7 @@
             "mp_now": 300,
             "mp_max": 300,
             "strength": 10,
-            "speed": 10,
+            "speed": 13,
             "intelligence": 10
         },
         "stat_growth": {
@@ -39,7 +39,7 @@
             "mp_now": 150,
             "mp_max": 150,
             "strength": 10,
-            "speed": 15,
+            "speed": 12,
             "intelligence": 10
         },
         "stat_growth": {
@@ -72,7 +72,7 @@
             "mp_now": 250,
             "mp_max": 250,
             "strength": 8,
-            "speed": 16,
+            "speed": 10,
             "intelligence": 20
         },
         "stat_growth": {

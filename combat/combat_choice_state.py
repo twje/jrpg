@@ -1,3 +1,5 @@
+from combat.event.ce_steal import CESteal
+from combat.event.ce_slash import CESlash
 from os import stat
 from combat.browse_list_state import BrowseListState
 import math
@@ -19,6 +21,9 @@ from utils import lookup_texture_filepath
 from core import Context
 from item_db import items_db
 from spell_db import spell_db
+from special_db import special_db
+
+from combat import event
 
 
 class CombatStateChoice:
@@ -93,6 +98,71 @@ class CombatStateChoice:
             self.on_item_action()
         elif data == "magic":
             self.on_magic_action()
+        elif data == "special":
+            self.on_special_action()
+
+    def on_special_action(self):
+        state = None
+        self.selection.hide_cursor()
+
+        def on_render_item(renderer, font, scale, x, y, special_id):
+            text = "--"
+            cost = "0"
+            canPerform = False
+            mp = self.actor.stats.get("mp_now")
+
+            color = (255, 255, 255, 255)
+            if special_id is not None:
+                special_def = special_db[special_id]
+                text = special_def["name"]
+                cost = special_def["mp_cost"]
+
+                canPerform = mp >= cost
+                if not canPerform:
+                    color = (178, 178, 178, 255)
+
+                sprite = SpriteFont(str(cost), font)
+                sprite.scale_by_ratio(scale, scale)
+                sprite.set_position(x + 96, y)
+                sprite.set_color(color)
+                renderer.draw(sprite)
+
+            sprite = SpriteFont(text, font)
+            sprite.scale_by_ratio(scale, scale)
+            sprite.set_position(x, y)
+            sprite.set_color(color)
+            renderer.draw(sprite)
+        
+        def on_exit():            
+            self.selection.show_cursor()
+
+        def on_selection(index, special_id):            
+            if special_id is None:
+                return
+            
+            special_def = special_db[special_id]
+            mp = self.actor.stats.get("mp_now")
+            if mp < special_def["mp_cost"]:
+                return
+
+            event = None
+            if special_def["action"] == "slash":
+                event = CESlash
+            elif special_def["action"] == "steal":
+                event = CESteal            
+
+            targeter = self.create_action_targeter(special_def, state, event)
+            self.stack.push(targeter)
+
+        state = BrowseListState(
+            stack=self.stack,
+            title="Special",
+            data=self.actor.special,
+            on_exit=on_exit,
+            on_render_item=on_render_item,
+            on_selection=on_selection,
+        )
+        self.stack.push(state)
 
     def on_magic_action(self):
         state = None
@@ -152,8 +222,8 @@ class CombatStateChoice:
         )
         self.stack.push(state)
 
-    def create_action_targeter(self, spell_def, browse_state, ce_class):
-        target_def = spell_def["target"]        
+    def create_action_targeter(self, action_def, browse_state, ce_class):
+        target_def = action_def["target"]        
         browse_state.hide()
         self.hide = True
 
@@ -166,7 +236,7 @@ class CombatStateChoice:
             event = ce_class(
                 self.combat_state,
                 self.actor,
-                spell_def,
+                action_def,
                 targets
             )
             tp = event.time_points(queue)

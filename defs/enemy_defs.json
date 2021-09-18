@@ -13,6 +13,7 @@
         },
         "name": "Arena Goblin",
         "actions": ["attack"],
+        "steal_item": 9,
         "drop": {
             "xp": 5,
             "gold": [0, 100],
